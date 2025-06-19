@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -30,11 +31,11 @@ const LeaderboardBar: React.FC<{ houseStat: HouseStat, maxCount: number }> = ({ 
         style={{'--house-primary': `var(${house.colors.primaryVar})`, '--house-secondary': `var(${house.colors.secondaryVar})`} as React.CSSProperties}
     >
       <div className="flex items-center space-x-4 mb-2">
-        <Image 
-          src={`https://placehold.co/48x48/${house.colors.primaryHex.substring(1)}/${house.colors.secondaryHex.substring(1)}.png?text=${house.name.charAt(0)}`} 
-          alt={`${house.name} Crest`} 
-          width={48} 
-          height={48} 
+        <Image
+          src={house.crest}
+          alt={`${house.name} Crest`}
+          width={48}
+          height={48}
           data-ai-hint={house.dataAiHint}
           className="rounded-full border-2 border-[hsl(var(--house-secondary))]"
         />

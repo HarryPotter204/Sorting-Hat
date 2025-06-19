@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { HOGWARTS_HOUSES } from "@/lib/constants";
@@ -33,11 +34,11 @@ export default function HomePage() {
             <Card key={house.name} className={cn("enchanted-parchment-dark overflow-hidden group", `theme-${house.name.toLowerCase()}`)}>
               <CardHeader className="items-center p-4 bg-[hsl(var(--house-primary,_var(--card)))] text-[hsl(var(--house-secondary,_var(--card-foreground)))]">
                 <div className="relative w-24 h-24 mb-2">
-                   <Image 
-                    src={`https://placehold.co/100x100/${house.colors.primaryHex.substring(1)}/${house.colors.secondaryHex.substring(1)}.png`} 
-                    alt={`${house.name} Crest`} 
-                    width={100} 
-                    height={100} 
+                   <Image
+                    src={house.crest}
+                    alt={`${house.name} Crest`}
+                    width={100}
+                    height={100}
                     data-ai-hint={house.dataAiHint}
                     className="rounded-full border-2 border-[hsl(var(--house-secondary))] group-hover:scale-110 transition-transform duration-300"
                   />

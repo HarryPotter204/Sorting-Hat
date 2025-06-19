@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from '@/components/ui/button';
@@ -23,11 +24,11 @@ const HistoryItem: React.FC<{ result: UserQuizResult }> = ({ result }) => {
 
   return (
     <Card className="enchanted-parchment-dark flex items-center p-4 space-x-4 hover:shadow-primary/20 transition-shadow duration-300">
-       <Image 
-          src={`https://placehold.co/64x64/${house.colors.primaryHex.substring(1)}/${house.colors.secondaryHex.substring(1)}.png?text=${house.name.charAt(0)}`} 
-          alt={`${house.name} Crest`} 
-          width={64} 
-          height={64} 
+       <Image
+          src={house.crest}
+          alt={`${house.name} Crest`}
+          width={64}
+          height={64}
           data-ai-hint={house.dataAiHint}
           className="rounded-full border-2 border-[hsl(var(--border))]"
         />
