@@ -116,9 +116,9 @@ Value: AIzaSyA9oK9a-i0c4Q5yHdspGdl5CBh-uAxveVM
 
 Soundar Balaji J
 
-    🔗 GitHub
+    🔗 https://github.com/devspidr
 
-    💼 LinkedIn
+    💼 https://www.linkedin.com/in/soundar-balaji-j-133b691b9/
 
 🪄 License
 
