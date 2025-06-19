@@ -64,59 +64,209 @@ export const HOGWARTS_HOUSES: Record<HouseName, House> = {
   },
 };
 
+import { QuizQuestion, HouseName } from './types';
+
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 'q1',
-    text: 'Dawn or Dusk?',
+    text: "Which trait defines you best?",
     options: [
-      { id: 'q1o1', text: 'Dawn', houseAffinity: { Gryffindor: 2, Ravenclaw: 1 } },
-      { id: 'q1o2', text: 'Dusk', houseAffinity: { Slytherin: 2, Hufflepuff: 1 } },
-    ],
-    imageUrl: 'https://placehold.co/600x400.png',
-    dataAiHint: 'sunrise sunset'
+      { id: 'q1o1', text: "Bravery", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q1o2', text: "Ambition", houseAffinity: { Slytherin: 2 } },
+      { id: 'q1o3', text: "Intelligence", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q1o4', text: "Loyalty", houseAffinity: { Hufflepuff: 2 } }
+    ]
   },
   {
     id: 'q2',
-    text: 'Which path tempts you most?',
+    text: "How do you handle challenges?",
     options: [
-      { id: 'q2o1', text: 'The wide, sunny, grassy path', houseAffinity: { Hufflepuff: 3 } },
-      { id: 'q2o2', text: 'The narrow, dark, lantern-lit alley', houseAffinity: { Slytherin: 3 } },
-      { id: 'q2o3', text: 'The twisting, leaf-strewn path through woods', houseAffinity: { Gryffindor: 3 } },
-      { id: 'q2o4', text: 'The cobbled street lined with ancient buildings', houseAffinity: { Ravenclaw: 3 } },
-    ],
+      { id: 'q2o1', text: "Face them head-on", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q2o2', text: "Find clever shortcuts", houseAffinity: { Slytherin: 2 } },
+      { id: 'q2o3', text: "Research solutions", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q2o4', text: "Ask for help", houseAffinity: { Hufflepuff: 2 } }
+    ]
   },
   {
     id: 'q3',
-    text: 'What kind of instrument most pleases your ear?',
+    text: "Your ideal weekend involves:",
     options: [
-      { id: 'q3o1', text: 'Violin', houseAffinity: { Slytherin: 2, Ravenclaw: 1 } },
-      { id: 'q3o2', text: 'Trumpet', houseAffinity: { Gryffindor: 2 } },
-      { id: 'q3o3', text: 'Piano', houseAffinity: { Ravenclaw: 2, Hufflepuff: 1 } },
-      { id: 'q3o4', text: 'Drums', houseAffinity: { Hufflepuff: 1, Gryffindor: 1 } },
-    ],
-    imageUrl: 'https://placehold.co/600x400.png',
-    dataAiHint: 'musical instruments'
+      { id: 'q3o1', text: "Adventure sports", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q3o2', text: "Strategic games", houseAffinity: { Slytherin: 2 } },
+      { id: 'q3o3', text: "Reading/learning", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q3o4', text: "Helping others", houseAffinity: { Hufflepuff: 2 } }
+    ]
   },
   {
     id: 'q4',
-    text: 'You are walking through a magical garden. Which of these would you be most curious to investigate?',
+    text: "What's your leadership style?",
     options: [
-      { id: 'q4o1', text: 'The silver-leafed tree bearing golden apples', houseAffinity: { Gryffindor: 2, Slytherin: 1 } },
-      { id: 'q4o2', text: 'The fat red toadstools that appear to be talking to each other', houseAffinity: { Hufflepuff: 2, Ravenclaw: 1 } },
-      { id: 'q4o3', text: 'The bubbling pool whose depths are unusually dark', houseAffinity: { Slytherin: 2, Ravenclaw: 1 } },
-      { id: 'q4o4', text: 'The statue of an old wizard with a strangely twinkling eye', houseAffinity: { Ravenclaw: 2, Gryffindor: 1 } },
-    ],
+      { id: 'q4o1', text: "Bold and decisive", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q4o2', text: "Calculated and goal-oriented", houseAffinity: { Slytherin: 2 } },
+      { id: 'q4o3', text: "Analytical and fair", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q4o4', text: "Supportive and inclusive", houseAffinity: { Hufflepuff: 2 } }
+    ]
   },
   {
     id: 'q5',
-    text: 'One of your housemates has cheated in a Hogwarts exam by using a Self-Spelling Quill. Now he has come top of the class in Charms, beating you into second place. Professor Flitwick is suspicious of what happened. He draws you to one side after his lesson and asks you whether or not your classmate used a forbidden quill. What do you do?',
+    text: "Choose a superpower:",
     options: [
-      { id: 'q5o1', text: 'Tell Professor Flitwick the truth. If your classmate is prepared to win by cheating, he deserves to be found out.', houseAffinity: { Gryffindor: 2, Ravenclaw: 1 } },
-      { id: 'q5o2', text: 'Lie and say you don’t know (but hope that somebody else tells Professor Flitwick the truth).', houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q5o3', text: 'Tell Professor Flitwick that he ought to ask your classmate (and resolve to tell your classmate that if he doesn’t tell the truth, you will).', houseAffinity: { Slytherin: 2, Gryffindor: 1 } },
-      { id: 'q5o4', text: 'You would not wait to be asked to tell Professor Flitwick the truth. If you knew that somebody was using a forbidden quill, you would tell the Professor before the exam started.', houseAffinity: { Ravenclaw: 2, Slytherin: -1 } }, // Slytherin might see this as snitching without personal gain
-    ],
+      { id: 'q5o1', text: "Super strength", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q5o2', text: "Invisibility", houseAffinity: { Slytherin: 2 } },
+      { id: 'q5o3', text: "Teleportation", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q5o4', text: "Healing", houseAffinity: { Hufflepuff: 2 } }
+    ]
   },
+  {
+    id: 'q6',
+    text: "Your friends would describe you as:",
+    options: [
+      { id: 'q6o1', text: "Fearless", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q6o2', text: "Resourceful", houseAffinity: { Slytherin: 2 } },
+      { id: 'q6o3', text: "Wise", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q6o4', text: "Kind", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q7',
+    text: "When working in a team, you:",
+    options: [
+      { id: 'q7o1', text: "Take charge", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q7o2', text: "Find the most efficient path", houseAffinity: { Slytherin: 2 } },
+      { id: 'q7o3', text: "Ensure logical solutions", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q7o4', text: "Keep everyone united", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q8',
+    text: "Your approach to rules is:",
+    options: [
+      { id: 'q8o1', text: "Break them if justified", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q8o2', text: "Bend them to your advantage", houseAffinity: { Slytherin: 2 } },
+      { id: 'q8o3', text: "Understand their purpose", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q8o4', text: "Follow them diligently", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q9',
+    text: "Your greatest strength is:",
+    options: [
+      { id: 'q9o1', text: "Courage", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q9o2', text: "Determination", houseAffinity: { Slytherin: 2 } },
+      { id: 'q9o3', text: "Creativity", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q9o4', text: "Empathy", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q10',
+    text: "What motivates you most?",
+    options: [
+      { id: 'q10o1', text: "Overcoming obstacles", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q10o2', text: "Achieving success", houseAffinity: { Slytherin: 2 } },
+      { id: 'q10o3', text: "Gaining knowledge", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q10o4', text: "Building relationships", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q11',
+    text: "Your dream vacation is:",
+    options: [
+      { id: 'q11o1', text: "Mountain climbing", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q11o2', text: "Luxury resort", houseAffinity: { Slytherin: 2 } },
+      { id: 'q11o3', text: "Cultural exploration", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q11o4', text: "Volunteer trip", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q12',
+    text: "In a crisis, you:",
+    options: [
+      { id: 'q12o1', text: "Act immediately", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q12o2', text: "Assess the best outcome for yourself", houseAffinity: { Slytherin: 2 } },
+      { id: 'q12o3', text: "Analyze the situation", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q12o4', text: "Ensure everyone's safe", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q13',
+    text: "Your favorite subject would be:",
+    options: [
+      { id: 'q13o1', text: "Physical Education", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q13o2', text: "Economics", houseAffinity: { Slytherin: 2 } },
+      { id: 'q13o3', text: "Science", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q13o4', text: "Psychology", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q14',
+    text: "How do you make decisions?",
+    options: [
+      { id: 'q14o1', text: "Go with your gut", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q14o2', text: "Weigh pros and cons", houseAffinity: { Slytherin: 2 } },
+      { id: 'q14o3', text: "Research thoroughly", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q14o4', text: "Consult friends/family", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q15',
+    text: "Your ideal pet is:",
+    options: [
+      { id: 'q15o1', text: "Large dog", houseAffinity: { Gryffindor: 1 } },
+      { id: 'q15o2', text: "Exotic reptile", houseAffinity: { Slytherin: 1 } },
+      { id: 'q15o3', text: "Parrot", houseAffinity: { Ravenclaw: 1 } },
+      { id: 'q15o4', text: "Golden retriever", houseAffinity: { Hufflepuff: 1 } }
+    ]
+  },
+  {
+    id: 'q16',
+    text: "Your communication style is:",
+    options: [
+      { id: 'q16o1', text: "Direct and bold", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q16o2', text: "Persuasive", houseAffinity: { Slytherin: 2 } },
+      { id: 'q16o3', text: "Precise", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q16o4', text: "Warm and friendly", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q17',
+    text: "Your greatest fear is:",
+    options: [
+      { id: 'q17o1', text: "Being powerless", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q17o2', text: "Being ordinary", houseAffinity: { Slytherin: 2 } },
+      { id: 'q17o3', text: "Being ignorant", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q17o4', text: "Being alone", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q18',
+    text: "Your role in a friend group is:",
+    options: [
+      { id: 'q18o1', text: "The protector", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q18o2', text: "The strategist", houseAffinity: { Slytherin: 2 } },
+      { id: 'q18o3', text: "The advisor", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q18o4', text: "The peacemaker", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q19',
+    text: "What's your learning style?",
+    options: [
+      { id: 'q19o1', text: "Hands-on experience", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q19o2', text: "Competitive environments", houseAffinity: { Slytherin: 2 } },
+      { id: 'q19o3', text: "Independent study", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q19o4', text: "Group collaboration", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  },
+  {
+    id: 'q20',
+    text: "Your life motto would be:",
+    options: [
+      { id: 'q20o1', text: "Fortune favors the bold", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q20o2', text: "The ends justify the means", houseAffinity: { Slytherin: 2 } },
+      { id: 'q20o3', text: "Knowledge is power", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q20o4', text: "Kindness changes everything", houseAffinity: { Hufflepuff: 2 } }
+    ]
+  }
 ];
 
 export const HOUSE_NAMES_ARRAY: HouseName[] = ['Gryffindor', 'Ravenclaw', 'Hufflepuff', 'Slytherin'];
