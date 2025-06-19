@@ -32,8 +32,8 @@ export const HouseCrestDisplay: React.FC<HouseCrestDisplayProps> = ({ house, siz
          <Image
             src={house.crest}
             alt={`${house.name} Crest`}
-            width={size - 40}
-            height={size - 40}
+            width={size > 40 ? size - 40 : 50} // Ensure width is positive
+            height={size > 40 ? size - 40 : 50} // Ensure height is positive
             data-ai-hint={house.dataAiHint}
             className="object-contain"
           />
