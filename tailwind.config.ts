@@ -10,8 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Inter', 'sans-serif'],
+        body: ['Quicksand', 'sans-serif'],
+        headline: ['Literata', 'serif'],
         code: ['monospace'],
       },
       colors: {
@@ -65,6 +65,24 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        house: {
+          gryffindor: {
+            primary: 'hsl(var(--gryffindor-primary))',
+            secondary: 'hsl(var(--gryffindor-secondary))',
+          },
+          ravenclaw: {
+            primary: 'hsl(var(--ravenclaw-primary))',
+            secondary: 'hsl(var(--ravenclaw-secondary))',
+          },
+          hufflepuff: {
+            primary: 'hsl(var(--hufflepuff-primary))',
+            secondary: 'hsl(var(--hufflepuff-secondary))',
+          },
+          slytherin: {
+            primary: 'hsl(var(--slytherin-primary))',
+            secondary: 'hsl(var(--slytherin-secondary))',
+          },
+        }
       },
       borderRadius: {
         lg: 'var(--radius)',
@@ -88,10 +106,32 @@ export default {
             height: '0',
           },
         },
+        'fade-in-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(20px)',
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+        'glow': {
+          '0%, 100%': { opacity: '1', boxShadow: '0 0 5px hsl(var(--primary))' },
+          '50%': { opacity: '0.7', boxShadow: '0 0 20px hsl(var(--primary))' },
+        },
+        'wand-flourish': {
+          '0%': { transform: 'scale(0.8) rotate(-15deg)', opacity: '0' },
+          '50%': { transform: 'scale(1.1) rotate(5deg)', opacity: '0.7' },
+          '100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-in-up': 'fade-in-up 0.8s ease-out forwards',
+        'glow': 'glow 2s ease-in-out infinite',
+        'wand-flourish': 'wand-flourish 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards',
       },
     },
   },

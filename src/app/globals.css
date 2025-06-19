@@ -2,79 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
+    --background: 233 64% 30%; /* Dark Navy #1A237E */
+    --foreground: 51 100% 95%; /* Light contrasting color for text on dark navy */
+    --card: 233 60% 35%; /* Slightly lighter navy for cards */
+    --card-foreground: 51 100% 95%;
+    --popover: 233 55% 25%; /* Darker popover */
+    --popover-foreground: 51 100% 95%;
+    --primary: 51 100% 50%; /* Gold #FFD700 */
+    --primary-foreground: 233 64% 10%; /* Dark color for text on gold */
+    --secondary: 345 80% 35%; /* Lighter Burgundy for secondary elements */
+    --secondary-foreground: 51 100% 95%;
+    --muted: 233 50% 40%; /* Muted navy */
+    --muted-foreground: 233 30% 70%; /* Muted text on navy */
+    --accent: 345 100% 25%; /* Burgundy #800020 */
+    --accent-foreground: 51 100% 95%; /* Light text on burgundy */
+    --destructive: 0 70% 45%; /* Destructive red */
+    --destructive-foreground: 0 0% 100%;
+    --border: 233 50% 45%; /* Border color */
+    --input: 233 50% 45%; /* Input background */
+    --ring: 51 100% 60%; /* Ring color - lighter gold */
+    --radius: 0.5rem;
+
+    /* House specific colors */
+    --gryffindor-primary: 0 82% 26%; /* Scarlet Red #7F0909 */
+    --gryffindor-secondary: 51 100% 50%; /* Gold #FFD700 */
+    --ravenclaw-primary: 225 64% 15%; /* Steel Blue #0E1A40 */
+    --ravenclaw-secondary: 210 25% 75%; /* Bronze/Silver like color */
+    --hufflepuff-primary: 55 86% 51%; /* Warm Gold #EEE117 */
+    --hufflepuff-secondary: 0 0% 10%; /* Black */
+    --slytherin-primary: 145 40% 27%; /* Emerald Green #2A623D */
+    --slytherin-secondary: 0 0% 75%; /* Silver */
+
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Sidebar colors adjusted for the theme */
+    --sidebar-background: 233 60% 25%;
+    --sidebar-foreground: 51 100% 90%;
+    --sidebar-primary: 51 100% 50%;
+    --sidebar-primary-foreground: 233 64% 10%;
+    --sidebar-accent: 345 100% 30%;
+    --sidebar-accent-foreground: 51 100% 95%;
+    --sidebar-border: 233 50% 35%;
+    --sidebar-ring: 51 100% 60%;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Keeping dark mode similar to root for this theme, can be adjusted if needed */
+    --background: 233 64% 30%;
+    --foreground: 51 100% 95%;
+    --card: 233 60% 35%;
+    --card-foreground: 51 100% 95%;
+    --popover: 233 55% 25%;
+    --popover-foreground: 51 100% 95%;
+    --primary: 51 100% 50%;
+    --primary-foreground: 233 64% 10%;
+    --secondary: 345 80% 35%;
+    --secondary-foreground: 51 100% 95%;
+    --muted: 233 50% 40%;
+    --muted-foreground: 233 30% 70%;
+    --accent: 345 100% 25%;
+    --accent-foreground: 51 100% 95%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 233 50% 45%;
+    --input: 233 50% 45%;
+    --ring: 51 100% 60%;
+
+    --sidebar-background: 233 60% 25%;
+    --sidebar-foreground: 51 100% 90%;
+    --sidebar-primary: 51 100% 50%;
+    --sidebar-primary-foreground: 233 64% 10%;
+    --sidebar-accent: 345 100% 30%;
+    --sidebar-accent-foreground: 51 100% 95%;
+    --sidebar-border: 233 50% 35%;
+    --sidebar-ring: 51 100% 60%;
   }
 }
 
@@ -83,6 +90,99 @@ body {
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body;
+    /* Adding a subtle starry background */
+    background-image: radial-gradient(circle at 20% 20%, hsl(var(--primary) / 0.05) 1px, transparent 1px),
+                      radial-gradient(circle at 80% 80%, hsl(var(--primary) / 0.05) 1px, transparent 1px),
+                      radial-gradient(circle at 50% 50%, hsl(var(--accent) / 0.03) 0.5px, transparent 0.5px);
+    background-size: 100px 100px, 120px 120px, 80px 80px;
+  }
+
+  /* Custom animation for content reveal */
+  .fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .glow-on-hover {
+    @apply transition-all duration-300;
+  }
+  .glow-on-hover:hover {
+    box-shadow: 0 0 15px 2px hsl(var(--primary) / 0.7), 0 0 5px 1px hsl(var(--primary) / 0.5);
+  }
+
+  .button-burgundy {
+    @apply bg-accent text-accent-foreground hover:bg-accent/90 glow-on-hover;
+  }
+  .button-gold {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 glow-on-hover;
   }
 }
+
+/* Specific house theme variables */
+.theme-gryffindor {
+  --house-primary: var(--gryffindor-primary);
+  --house-secondary: var(--gryffindor-secondary);
+  --house-primary-rgb: 0, 82%, 26%;
+  --house-secondary-rgb: 51, 100%, 50%;
+}
+.theme-ravenclaw {
+  --house-primary: var(--ravenclaw-primary);
+  --house-secondary: var(--ravenclaw-secondary);
+   --house-primary-rgb: 225, 64%, 15%;
+  --house-secondary-rgb: 210, 25%, 75%;
+}
+.theme-hufflepuff {
+  --house-primary: var(--hufflepuff-primary);
+  --house-secondary: var(--hufflepuff-secondary);
+   --house-primary-rgb: 55, 86%, 51%;
+  --house-secondary-rgb: 0, 0%, 10%;
+}
+.theme-slytherin {
+  --house-primary: var(--slytherin-primary);
+  --house-secondary: var(--slytherin-secondary);
+  --house-primary-rgb: 145, 40%, 27%;
+  --house-secondary-rgb: 0, 0%, 75%;
+}
+
+/* Scrollbar styling for a magical feel */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: hsl(var(--background) / 0.5);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.7);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary));
+}
+
+/* Enchanted parchment style for progress bar and cards */
+.enchanted-parchment {
+  background-color: #f5e8c8; /* Parchment base */
+  color: #4a3b28; /* Dark brown text */
+  border: 1px solid #d3c0a0; /* Parchment border */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.enchanted-parchment-dark {
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 4px 15px hsl(var(--primary) / 0.1);
+}
+
