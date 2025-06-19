@@ -1,4 +1,3 @@
-// src/app/admin/stats/page.tsx
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+// 🧪 Mock data based on the defined HOGWARTS_HOUSES
 const MOCK_STATS_DATA = Object.values(HOGWARTS_HOUSES).map((house) => ({
   name: house.name,
   count: Math.floor(Math.random() * 1000) + 200,
@@ -25,6 +25,7 @@ const MOCK_STATS_DATA = Object.values(HOGWARTS_HOUSES).map((house) => ({
 export default function AdminStatsPage() {
   return (
     <div className="container mx-auto py-10 px-4">
+      {/* Header */}
       <header className="mb-8">
         <Button variant="outline" asChild className="mb-4">
           <Link href="/admin">&larr; Back to Admin Dashboard</Link>
@@ -33,7 +34,7 @@ export default function AdminStatsPage() {
         <p className="text-muted-foreground">Observe the ebb and flow of house populations.</p>
       </header>
 
-      {/* House Distribution */}
+      {/* House Distribution Chart */}
       <Card className="enchanted-parchment-dark">
         <CardHeader>
           <CardTitle className="font-headline text-xl text-primary flex items-center">
@@ -49,23 +50,29 @@ export default function AdminStatsPage() {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={MOCK_STATS_DATA} layout="vertical" margin={{ left: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" stroke="#8884d8" fontSize={12} />
+                <XAxis
+                  type="number"
+                  stroke="hsl(var(--muted-foreground))"
+                  fontSize={12}
+                />
                 <YAxis
                   dataKey="name"
                   type="category"
-                  stroke="#8884d8"
+                  stroke="hsl(var(--muted-foreground))"
                   fontSize={12}
+                  tickLine={false}
+                  axisLine={false}
                   tickFormatter={(value) => value.substring(0, 10)}
                 />
                 <Tooltip />
-                <Bar dataKey="count" fill="#FFD700" radius={[0, 6, 6, 0]} />
+                <Bar dataKey="count" radius={[0, 6, 6, 0]} fill="#FFD700" />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </CardContent>
       </Card>
 
-      {/* Overall Stats */}
+      {/* Overall Statistics */}
       <Card className="mt-8 enchanted-parchment-dark">
         <CardHeader>
           <CardTitle className="font-headline text-xl text-primary flex items-center">
