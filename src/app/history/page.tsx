@@ -10,13 +10,12 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 
-// Mock data - in a real app, this would come from a database
+// Mock data
 const MOCK_HISTORY: UserQuizResult[] = [
   { id: '1', userId: 'mockUser', houseName: 'Gryffindor', date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7).toISOString(), scores: { Gryffindor: 10, Slytherin: 5 } },
   { id: '2', userId: 'mockUser', houseName: 'Ravenclaw', date: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(), scores: { Ravenclaw: 12, Hufflepuff: 6 } },
   { id: '3', userId: 'mockUser', houseName: 'Gryffindor', date: new Date().toISOString(), scores: { Gryffindor: 9, Ravenclaw: 8 } },
 ];
-
 
 const HistoryItem: React.FC<{ result: UserQuizResult }> = ({ result }) => {
   const house = HOGWARTS_HOUSES[result.houseName];
@@ -24,22 +23,21 @@ const HistoryItem: React.FC<{ result: UserQuizResult }> = ({ result }) => {
 
   return (
     <Card className="enchanted-parchment-dark flex items-center p-4 space-x-4 hover:shadow-primary/20 transition-shadow duration-300">
-       <Image
-          src={house.crest}
-          alt={`${house.name} Crest`}
-          width={64}
-          height={64}
-          data-ai-hint={house.dataAiHint}
-          className="rounded-full border-2 border-[hsl(var(--border))]"
-        />
+      <Image
+        src={house.crest}
+        alt={`${house.name} Crest`}
+        width={64}
+        height={64}
+        data-ai-hint={house.dataAiHint}
+        className="rounded-full border-2 border-[hsl(var(--border))]"
+      />
       <div className="flex-grow">
         <h3 className="text-lg font-semibold font-headline text-primary">{house.name}</h3>
         <p className="text-sm text-muted-foreground">Sorted on: {new Date(result.date).toLocaleDateString()}</p>
       </div>
-      {/* Placeholder for score details or view button */}
-       <Link href={`/quiz/result/${house.name.toLowerCase()}`} passHref>
-         <Button variant="outline" size="sm" className="text-xs">View Details</Button>
-       </Link>
+      <Link href={`/quiz/result/${house.name.toLowerCase()}`} passHref>
+        <Button variant="outline" size="sm" className="text-xs">View Details</Button>
+      </Link>
     </Card>
   );
 };
@@ -50,11 +48,12 @@ export default function HistoryPage() {
 
   useEffect(() => {
     // Simulate fetching data
-    // In a real app: check if user is logged in, then fetch their history.
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setHistory(MOCK_HISTORY.sort((a,b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
       setIsLoading(false);
     }, 500);
+
+    return () => clearTimeout(timer); // cleanup
   }, []);
 
   return (
@@ -69,7 +68,10 @@ export default function HistoryPage() {
       </header>
 
       {isLoading ? (
-        <div className="text-center text-primary">Loading your magical history... <ListCollapse className="inline-block animate-spin h-5 w-5 ml-2" /></div>
+        <div className="text-center text-primary">
+          Loading your magical history... 
+          <ListCollapse className="inline-block animate-spin h-5 w-5 ml-2" />
+        </div>
       ) : history.length > 0 ? (
         <div className="space-y-6 max-w-2xl mx-auto">
           {history.map((result) => (
