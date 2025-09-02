@@ -6,8 +6,8 @@ import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 
 export const metadata: Metadata = {
-  title: 'Hogwarts House Sorting',
-  description: 'Discover your Hogwarts House with our magical sorting quiz!',
+  title: '先生がハリーなら、俺らはロンとハーマイオニー！',
+  description: '質問に答えて、あなたの寮を診断します！',
 };
 
 export default function RootLayout({
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="ja" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
