@@ -17,7 +17,7 @@ export default function HomePage() {
           ハリポタ組分け帽子診断！
         </h1>
         <p className="text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
-          Answer the ancient questions of the Sorting Hat and find where you truly belong in the magical world of Hogwarts.
+          組分け帽子の質問に答えて、ホグワーツの世界であなたが所属する寮を見つけよう。
         </p>
         <Button asChild size="lg" className="button-burgundy text-lg px-8 py-6 shadow-lg hover:shadow-accent/50 transition-all duration-300 transform hover:scale-105">
           <Link href="/quiz">
