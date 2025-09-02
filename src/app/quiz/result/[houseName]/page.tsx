@@ -41,9 +41,9 @@ export default function HouseResultPage() {
   if (!houseName || !HOGWARTS_HOUSES[houseName]) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-center">
-        <h1 className="text-3xl font-headline text-destructive mb-4">House Not Found</h1>
+        <h1 className="text-3xl font-headline text-destructive mb-4">あなたの寮は見つかりませんでした。</h1>
         <p className="text-lg text-muted-foreground mb-6">
-          The Sorting Hat seems to be puzzled. Let's try that again.
+          組み分け帽子は首をかしげています。もう一度やり直しましょう。
         </p>
         <Button asChild className="button-gold">
           <Link href="/quiz">Retake the Quiz</Link>
@@ -84,9 +84,9 @@ export default function HouseResultPage() {
   return (
     <div className={cn("flex flex-col items-center space-y-8 py-10 min-h-[calc(100vh-200px)] animate-fade-in-up", `theme-${house.name.toLowerCase()}`)}>
       <header className="text-center space-y-2">
-        <p className="text-lg font-medium text-foreground/80">The Sorting Hat has spoken!</p>
+        <p className="text-lg font-medium text-foreground/80">組み分け帽子の声が響き渡る！</p>
         <h1 className="text-5xl md:text-6xl font-headline font-bold text-[hsl(var(--house-primary))]">
-          Welcome to {house.name}!
+          ようこそ {house.name}!
         </h1>
       </header>
 
@@ -103,7 +103,7 @@ export default function HouseResultPage() {
           <CardTitle className="font-headline text-xl text-[hsl(var(--house-primary))]">Your Sorting Result</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
-          <p className="text-lg text-foreground">Congratulations! You embody the spirit of <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong>.</p>
+          <p className="text-lg text-foreground">祝福を！あなたはまさに、 <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong>　の精神を受け継ぐ者です。</p>
           {/* Placeholder for name input if implementing user specific cards */}
           {/* <Input placeholder="Enter Your Name for the Card" className="my-2 bg-background/50 border-border" /> */}
           <div className="flex justify-center space-x-3">
@@ -158,8 +158,8 @@ export default function HouseResultPage() {
               <CardTitle className="font-headline text-primary">Share Your Result!</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-popover-foreground mb-2">You belong to {house.name}!</p>
-              <p className="text-sm text-muted-foreground mb-4">Share this link with your friends:</p>
+              <p className="text-popover-foreground mb-2">あなたは {house.name}にふさわしい！</p>
+              <p className="text-sm text-muted-foreground mb-4">このリンクを友達にshareしましょう:</p>
               <input type="text" readOnly value={window.location.href} className="w-full p-2 border border-input rounded bg-background text-foreground text-sm" />
               <Button onClick={() => setShowShareModal(false)} className="mt-4 w-full button-accent">Close</Button>
             </CardContent>
