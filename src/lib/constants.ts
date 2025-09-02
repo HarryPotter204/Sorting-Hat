@@ -64,9 +64,8 @@ export const HOGWARTS_HOUSES: Record<HouseName, House> = {
   },
 };
 
-import { QuizQuestion, HouseName } from './types';
-
-export const HOGWARTS_HOUSES: Record<HouseName, any> = {
+export const QUIZ_QUESTIONS: QuizQuestion[] = [
+  
   Gryffindor: {
     name: 'グリフィンドール',
     colors: { primaryHex: '#7F0909', secondaryHex: '#FFD700', primaryVar: '--gryffindor-primary', secondaryVar: '--gryffindor-secondary' },
