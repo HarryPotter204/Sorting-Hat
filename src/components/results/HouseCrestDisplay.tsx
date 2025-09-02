@@ -1,4 +1,3 @@
-
 "use client";
 
 import Image from 'next/image';
@@ -7,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 interface HouseCrestDisplayProps {
   house: House;
-  size?: number; // Approx size in pixels
+  size?: number; // ピクセルでの概算サイズ
   className?: string;
 }
 
@@ -31,14 +30,14 @@ export const HouseCrestDisplay: React.FC<HouseCrestDisplayProps> = ({ house, siz
       <div className="flex items-center justify-center w-full h-full bg-background/30 rounded-full backdrop-blur-sm">
          <Image
             src={house.crest}
-            alt={`${house.name} Crest`}
-            width={size > 40 ? size - 40 : 50} // Ensure width is positive
-            height={size > 40 ? size - 40 : 50} // Ensure height is positive
+            alt={`${house.name}の紋章`} // Altテキストを日本語化
+            width={size > 40 ? size - 40 : 50} // 幅が正になるように調整
+            height={size > 40 ? size - 40 : 50} // 高さが正になるように調整
             data-ai-hint={house.dataAiHint}
             className="object-contain"
           />
       </div>
-       {/* Subtle glow effect */}
+       {/* 微妙な光の効果 */}
       <div
         className="absolute inset-0 rounded-full opacity-50 animate-glow"
         style={{boxShadow: `0 0 20px 5px hsl(var(--house-primary)), 0 0 30px 10px hsl(var(--house-secondary)_/_0.7)`}}
