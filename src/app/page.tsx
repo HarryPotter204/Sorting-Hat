@@ -55,10 +55,10 @@ export default function HomePage() {
                 <CardDescription className="text-foreground/80">
                   <strong className="text-[hsl(var(--house-secondary))]">価値観:</strong> {house.values.join(', ')}.
                 </CardDescription>
-                <p className="mt-2 text-xs text-muted-foreground">創設者: {house.founder}.</p>
+                <p className="mt-2 text-xs text-muted-foreground">創設者: {house.founder}</p>
               </CardContent>
             </Card>
-          ))}
+          ))
         </div>
       </section>
 
