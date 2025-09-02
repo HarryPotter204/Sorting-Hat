@@ -44,7 +44,7 @@ export default function AdminDashboardPage() {
         ))}
       </div>
       <p className="text-center text-sm text-muted-foreground mt-12">
-        このパネルへのアクセスは制限されています。不適切な使用は、フロバーウォームに変えられる可能性があります。
+        不用意な操作は、瞬間移動でダンブルドア校長の部屋に呼ばれるか、フロバーウォームに変えられるかも…
       </p>
     </div>
   );
