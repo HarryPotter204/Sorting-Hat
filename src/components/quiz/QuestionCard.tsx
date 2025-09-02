@@ -24,25 +24,25 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   return (
     <Card className="w-full max-w-2xl mx-auto enchanted-parchment-dark animate-fade-in-up shadow-2xl">
       <CardHeader>
-        <CardDescription className="text-primary font-semibold">
-          Question {questionNumber} of {totalQuestions}
-        </CardDescription>
-        <CardTitle className="font-headline text-2xl md:text-3xl text-foreground">
-          {question.text}
-        </CardTitle>
-      </CardHeader>
-      {question.imageUrl && (
-        <div className="px-6 py-4">
-          <Image
-            src={question.imageUrl}
-            alt={question.dataAiHint || `Illustration for question ${questionNumber}`}
-            width={600}
-            height={400}
-            className="rounded-md object-cover w-full aspect-video border border-border"
-            data-ai-hint={question.dataAiHint}
-          />
-        </div>
-      )}
+  <CardDescription className="text-primary font-semibold">
+    質問 {questionNumber} / {totalQuestions}
+  </CardDescription>
+  <CardTitle className="font-headline text-2xl md:text-3xl text-foreground">
+    {question.text}  {/* ここは質問文自体なので翻訳済みの文を使う */}
+  </CardTitle>
+</CardHeader>
+{question.imageUrl && (
+  <div className="px-6 py-4">
+    <Image
+      src={question.imageUrl}
+      alt={question.dataAiHint || `質問 ${questionNumber} のイラスト`}
+      width={600}
+      height={400}
+      className="rounded-md object-cover w-full aspect-video border border-border"
+      data-ai-hint={question.dataAiHint}
+    />
+  </div>
+)}
       <CardContent>
         <div className="space-y-4">
           {question.options.map((option) => (
