@@ -17,9 +17,5 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    appDir: true, // ← ここでオブジェクト内に含める
-  },
-};
 
 export default nextConfig;
