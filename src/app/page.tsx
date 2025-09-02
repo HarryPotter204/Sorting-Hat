@@ -18,10 +18,7 @@ export default function HomePage() {
 
   {/* 「組分け診断！」部分 */}
   <span className="block md:inline">
-    組分け診断
-    {/* 「！」を少し下にずらして中心揃え */}
-    <span className="relative top-1">！</span>
-  </span>
+    組分け診断!!
 </h1>
 
         <p className="text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
