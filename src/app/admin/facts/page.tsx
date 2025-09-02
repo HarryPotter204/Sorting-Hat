@@ -5,10 +5,10 @@ import { CheckCircle, XCircle, BookOpenText } from "lucide-react";
 import Link from "next/link";
 
 const MOCK_AI_FACTS = [
-  { id: "fact1", house: "Gryffindor", text: "Gryffindor's common room is located in one of the castle's highest towers.", status: "pending" },
-  { id: "fact2", house: "Slytherin", text: "The password to the Slytherin common room changes every fortnight.", status: "approved" },
-  { id: "fact3", house: "Ravenclaw", text: "To enter Ravenclaw Tower, one must answer a riddle rather than give a password.", status: "pending" },
-  { id: "fact4", house: "Hufflepuff", text: "Hufflepuff's common room is near the kitchens and is known for its cozy atmosphere.", status: "rejected" },
+  { id: "fact1", house: "グリフィンドール", text: "グリフィンドールの談話室は、城の高い塔の上にあります。", status: "pending" },
+  { id: "fact2", house: "スリザリン", text: "スリザリン寮の談話室の合言葉は、毎隔週ごとに新しくなります。", status: "approved" },
+  { id: "fact3", house: "レイブンクロー", text: "レイブンクローの塔に入るには、合言葉ではなく、なぞなぞに挑戦する必要があります。", status: "pending" },
+  { id: "fact4", house: "ハッフルパフ", text: "ハッフルパフ寮の談話室は台所のすぐそばにあり、温かく落ち着ける雰囲気で知られています。", status: "rejected" },
 ];
 
 export default function AdminFactsPage() {
@@ -49,7 +49,7 @@ export default function AdminFactsPage() {
         ))}
       </div>
        <p className="text-center text-sm text-muted-foreground mt-12">
-        Showing mock facts. Real moderation tools would interact with a database.
+        このサイトはテストだよ！
       </p>
     </div>
   );
