@@ -23,9 +23,10 @@ export default function HouseResultPage() {
   const houseNameParam = params.houseName as string;
   const houseName = HOUSE_NAMES_ARRAY.find(hn => hn.toLowerCase() === houseNameParam?.toLowerCase()) || quizState.sortedHouse;
   
-  const [showShareModal, setShowShareModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false); // For share functionality
 
   useEffect(() => {
+    // If the user lands here directly without completing the quiz, or if houseName is invalid, redirect.
     if (!quizState.isCompleted || !houseName || !HOGWARTS_HOUSES[houseName]) {
       if(quizState.sortedHouse && HOGWARTS_HOUSES[quizState.sortedHouse]){
         router.replace(`/quiz/result/${quizState.sortedHouse.toLowerCase()}`);
@@ -64,7 +65,7 @@ export default function HouseResultPage() {
         url: window.location.href,
       }).catch(console.error);
     } else {
-      setShowShareModal(true);
+      setShowShareModal(true); // Fallback for browsers not supporting Web Share API
     }
   };
   
@@ -90,30 +91,29 @@ export default function HouseResultPage() {
         <AIFactGenerator houseName={house.name} />
       </div>
 
+      {/* Shareable Card Placeholder */}
       <Card className={cn("w-full max-w-md enchanted-parchment-dark", `theme-${house.name.toLowerCase()}`)}>
         <CardHeader>
           <CardTitle className="font-headline text-xl text-[hsl(var(--house-primary))]">Your Sorting Result</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
-          <p className="text-lg text-foreground">
-            祝福を！あなたはまさに、 
-            <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。
-          </p>
+          <p className="text-lg text-foreground">祝福を！あなたはまさに、 <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。</p>
           <div className="flex justify-center space-x-3">
             <Button onClick={handleShare} variant="outline" className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)]">
-              <Share2 className="mr-2 h-4 w-4" /> Share
+              <Share2 className="mr-2 h-4 w-4" /> 共有
             </Button>
             <Button onClick={handleDownloadCard} variant="outline" className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)]">
-              <Download className="mr-2 h-4 w-4" /> Download Card
+              <Download className="mr-2 h-4 w-4" /> ダウンロード
             </Button>
           </div>
         </CardContent>
       </Card>
       
+      {/* Score Distribution */}
       {totalScoreSum > 0 && (
         <Card className="w-full max-w-md enchanted-parchment-dark">
           <CardHeader>
-            <CardTitle className="font-headline text-xl text-primary">Your Affinity Scores</CardTitle>
+            <CardTitle className="font-headline text-xl text-primary">あなたの寮との親和スコア</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {HOUSE_NAMES_ARRAY.map(hn => {
@@ -136,21 +136,22 @@ export default function HouseResultPage() {
       <div className="mt-8">
         <Button onClick={handleRetakeQuiz} size="lg" className="button-burgundy">
           <RotateCcw className="mr-2 h-5 w-5" />
-          Take the Quiz Again
+          クイズをもう一度受ける
         </Button>
       </div>
 
+      {/* Basic Modal for Share Fallback */}
       {showShareModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <Card className="bg-popover p-6 rounded-lg shadow-xl max-w-sm w-full">
             <CardHeader>
-              <CardTitle className="font-headline text-primary">Share Your Result!</CardTitle>
+              <CardTitle className="font-headline text-primary">結果を共有しよう！</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-popover-foreground mb-2">あなたは {house.name}にふさわしい！</p>
-              <p className="text-sm text-muted-foreground mb-4">このリンクを友達にshareしましょう:</p>
+              <p className="text-popover-foreground mb-2">あなたは {house.name} にふさわしい！</p>
+              <p className="text-sm text-muted-foreground mb-4">このリンクを友達に共有しましょう:</p>
               <input type="text" readOnly value={window.location.href} className="w-full p-2 border border-input rounded bg-background text-foreground text-sm" />
-              <Button onClick={() => setShowShareModal(false)} className="mt-4 w-full button-accent">Close</Button>
+              <Button onClick={() => setShowShareModal(false)} className="mt-4 w-full button-accent">閉じる</Button>
             </CardContent>
           </Card>
         </div>
