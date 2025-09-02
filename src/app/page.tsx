@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { HOGWARTS_HOUSES } from "@/lib/constants";
@@ -47,9 +46,9 @@ export default function HomePage() {
               </CardHeader>
               <CardContent className="p-4 text-sm">
                 <CardDescription className="text-foreground/80">
-                  <strong className="text-[hsl(var(--house-secondary))]">Values:</strong> {house.values.join(', ')}.
+                  <strong className="text-[hsl(var(--house-secondary))]">価値観:</strong> {house.values.join(', ')}.
                 </CardDescription>
-                <p className="mt-2 text-xs text-muted-foreground">Founded by {house.founder}.</p>
+                <p className="mt-2 text-xs text-muted-foreground">創設者: {house.founder}.</p>
               </CardContent>
             </Card>
           ))}
@@ -62,14 +61,14 @@ export default function HomePage() {
             <CardTitle className="font-headline text-2xl text-primary">あなたを待っているもの</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-left text-foreground/90">
-            <p>自分を見つける旅に出よう。 私たちが作った質問は、あなたがいるべき場所を見極めるためにあなたの性格や選択、そして本質的な価値観を明らかにします。</p>
+            <p>自分を見つける旅に出よう。質問に答えることで、あなたの性格や選択、そして本質的な価値観が明らかになり、あなたがいるべき寮が見えてきます。</p>
             <ul className="list-disc list-inside space-y-1">
-              <li>対話式で、魅力的な体験を。</li>
-              <li>寮の物語を取り入れた、美しい診断結果</li>
-              <li>AIが導き出す、あなたの寮にまつわる魔法の豆知識</li>
-              <li>組み分けの歩みを記録しよう（ログインした魔法使い専用、まもなく登場！）</li>
+              <li>対話式で、魔法の世界に入り込む体験。</li>
+              <li>寮ごとの物語を取り入れた、美しい診断結果。</li>
+              <li>AIが導き出す、あなたの寮にまつわる魔法の豆知識。</li>
+              <li>組分けの歩みを記録しよう（ログインした魔法使い専用、まもなく登場！）</li>
             </ul>
-            <p>ホグワーツの魔法があなたを呼んでいる。 応える覚悟はあるか？</p>
+            <p>ホグワーツの魔法があなたを呼んでいる。応える覚悟はあるか？</p>
           </CardContent>
         </Card>
       </section>
