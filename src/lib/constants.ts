@@ -1,3 +1,6 @@
+import type { House, HouseName, QuizQuestion } from './types'; 
+import { GryffindorIcon, RavenclawIcon, HufflepuffIcon, SlytherinIcon } from '@/components/icons/HouseIcons';
+
 export const HOGWARTS_HOUSES: Record<HouseName, House> = {
   Gryffindor: {
     name: 'グリフィンドール',
