@@ -19,5 +19,9 @@ const nextConfig: NextConfig = {
     ],
   },
 };
+ experimental: {
+    appDir: true, // ← 追加
+  },
+};
 
 export default nextConfig;
