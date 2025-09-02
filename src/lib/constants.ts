@@ -212,7 +212,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { id: 'q15o1', text: "大型犬", houseAffinity: { Gryffindor: 1 } },
       { id: 'q15o2', text: "エキゾチックな爬虫類", houseAffinity: { Slytherin: 1 } },
       { id: 'q15o3', text: "オウム", houseAffinity: { Ravenclaw: 1 } },
-      { id: 'q15o4', text: "ゴールデンレトリバー", houseAffinity: { Hufflepuff: 1 } }
+      { id: 'q15o4', text: "キツネ", houseAffinity: { Hufflepuff: 1 } }
     ]
   },
   {
