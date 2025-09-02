@@ -69,7 +69,7 @@ export default function HomePage() {
               <li>AI-powered magical facts about your house.</li>
               <li>Track your sorting history (coming soon for logged-in wizards!).</li>
             </ul>
-            <p>The magic of Hogwarts is calling. Are you ready to answer?</p>
+            <p>ホグワーツの魔法があなたを呼んでいる。 応える覚悟はできているか？</p>
           </CardContent>
         </Card>
       </section>
