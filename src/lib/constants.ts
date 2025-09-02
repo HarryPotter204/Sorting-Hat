@@ -67,202 +67,202 @@ export const HOGWARTS_HOUSES: Record<HouseName, House> = {
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 'q1',
-    text: "どの性格特性が最もあなたらしいですか？",
+    text: "入学初日に忘れ物をしました。何を忘れた？",
     options: [
-      { id: 'q1o1', text: "勇敢さ", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q1o2', text: "野心", houseAffinity: { Slytherin: 2 } },
-      { id: 'q1o3', text: "知性", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q1o4', text: "忠誠", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q1o1', text: "杖（致命的）", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q1o2', text: "ローブ（ただのコスプレ感）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q1o3', text: "フクロウ（LINEできない…）", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q1o4', text: "宿題（まだ始まってもいないのに）", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q2',
-    text: "挑戦にどう立ち向かいますか？",
+    text: "魔法の授業で一番やらかしそうなのは？",
     options: [
-      { id: 'q2o1', text: "正面から立ち向かう", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q2o2', text: "賢く回避策を探す", houseAffinity: { Slytherin: 2 } },
-      { id: 'q2o3', text: "解決策を調べる", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q2o4', text: "助けを求める", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q2o1', text: "薬を爆発させる", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q2o2', text: "杖を逆に持って呪文を放つ", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q2o3', text: "変身術で自分をカエルにする", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q2o4', text: "授業中に寝て先生を透明マントと勘違いする", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q3',
-    text: "理想の週末はどんな過ごし方ですか？",
+    text: "ホグワーツの食堂で一番好きそうなメニューは？",
     options: [
-      { id: 'q3o1', text: "冒険スポーツ", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q3o2', text: "戦略ゲーム", houseAffinity: { Slytherin: 2 } },
-      { id: 'q3o3', text: "読書・学習", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q3o4', text: "人助け", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q3o1', text: "カボチャジュース（なぜか常温）", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q3o2', text: "百味ビーンズ（外れ率99%）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q3o3', text: "大皿の肉（どこのRPGだ）", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q3o4', text: "謎のプリン（夜中に動くやつ）", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q4',
-    text: "あなたのリーダーシップスタイルは？",
+    text: "あなたの守護霊が出現！どんな姿？",
     options: [
-      { id: 'q4o1', text: "大胆で決断力がある", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q4o2', text: "計算高く目標志向", houseAffinity: { Slytherin: 2 } },
-      { id: 'q4o3', text: "分析的で公平", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q4o4', text: "支援的で包摂的", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q4o1', text: "ライオン", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q4o2', text: "ハムスター", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q4o3', text: "Wi-Fiルーター", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q4o4', text: "フライドチキン", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q5',
-    text: "理想の超能力を選ぶなら？",
+    text: "魔法省から突然の依頼！あなたの役割は？",
     options: [
-      { id: 'q5o1', text: "超人的な力", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q5o2', text: "透明化", houseAffinity: { Slytherin: 2 } },
-      { id: 'q5o3', text: "瞬間移動", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q5o4', text: "治癒能力", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q5o1', text: "闇祓い", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q5o2', text: "魔法生物の世話係", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q5o3', text: "郵便フクロウの仕分け", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q5o4', text: "バタービールの試飲係", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q6',
-    text: "友人はあなたをどう表現しますか？",
+    text: "箒レースに参加しました。あなたの作戦は？",
     options: [
-      { id: 'q6o1', text: "恐れ知らず", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q6o2', text: "才覚がある", houseAffinity: { Slytherin: 2 } },
-      { id: 'q6o3', text: "賢い", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q6o4', text: "優しい", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q6o1', text: "全力で飛ばす（そして墜落）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q6o2', text: "相手に呪文をかける（反則スレスレ）", houseAffinity: { Slytherin: 2 } },
+      { id: 'q6o3', text: "コースを間違える（観光気分）", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q6o4', text: "徒歩で走る", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q7',
-    text: "チームで作業するとき、あなたは？",
+    text: "寮で一番やりたいことは？",
     options: [
-      { id: 'q7o1', text: "指揮を取る", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q7o2', text: "最も効率的な方法を見つける", houseAffinity: { Slytherin: 2 } },
-      { id: 'q7o3', text: "論理的な解決策を確実にする", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q7o4', text: "全員をまとめる", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q7o1', text: "暖炉の前でおしゃべり", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q7o2', text: "秘密の通路探し", houseAffinity: { Slytherin: 2 } },
+      { id: 'q7o3', text: "談話室でUNO大会", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q7o4', text: "厨房に忍び込む", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
     id: 'q8',
-    text: "ルールに対するあなたの姿勢は？",
+    text: "謎の魔法道具を見つけました。どうする？",
     options: [
-      { id: 'q8o1', text: "正当なら破る", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q8o2', text: "自分に有利に曲げる", houseAffinity: { Slytherin: 2 } },
-      { id: 'q8o3', text: "ルールの目的を理解する", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q8o4', text: "忠実に従う", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q8o1', text: "とりあえず触る", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q8o2', text: "先生に報告する", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q8o3', text: "売る", houseAffinity: { Slytherin: 2 } },
+      { id: 'q8o4', text: "枕にする", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
     id: 'q9',
-    text: "あなたの最大の強みは？",
+    text: "授業中にカエルチョコが飛んできた！どうする？",
     options: [
-      { id: 'q9o1', text: "勇気", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q9o2', text: "決意", houseAffinity: { Slytherin: 2 } },
-      { id: 'q9o3', text: "創造力", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q9o4', text: "共感力", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q9o1', text: "食べる（授業中でも）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q9o2', text: "先生に献上する", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q9o3', text: "成分を分析する", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q9o4', text: "ついでに友達からも奪う", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q10',
-    text: "あなたを最も動機付けるものは？",
+    text: "禁じられた森に入ることになったら？",
     options: [
-      { id: 'q10o1', text: "困難を乗り越えること", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q10o2', text: "成功を達成すること", houseAffinity: { Slytherin: 2 } },
-      { id: 'q10o3', text: "知識を得ること", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q10o4', text: "人間関係を築くこと", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q10o1', text: "全力で突撃する", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q10o2', text: "動物をなでに行く", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q10o3', text: "植物の観察メモを取る", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q10o4', text: "魔法生物を密輸する", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q11',
-    text: "理想の休暇は？",
+    text: "ホグワーツのトイレで幽霊に遭遇！反応は？",
     options: [
-      { id: 'q11o1', text: "山登り", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q11o2', text: "高級リゾート", houseAffinity: { Slytherin: 2 } },
-      { id: 'q11o3', text: "文化探訪", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q11o4', text: "ボランティア旅行", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q11o1', text: "「うわっ！」って叫んで逃げる", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q11o2', text: "話し相手になってあげる", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q11o3', text: "研究対象として観察する", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q11o4', text: "利用して噂を流させる", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q12',
-    text: "危機のとき、あなたはどうする？",
+    text: "魔法の試験でカンニングできそうな呪文を発見！",
     options: [
-      { id: 'q12o1', text: "すぐ行動する", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q12o2', text: "自分に最適な結果を評価する", houseAffinity: { Slytherin: 2 } },
-      { id: 'q12o3', text: "状況を分析する", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q12o4', text: "全員の安全を確保する", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q12o1', text: "使わない（正々堂々）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q12o2', text: "友達と分け合う", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q12o3', text: "完璧に使いこなす", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q12o4', text: "即ビジネス化する", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q13',
-    text: "好きな教科は？",
+    text: "ハニーデュークスで好きな魔法のお菓子は？",
     options: [
-      { id: 'q13o1', text: "体育", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q13o2', text: "経済", houseAffinity: { Slytherin: 2 } },
-      { id: 'q13o3', text: "理科", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q13o4', text: "心理学", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q13o1', text: "爆発ボンボン（危険）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q13o2', text: "ショック・チョコ（ユーモア）", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q13o3', text: "飛ぶキャンディ（研究用）", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q13o4', text: "愛の妙薬入りチョコ（策略）", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q14',
-    text: "意思決定はどうやってしますか？",
+    text: "あなたの部屋に忍び込む忍びの地図を入手！どう使う？",
     options: [
-      { id: 'q14o1', text: "直感で決める", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q14o2', text: "利点と欠点を比較する", houseAffinity: { Slytherin: 2 } },
-      { id: 'q14o3', text: "徹底的に調べる", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q14o4', text: "友人や家族に相談する", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q14o1', text: "毎晩探検する", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q14o2', text: "友達に貸す", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q14o3', text: "校内の歴史を調査する", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q14o4', text: "先生の秘密を暴く", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q15',
-    text: "理想のペットは？",
+    text: "ホグワーツの階段が動いて道を間違えた！",
     options: [
-      { id: 'q15o1', text: "大型犬", houseAffinity: { Gryffindor: 1 } },
-      { id: 'q15o2', text: "エキゾチックな爬虫類", houseAffinity: { Slytherin: 1 } },
-      { id: 'q15o3', text: "オウム", houseAffinity: { Ravenclaw: 1 } },
-      { id: 'q15o4', text: "キツネ", houseAffinity: { Hufflepuff: 1 } }
+      { id: 'q15o1', text: "「まあいっか」で冒険開始", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q15o2', text: "誰かに助けを求める", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q15o3', text: "地図を広げて分析", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q15o4', text: "わざと迷ってショートカット探し", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q16',
-    text: "あなたのコミュニケーションスタイルは？",
+    text: "魔法生物を飼えるなら？",
     options: [
-      { id: 'q16o1', text: "直接的で大胆", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q16o2', text: "説得力がある", houseAffinity: { Slytherin: 2 } },
-      { id: 'q16o3', text: "正確", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q16o4', text: "温かく親しみやすい", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q16o1', text: "ヒッポグリフ（かっこいい）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q16o2', text: "二フラー（かわいい）", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q16o3', text: "フクロウ（便利で賢い）", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q16o4', text: "バジリスク（野望全開）", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q17',
-    text: "あなたの最大の恐怖は？",
+    text: "授業のノートを取るときのスタイルは？",
     options: [
-      { id: 'q17o1', text: "無力であること", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q17o2', text: "平凡であること", houseAffinity: { Slytherin: 2 } },
-      { id: 'q17o3', text: "無知であること", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q17o4', text: "孤独であること", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q17o1', text: "殴り書き（自分しか読めない）", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q17o2', text: "色分けして丁寧にまとめる", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q17o3', text: "図表・参考文献つきで完璧", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q17o4', text: "他人のノートをコピー", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q18',
-    text: "友人グループでのあなたの役割は？",
+    text: "バタービールを飲んだらほろ酔い気分。どうする？",
     options: [
-      { id: 'q18o1', text: "守護者", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q18o2', text: "戦略家", houseAffinity: { Slytherin: 2 } },
-      { id: 'q18o3', text: "助言者", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q18o4', text: "仲裁者", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q18o1', text: "歌い出す", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q18o2', text: "友達と乾杯する", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q18o3', text: "成分を分析する", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q18o4', text: "こっそりおかわりを奪う", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q19',
-    text: "学習スタイルは？",
+    text: "魔法薬で失敗！体が小さくなったらどうする？",
     options: [
-      { id: 'q19o1', text: "実践を通して学ぶ", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q19o2', text: "競争環境で学ぶ", houseAffinity: { Slytherin: 2 } },
-      { id: 'q19o3', text: "独学で学ぶ", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q19o4', text: "グループで協力して学ぶ", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q19o1', text: "元に戻すために全力で実験", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q19o2', text: "小さいまま楽しむ", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q19o3', text: "友達に手伝ってもらう", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q19o4', text: "小さい姿を利用して悪さ", houseAffinity: { Slytherin: 2 } }
     ]
   },
   {
     id: 'q20',
-    text: "あなたの人生のモットーは？",
+    text: "秘密の部屋を発見！中で一番やりたいことは？",
     options: [
-      { id: 'q20o1', text: "運は大胆な者に味方する", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q20o2', text: "目的は手段を正当化する", houseAffinity: { Slytherin: 2 } },
-      { id: 'q20o3', text: "知識は力なり", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q20o4', text: "優しさがすべてを変える", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q20o1', text: "危険を承知で冒険", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q20o2', text: "中の生き物と仲良くなる", houseAffinity: { Hufflepuff: 2 } },
+      { id: 'q20o3', text: "古文書や魔法道具を調べる", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q20o4', text: "財宝や秘密を独占", houseAffinity: { Slytherin: 2 } }
     ]
   }
 ];
