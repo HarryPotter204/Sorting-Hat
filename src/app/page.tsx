@@ -64,7 +64,7 @@ export default function HomePage() {
           <CardContent className="space-y-3 text-left text-foreground/90">
             <p>自分を見つける旅に出よう。 私たちが作った質問は、あなたがいるべき場所を見極めるためにあなたの性格や選択、そして本質的な価値観を明らかにします。</p>
             <ul className="list-disc list-inside space-y-1">
-              <li>Interactive and engaging quiz experience.</li>
+              <li>対話式で、魅力的な 体験を。</li>
               <li>Beautifully designed results with house lore.</li>
               <li>AI-powered magical facts about your house.</li>
               <li>Track your sorting history (coming soon for logged-in wizards!).</li>
