@@ -23,12 +23,10 @@ export default function HouseResultPage() {
   const houseNameParam = params.houseName as string;
   const houseName = HOUSE_NAMES_ARRAY.find(hn => hn.toLowerCase() === houseNameParam?.toLowerCase()) || quizState.sortedHouse;
   
-  const [showShareModal, setShowShareModal] = useState(false); // For share functionality
+  const [showShareModal, setShowShareModal] = useState(false);
 
   useEffect(() => {
-    // If the user lands here directly without completing the quiz, or if houseName is invalid, redirect.
     if (!quizState.isCompleted || !houseName || !HOGWARTS_HOUSES[houseName]) {
-       // If there's a sorted house in context, use that. Otherwise, to quiz.
       if(quizState.sortedHouse && HOGWARTS_HOUSES[quizState.sortedHouse]){
         router.replace(`/quiz/result/${quizState.sortedHouse.toLowerCase()}`);
       } else {
@@ -36,7 +34,6 @@ export default function HouseResultPage() {
       }
     }
   }, [houseName, quizState.isCompleted, quizState.sortedHouse, router]);
-
 
   if (!houseName || !HOGWARTS_HOUSES[houseName]) {
     return (
@@ -46,7 +43,7 @@ export default function HouseResultPage() {
           組み分け帽子は首をかしげています。もう一度やり直しましょう。
         </p>
         <Button asChild className="button-gold">
-          <Link href="/quiz">Retake the Quiz</Link>
+          <Link href="/quiz">クイズを受け直す</Link>
         </Button>
       </div>
     );
@@ -60,7 +57,6 @@ export default function HouseResultPage() {
   };
 
   const handleShare = () => {
-    // Mock share functionality
     if (navigator.share) {
       navigator.share({
         title: `I've been sorted into ${house.name}!`,
@@ -68,18 +64,15 @@ export default function HouseResultPage() {
         url: window.location.href,
       }).catch(console.error);
     } else {
-      setShowShareModal(true); // Fallback for browsers not supporting Web Share API
+      setShowShareModal(true);
     }
   };
   
   const handleDownloadCard = () => {
-    // Mock download functionality. In a real app, this would generate an image.
     alert(`Imagine a beautiful ${house.name} result card is downloaded!`);
   };
 
-  // Calculate scores percentage for display
   const totalScoreSum = Object.values(quizState.scores).reduce((sum, score = 0) => sum + Math.max(0,score), 0);
-
 
   return (
     <div className={cn("flex flex-col items-center space-y-8 py-10 min-h-[calc(100vh-200px)] animate-fade-in-up", `theme-${house.name.toLowerCase()}`)}>
@@ -97,15 +90,15 @@ export default function HouseResultPage() {
         <AIFactGenerator houseName={house.name} />
       </div>
 
-      {/* Shareable Card Placeholder */}
       <Card className={cn("w-full max-w-md enchanted-parchment-dark", `theme-${house.name.toLowerCase()}`)}>
         <CardHeader>
           <CardTitle className="font-headline text-xl text-[hsl(var(--house-primary))]">Your Sorting Result</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
-          <p className="text-lg text-foreground">祝福を！あなたはまさに、 <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong>　の精神を受け継ぐ者です。</p>
-          {/* Placeholder for name input if implementing user specific cards */}
-          {/* <Input placeholder="Enter Your Name for the Card" className="my-2 bg-background/50 border-border" /> */}
+          <p className="text-lg text-foreground">
+            祝福を！あなたはまさに、 
+            <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。
+          </p>
           <div className="flex justify-center space-x-3">
             <Button onClick={handleShare} variant="outline" className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)]">
               <Share2 className="mr-2 h-4 w-4" /> Share
@@ -117,15 +110,13 @@ export default function HouseResultPage() {
         </CardContent>
       </Card>
       
-      {/* Score Distribution */}
-       {totalScoreSum > 0 && (
+      {totalScoreSum > 0 && (
         <Card className="w-full max-w-md enchanted-parchment-dark">
           <CardHeader>
             <CardTitle className="font-headline text-xl text-primary">Your Affinity Scores</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {HOUSE_NAMES_ARRAY.map(hn => {
-              const houseData = HOGWARTS_HOUSES[hn];
               const score = quizState.scores[hn] || 0;
               const percentage = totalScoreSum > 0 ? (Math.max(0, score) / totalScoreSum) * 100 : 0;
               return (
@@ -142,7 +133,6 @@ export default function HouseResultPage() {
         </Card>
       )}
 
-
       <div className="mt-8">
         <Button onClick={handleRetakeQuiz} size="lg" className="button-burgundy">
           <RotateCcw className="mr-2 h-5 w-5" />
@@ -150,7 +140,6 @@ export default function HouseResultPage() {
         </Button>
       </div>
 
-      {/* Basic Modal for Share Fallback */}
       {showShareModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <Card className="bg-popover p-6 rounded-lg shadow-xl max-w-sm w-full">
@@ -169,11 +158,3 @@ export default function HouseResultPage() {
     </div>
   );
 }
-
-// This function is needed if you plan to use generateStaticParams for SSG (not strictly necessary for this dynamic page but good practice for some scenarios)
-// export async function generateStaticParams() {
-//   return HOUSE_NAMES_ARRAY.map((houseName) => ({
-//     houseName: houseName.toLowerCase(),
-//   }));
-// }
-
