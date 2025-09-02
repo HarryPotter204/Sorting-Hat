@@ -1,6 +1,5 @@
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -17,7 +16,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  // experimental.appDir は削除
+  // experimental: 削除
 };
 
-export default nextConfig;
+module.exports = nextConfig;
