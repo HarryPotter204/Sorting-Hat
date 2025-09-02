@@ -28,16 +28,16 @@ export const AIFactGenerator: React.FC<AIFactGeneratorProps> = ({ houseName }) =
         setFact(result.fact);
       } else {
         toast({
-          title: "Hmm, the spirits are quiet...",
-          description: "Couldn't fetch a magical fact right now. Try again!",
+          title: "うーん、精霊たちは静かです…",
+          description: "今は魔法の豆知識を取得できません。もう一度試してください！",
           variant: "destructive",
         });
       }
     } catch (error) {
       console.error("Error generating fact:", error);
       toast({
-        title: "A wild Erumpent appeared!",
-        description: "Something went wrong while conjuring a fact. Please try again.",
+        title: "野生のエルンプトが現れた！",
+        description: "豆知識を召喚中に何か問題が発生しました。もう一度試してください。",
         variant: "destructive",
       });
     } finally {
@@ -48,9 +48,9 @@ export const AIFactGenerator: React.FC<AIFactGeneratorProps> = ({ houseName }) =
   return (
     <Card className={cn("w-full max-w-md enchanted-parchment-dark", `theme-${houseName.toLowerCase()}`)}>
       <CardHeader>
-        <CardTitle className="font-headline text-xl text-[hsl(var(--house-primary))]">Magical Fact Generator</CardTitle>
+        <CardTitle className="font-headline text-xl text-[hsl(var(--house-primary))]">魔法の豆知識ジェネレーター</CardTitle>
         <CardDescription className="text-muted-foreground">
-          Discover a unique AI-generated fact about {houseName}!
+          {houseName}に関するAI生成のユニークな豆知識を見つけよう！
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -60,7 +60,7 @@ export const AIFactGenerator: React.FC<AIFactGeneratorProps> = ({ houseName }) =
           ) : (
             <Wand2 className="mr-2 h-4 w-4" />
           )}
-          {isLoading ? 'Conjuring Fact...' : 'Reveal a Fact!'}
+          {isLoading ? '豆知識を召喚中...' : '豆知識を表示'}
         </Button>
         {fact && (
           <div className="p-3 bg-background/20 rounded-md border border-border animate-fade-in-up">
