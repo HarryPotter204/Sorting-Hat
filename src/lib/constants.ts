@@ -1,64 +1,61 @@
-import type { House, HouseName, QuizQuestion } from './types';
-import { GryffindorIcon, RavenclawIcon, HufflepuffIcon, SlytherinIcon } from '@/components/icons/HouseIcons';
-
 export const HOGWARTS_HOUSES: Record<HouseName, House> = {
   Gryffindor: {
-    name: 'Gryffindor',
+    name: 'グリフィンドール',
     colors: { primaryHex: '#7F0909', secondaryHex: '#FFD700', primaryVar: '--gryffindor-primary', secondaryVar: '--gryffindor-secondary' },
-    crest: '/crests/gryffindor.png', // Placeholder, will use IconComponent or actual image later
-    values: ['Courage', 'Bravery', 'Nerve', 'Chivalry'],
-    founder: 'Godric Gryffindor',
-    animal: 'Lion',
-    element: 'Fire',
-    ghost: 'Nearly Headless Nick',
-    commonRoom: 'Gryffindor Tower',
-    notableAlumni: ['Harry Potter', 'Hermione Granger', 'Ron Weasley', 'Albus Dumbledore'],
-    quote: "You might belong in Gryffindor, Where dwell the brave at heart, Their daring, nerve, and chivalry Set Gryffindors apart.",
+    crest: '/crests/gryffindor.png',
+    values: ['勇気', '勇敢さ', '度胸', '騎士道'],
+    founder: 'ゴドリック・グリフィンドール',
+    animal: 'ライオン',
+    element: '火',
+    ghost: 'ニック・Nearly Headless',
+    commonRoom: 'グリフィンドール塔',
+    notableAlumni: ['ハリー・ポッター', 'ハーマイオニー・グレンジャー', 'ロン・ウィーズリー', 'アルバス・ダンブルドア'],
+    quote: "あなたはグリフィンドールにふさわしいかもしれない\n勇気ある者の住む場所\nその大胆さ、度胸、騎士道が\nグリフィンドールを際立たせる",
     IconComponent: GryffindorIcon,
     dataAiHint: 'lion shield'
   },
   Ravenclaw: {
-    name: 'Ravenclaw',
-    colors: { primaryHex: '#0E1A40', secondaryHex: '#946B2D', primaryVar: '--ravenclaw-primary', secondaryVar: '--ravenclaw-secondary' }, // Using a bronze-like hex for secondary
+    name: 'レイブンクロー',
+    colors: { primaryHex: '#0E1A40', secondaryHex: '#946B2D', primaryVar: '--ravenclaw-primary', secondaryVar: '--ravenclaw-secondary' },
     crest: '/crests/ravenclaw.png',
-    values: ['Intelligence', 'Learning', 'Wisdom', 'Wit'],
-    founder: 'Rowena Ravenclaw',
-    animal: 'Eagle',
-    element: 'Air',
-    ghost: 'The Grey Lady',
-    commonRoom: 'Ravenclaw Tower',
-    notableAlumni: ['Luna Lovegood', 'Filius Flitwick', 'Gilderoy Lockhart', 'Cho Chang'],
-    quote: "Or yet in wise old Ravenclaw, If you've a ready mind, Where those of wit and learning, Will always find their kind.",
+    values: ['知性', '学習', '知恵', '機知'],
+    founder: 'ロウェナ・レイブンクロー',
+    animal: 'ワシ',
+    element: '風',
+    ghost: 'グレイ・レディ',
+    commonRoom: 'レイブンクロー塔',
+    notableAlumni: ['ルーナ・ラブグッド', 'フィリウス・フリットウィック', 'ギルデロイ・ロックハート', 'チョウ・チャン'],
+    quote: "または賢き古きレイブンクローに\n準備のできた心を持つ者たちの場所\n機知と学びを持つ者たちは\n常に同類を見つけるだろう",
     IconComponent: RavenclawIcon,
     dataAiHint: 'eagle shield'
   },
   Hufflepuff: {
-    name: 'Hufflepuff',
+    name: 'ハッフルパフ',
     colors: { primaryHex: '#EEE117', secondaryHex: '#000000', primaryVar: '--hufflepuff-primary', secondaryVar: '--hufflepuff-secondary' },
     crest: '/crests/hufflepuff.png',
-    values: ['Hard Work', 'Patience', 'Justice', 'Loyalty'],
-    founder: 'Helga Hufflepuff',
-    animal: 'Badger',
-    element: 'Earth',
-    ghost: 'The Fat Friar',
-    commonRoom: 'Hufflepuff Basement',
-    notableAlumni: ['Newt Scamander', 'Cedric Diggory', 'Nymphadora Tonks', 'Pomona Sprout'],
-    quote: "You might belong in Hufflepuff, Where they are just and loyal, Those patient Hufflepuffs are true And unafraid of toil.",
+    values: ['勤勉', '忍耐', '公正', '忠誠'],
+    founder: 'ヘルガ・ハッフルパフ',
+    animal: 'アナグマ',
+    element: '土',
+    ghost: '太った修道士',
+    commonRoom: 'ハッフルパフ地下室',
+    notableAlumni: ['ニュート・スキャマンダー', 'セドリック・ディゴリー', 'ニンファドーラ・トンクス', 'ポモーナ・スプロウト'],
+    quote: "あなたはハッフルパフにふさわしいかもしれない\n彼らは公正で忠実\n忍耐強きハッフルパフは真実で\n労を恐れない",
     IconComponent: HufflepuffIcon,
     dataAiHint: 'badger shield'
   },
   Slytherin: {
-    name: 'Slytherin',
-    colors: { primaryHex: '#2A623D', secondaryHex: '#AAAAAA', primaryVar: '--slytherin-primary', secondaryVar: '--slytherin-secondary' }, // Using a silver-like hex
+    name: 'スリザリン',
+    colors: { primaryHex: '#2A623D', secondaryHex: '#AAAAAA', primaryVar: '--slytherin-primary', secondaryVar: '--slytherin-secondary' },
     crest: '/crests/slytherin.png',
-    values: ['Ambition', 'Cunning', 'Leadership', 'Resourcefulness'],
-    founder: 'Salazar Slytherin',
-    animal: 'Serpent',
-    element: 'Water',
-    ghost: 'The Bloody Baron',
-    commonRoom: 'Slytherin Dungeon',
-    notableAlumni: ['Severus Snape', 'Draco Malfoy', 'Lord Voldemort', 'Bellatrix Lestrange'],
-    quote: "Or perhaps in Slytherin, You'll make your real friends, Those cunning folk use any means To achieve their ends.",
+    values: ['野心', '狡猾さ', '指導力', '才覚'],
+    founder: 'サラザール・スリザリン',
+    animal: 'ヘビ',
+    element: '水',
+    ghost: '血塗れ男爵',
+    commonRoom: 'スリザリン地下室',
+    notableAlumni: ['セブルス・スネイプ', 'ドラコ・マルフォイ', 'ヴォルデモート卿', 'ベラトリックス・レストレンジ'],
+    quote: "あるいはスリザリンにいるかもしれない\n本当の友を見つけるだろう\n狡猾な者たちは\n目的達成のため手段を選ばない",
     IconComponent: SlytherinIcon,
     dataAiHint: 'serpent shield'
   },
@@ -66,205 +63,268 @@ export const HOGWARTS_HOUSES: Record<HouseName, House> = {
 
 import { QuizQuestion, HouseName } from './types';
 
+export const HOGWARTS_HOUSES: Record<HouseName, any> = {
+  Gryffindor: {
+    name: 'グリフィンドール',
+    colors: { primaryHex: '#7F0909', secondaryHex: '#FFD700', primaryVar: '--gryffindor-primary', secondaryVar: '--gryffindor-secondary' },
+    crest: '/crests/gryffindor.png',
+    values: ['勇気', '勇敢さ', '度胸', '騎士道'],
+    founder: 'ゴドリック・グリフィンドール',
+    animal: 'ライオン',
+    element: '火',
+    ghost: 'ニック・Nearly Headless',
+    commonRoom: 'グリフィンドール塔',
+    notableAlumni: ['ハリー・ポッター', 'ハーマイオニー・グレンジャー', 'ロン・ウィーズリー', 'アルバス・ダンブルドア'],
+    quote: "あなたはグリフィンドールにふさわしいかもしれない\n勇気ある者の住む場所\nその大胆さ、度胸、騎士道が\nグリフィンドールを際立たせる",
+    IconComponent: GryffindorIcon,
+    dataAiHint: 'lion shield'
+  },
+  Ravenclaw: {
+    name: 'レイブンクロー',
+    colors: { primaryHex: '#0E1A40', secondaryHex: '#946B2D', primaryVar: '--ravenclaw-primary', secondaryVar: '--ravenclaw-secondary' },
+    crest: '/crests/ravenclaw.png',
+    values: ['知性', '学習', '知恵', '機知'],
+    founder: 'ロウェナ・レイブンクロー',
+    animal: 'ワシ',
+    element: '風',
+    ghost: 'グレイ・レディ',
+    commonRoom: 'レイブンクロー塔',
+    notableAlumni: ['ルーナ・ラブグッド', 'フィリウス・フリットウィック', 'ギルデロイ・ロックハート', 'チョウ・チャン'],
+    quote: "または賢き古きレイブンクローに\n準備のできた心を持つ者たちの場所\n機知と学びを持つ者たちは\n常に同類を見つけるだろう",
+    IconComponent: RavenclawIcon,
+    dataAiHint: 'eagle shield'
+  },
+  Hufflepuff: {
+    name: 'ハッフルパフ',
+    colors: { primaryHex: '#EEE117', secondaryHex: '#000000', primaryVar: '--hufflepuff-primary', secondaryVar: '--hufflepuff-secondary' },
+    crest: '/crests/hufflepuff.png',
+    values: ['勤勉', '忍耐', '公正', '忠誠'],
+    founder: 'ヘルガ・ハッフルパフ',
+    animal: 'アナグマ',
+    element: '土',
+    ghost: '太った修道士',
+    commonRoom: 'ハッフルパフ地下室',
+    notableAlumni: ['ニュート・スキャマンダー', 'セドリック・ディゴリー', 'ニンファドーラ・トンクス', 'ポモーナ・スプロウト'],
+    quote: "あなたはハッフルパフにふさわしいかもしれない\n彼らは公正で忠実\n忍耐強きハッフルパフは真実で\n労を恐れない",
+    IconComponent: HufflepuffIcon,
+    dataAiHint: 'badger shield'
+  },
+  Slytherin: {
+    name: 'スリザリン',
+    colors: { primaryHex: '#2A623D', secondaryHex: '#AAAAAA', primaryVar: '--slytherin-primary', secondaryVar: '--slytherin-secondary' },
+    crest: '/crests/slytherin.png',
+    values: ['野心', '狡猾さ', '指導力', '才覚'],
+    founder: 'サラザール・スリザリン',
+    animal: 'ヘビ',
+    element: '水',
+    ghost: '血塗れ男爵',
+    commonRoom: 'スリザリン地下室',
+    notableAlumni: ['セブルス・スネイプ', 'ドラコ・マルフォイ', 'ヴォルデモート卿', 'ベラトリックス・レストレンジ'],
+    quote: "あるいはスリザリンにいるかもしれない\n本当の友を見つけるだろう\n狡猾な者たちは\n目的達成のため手段を選ばない",
+    IconComponent: SlytherinIcon,
+    dataAiHint: 'serpent shield'
+  },
+};
+
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 'q1',
-    text: "Which trait defines you best?",
+    text: "どの性格特性が最もあなたらしいですか？",
     options: [
-      { id: 'q1o1', text: "Bravery", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q1o2', text: "Ambition", houseAffinity: { Slytherin: 2 } },
-      { id: 'q1o3', text: "Intelligence", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q1o4', text: "Loyalty", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q1o1', text: "勇敢さ", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q1o2', text: "野心", houseAffinity: { Slytherin: 2 } },
+      { id: 'q1o3', text: "知性", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q1o4', text: "忠誠", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q2',
-    text: "How do you handle challenges?",
+    text: "挑戦にどう立ち向かいますか？",
     options: [
-      { id: 'q2o1', text: "Face them head-on", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q2o2', text: "Find clever shortcuts", houseAffinity: { Slytherin: 2 } },
-      { id: 'q2o3', text: "Research solutions", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q2o4', text: "Ask for help", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q2o1', text: "正面から立ち向かう", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q2o2', text: "賢く回避策を探す", houseAffinity: { Slytherin: 2 } },
+      { id: 'q2o3', text: "解決策を調べる", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q2o4', text: "助けを求める", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q3',
-    text: "Your ideal weekend involves:",
+    text: "理想の週末はどんな過ごし方ですか？",
     options: [
-      { id: 'q3o1', text: "Adventure sports", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q3o2', text: "Strategic games", houseAffinity: { Slytherin: 2 } },
-      { id: 'q3o3', text: "Reading/learning", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q3o4', text: "Helping others", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q3o1', text: "冒険スポーツ", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q3o2', text: "戦略ゲーム", houseAffinity: { Slytherin: 2 } },
+      { id: 'q3o3', text: "読書・学習", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q3o4', text: "人助け", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q4',
-    text: "What's your leadership style?",
+    text: "あなたのリーダーシップスタイルは？",
     options: [
-      { id: 'q4o1', text: "Bold and decisive", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q4o2', text: "Calculated and goal-oriented", houseAffinity: { Slytherin: 2 } },
-      { id: 'q4o3', text: "Analytical and fair", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q4o4', text: "Supportive and inclusive", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q4o1', text: "大胆で決断力がある", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q4o2', text: "計算高く目標志向", houseAffinity: { Slytherin: 2 } },
+      { id: 'q4o3', text: "分析的で公平", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q4o4', text: "支援的で包摂的", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q5',
-    text: "Choose a superpower:",
+    text: "理想の超能力を選ぶなら？",
     options: [
-      { id: 'q5o1', text: "Super strength", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q5o2', text: "Invisibility", houseAffinity: { Slytherin: 2 } },
-      { id: 'q5o3', text: "Teleportation", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q5o4', text: "Healing", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q5o1', text: "超人的な力", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q5o2', text: "透明化", houseAffinity: { Slytherin: 2 } },
+      { id: 'q5o3', text: "瞬間移動", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q5o4', text: "治癒能力", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q6',
-    text: "Your friends would describe you as:",
+    text: "友人はあなたをどう表現しますか？",
     options: [
-      { id: 'q6o1', text: "Fearless", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q6o2', text: "Resourceful", houseAffinity: { Slytherin: 2 } },
-      { id: 'q6o3', text: "Wise", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q6o4', text: "Kind", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q6o1', text: "恐れ知らず", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q6o2', text: "才覚がある", houseAffinity: { Slytherin: 2 } },
+      { id: 'q6o3', text: "賢い", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q6o4', text: "優しい", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q7',
-    text: "When working in a team, you:",
+    text: "チームで作業するとき、あなたは？",
     options: [
-      { id: 'q7o1', text: "Take charge", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q7o2', text: "Find the most efficient path", houseAffinity: { Slytherin: 2 } },
-      { id: 'q7o3', text: "Ensure logical solutions", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q7o4', text: "Keep everyone united", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q7o1', text: "指揮を取る", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q7o2', text: "最も効率的な方法を見つける", houseAffinity: { Slytherin: 2 } },
+      { id: 'q7o3', text: "論理的な解決策を確実にする", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q7o4', text: "全員をまとめる", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q8',
-    text: "Your approach to rules is:",
+    text: "ルールに対するあなたの姿勢は？",
     options: [
-      { id: 'q8o1', text: "Break them if justified", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q8o2', text: "Bend them to your advantage", houseAffinity: { Slytherin: 2 } },
-      { id: 'q8o3', text: "Understand their purpose", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q8o4', text: "Follow them diligently", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q8o1', text: "正当なら破る", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q8o2', text: "自分に有利に曲げる", houseAffinity: { Slytherin: 2 } },
+      { id: 'q8o3', text: "ルールの目的を理解する", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q8o4', text: "忠実に従う", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q9',
-    text: "Your greatest strength is:",
+    text: "あなたの最大の強みは？",
     options: [
-      { id: 'q9o1', text: "Courage", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q9o2', text: "Determination", houseAffinity: { Slytherin: 2 } },
-      { id: 'q9o3', text: "Creativity", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q9o4', text: "Empathy", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q9o1', text: "勇気", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q9o2', text: "決意", houseAffinity: { Slytherin: 2 } },
+      { id: 'q9o3', text: "創造力", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q9o4', text: "共感力", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q10',
-    text: "What motivates you most?",
+    text: "あなたを最も動機付けるものは？",
     options: [
-      { id: 'q10o1', text: "Overcoming obstacles", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q10o2', text: "Achieving success", houseAffinity: { Slytherin: 2 } },
-      { id: 'q10o3', text: "Gaining knowledge", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q10o4', text: "Building relationships", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q10o1', text: "困難を乗り越えること", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q10o2', text: "成功を達成すること", houseAffinity: { Slytherin: 2 } },
+      { id: 'q10o3', text: "知識を得ること", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q10o4', text: "人間関係を築くこと", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q11',
-    text: "Your dream vacation is:",
+    text: "理想の休暇は？",
     options: [
-      { id: 'q11o1', text: "Mountain climbing", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q11o2', text: "Luxury resort", houseAffinity: { Slytherin: 2 } },
-      { id: 'q11o3', text: "Cultural exploration", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q11o4', text: "Volunteer trip", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q11o1', text: "山登り", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q11o2', text: "高級リゾート", houseAffinity: { Slytherin: 2 } },
+      { id: 'q11o3', text: "文化探訪", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q11o4', text: "ボランティア旅行", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q12',
-    text: "In a crisis, you:",
+    text: "危機のとき、あなたはどうする？",
     options: [
-      { id: 'q12o1', text: "Act immediately", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q12o2', text: "Assess the best outcome for yourself", houseAffinity: { Slytherin: 2 } },
-      { id: 'q12o3', text: "Analyze the situation", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q12o4', text: "Ensure everyone's safe", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q12o1', text: "すぐ行動する", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q12o2', text: "自分に最適な結果を評価する", houseAffinity: { Slytherin: 2 } },
+      { id: 'q12o3', text: "状況を分析する", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q12o4', text: "全員の安全を確保する", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q13',
-    text: "Your favorite subject would be:",
+    text: "好きな教科は？",
     options: [
-      { id: 'q13o1', text: "Physical Education", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q13o2', text: "Economics", houseAffinity: { Slytherin: 2 } },
-      { id: 'q13o3', text: "Science", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q13o4', text: "Psychology", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q13o1', text: "体育", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q13o2', text: "経済", houseAffinity: { Slytherin: 2 } },
+      { id: 'q13o3', text: "理科", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q13o4', text: "心理学", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q14',
-    text: "How do you make decisions?",
+    text: "意思決定はどうやってしますか？",
     options: [
-      { id: 'q14o1', text: "Go with your gut", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q14o2', text: "Weigh pros and cons", houseAffinity: { Slytherin: 2 } },
-      { id: 'q14o3', text: "Research thoroughly", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q14o4', text: "Consult friends/family", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q14o1', text: "直感で決める", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q14o2', text: "利点と欠点を比較する", houseAffinity: { Slytherin: 2 } },
+      { id: 'q14o3', text: "徹底的に調べる", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q14o4', text: "友人や家族に相談する", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q15',
-    text: "Your ideal pet is:",
+    text: "理想のペットは？",
     options: [
-      { id: 'q15o1', text: "Large dog", houseAffinity: { Gryffindor: 1 } },
-      { id: 'q15o2', text: "Exotic reptile", houseAffinity: { Slytherin: 1 } },
-      { id: 'q15o3', text: "Parrot", houseAffinity: { Ravenclaw: 1 } },
-      { id: 'q15o4', text: "Golden retriever", houseAffinity: { Hufflepuff: 1 } }
+      { id: 'q15o1', text: "大型犬", houseAffinity: { Gryffindor: 1 } },
+      { id: 'q15o2', text: "エキゾチックな爬虫類", houseAffinity: { Slytherin: 1 } },
+      { id: 'q15o3', text: "オウム", houseAffinity: { Ravenclaw: 1 } },
+      { id: 'q15o4', text: "ゴールデンレトリバー", houseAffinity: { Hufflepuff: 1 } }
     ]
   },
   {
     id: 'q16',
-    text: "Your communication style is:",
+    text: "あなたのコミュニケーションスタイルは？",
     options: [
-      { id: 'q16o1', text: "Direct and bold", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q16o2', text: "Persuasive", houseAffinity: { Slytherin: 2 } },
-      { id: 'q16o3', text: "Precise", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q16o4', text: "Warm and friendly", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q16o1', text: "直接的で大胆", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q16o2', text: "説得力がある", houseAffinity: { Slytherin: 2 } },
+      { id: 'q16o3', text: "正確", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q16o4', text: "温かく親しみやすい", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q17',
-    text: "Your greatest fear is:",
+    text: "あなたの最大の恐怖は？",
     options: [
-      { id: 'q17o1', text: "Being powerless", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q17o2', text: "Being ordinary", houseAffinity: { Slytherin: 2 } },
-      { id: 'q17o3', text: "Being ignorant", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q17o4', text: "Being alone", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q17o1', text: "無力であること", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q17o2', text: "平凡であること", houseAffinity: { Slytherin: 2 } },
+      { id: 'q17o3', text: "無知であること", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q17o4', text: "孤独であること", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q18',
-    text: "Your role in a friend group is:",
+    text: "友人グループでのあなたの役割は？",
     options: [
-      { id: 'q18o1', text: "The protector", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q18o2', text: "The strategist", houseAffinity: { Slytherin: 2 } },
-      { id: 'q18o3', text: "The advisor", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q18o4', text: "The peacemaker", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q18o1', text: "守護者", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q18o2', text: "戦略家", houseAffinity: { Slytherin: 2 } },
+      { id: 'q18o3', text: "助言者", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q18o4', text: "仲裁者", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q19',
-    text: "What's your learning style?",
+    text: "学習スタイルは？",
     options: [
-      { id: 'q19o1', text: "Hands-on experience", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q19o2', text: "Competitive environments", houseAffinity: { Slytherin: 2 } },
-      { id: 'q19o3', text: "Independent study", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q19o4', text: "Group collaboration", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q19o1', text: "実践を通して学ぶ", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q19o2', text: "競争環境で学ぶ", houseAffinity: { Slytherin: 2 } },
+      { id: 'q19o3', text: "独学で学ぶ", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q19o4', text: "グループで協力して学ぶ", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q20',
-    text: "Your life motto would be:",
+    text: "あなたの人生のモットーは？",
     options: [
-      { id: 'q20o1', text: "Fortune favors the bold", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q20o2', text: "The ends justify the means", houseAffinity: { Slytherin: 2 } },
-      { id: 'q20o3', text: "Knowledge is power", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q20o4', text: "Kindness changes everything", houseAffinity: { Hufflepuff: 2 } }
+      { id: 'q20o1', text: "運は大胆な者に味方する", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q20o2', text: "目的は手段を正当化する", houseAffinity: { Slytherin: 2 } },
+      { id: 'q20o3', text: "知識は力なり", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q20o4', text: "優しさがすべてを変える", houseAffinity: { Hufflepuff: 2 } }
     ]
   }
 ];
