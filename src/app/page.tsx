@@ -13,7 +13,7 @@ export default function HomePage() {
     <div className="flex flex-col items-center text-center space-y-12 py-8 animate-fade-in-up">
       <header className="space-y-4">
         <h1 className="text-5xl md:text-7xl font-headline font-bold tracking-tight text-primary">
-          ハリポタ組分け帽子診断！
+          ホグワーツ組分け診断！
         </h1>
         <p className="text-xl md:text-2xl text-foreground/80 max-w-2xl mx-auto">
           組分け帽子の質問に答えて、ホグワーツの世界であなたが所属する寮を見つけよう。
