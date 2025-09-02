@@ -16,7 +16,7 @@ export default function AdminAnnouncementsPage() {
     <div className="container mx-auto py-10 px-4">
       <header className="mb-8">
          <Button variant="outline" asChild className="mb-4">
-          <Link href="/admin">&larr; Back to Admin Dashboard</Link>
+          <Link href="/admin">&larr; 管理ダッシュボードに戻る</Link>
         </Button>
         <h1 className="text-3xl font-headline font-bold text-primary">魔法界ニュース</h1>
         <p className="text-muted-foreground">ホグワーツの魔法ネットワークで、重要ニュースを発信しよう！</p>
@@ -28,12 +28,12 @@ export default function AdminAnnouncementsPage() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <label htmlFor="announcement-title" className="block text-sm font-medium text-foreground mb-1">Title</label>
-            <Input id="announcement-title" placeholder="Enter announcement title..." className="bg-background/50 border-border"/>
+            <label htmlFor="announcement-title" className="block text-sm font-medium text-foreground mb-1">タイトル</label>
+            <Input id="announcement-title" placeholder="お知らせのタイトルを入力..." className="bg-background/50 border-border"/>
           </div>
           <div>
-            <label htmlFor="announcement-message" className="block text-sm font-medium text-foreground mb-1">Message</label>
-            <Textarea id="announcement-message" placeholder="Enter announcement message..." className="bg-background/50 border-border"/>
+            <label htmlFor="announcement-message" className="block text-sm font-medium text-foreground mb-1">内容</label>
+            <Textarea id="announcement-message" placeholder="お知らせの内容を入力..." className="bg-background/50 border-border"/>
           </div>
           <Button className="button-burgundy">
             <PlusCircle className="mr-2 h-4 w-4" /> 魔法のお知らせを発信！
@@ -42,7 +42,7 @@ export default function AdminAnnouncementsPage() {
       </Card>
 
       <div className="space-y-6">
-        <h2 className="text-2xl font-headline text-primary">Published Announcements</h2>
+        <h2 className="text-2xl font-headline text-primary">公開中のお知らせ</h2>
         {MOCK_ANNOUNCEMENTS.map(anno => (
           <Card key={anno.id} className="enchanted-parchment-dark">
             <CardHeader>
