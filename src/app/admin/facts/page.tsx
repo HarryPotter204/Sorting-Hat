@@ -16,10 +16,10 @@ export default function AdminFactsPage() {
     <div className="container mx-auto py-10 px-4">
       <header className="mb-8">
          <Button variant="outline" asChild className="mb-4">
-          <Link href="/admin">&larr; Back to Admin Dashboard</Link>
+          <Link href="/admin">&larr; 管理ダッシュボードに戻る</Link>
         </Button>
-        <h1 className="text-3xl font-headline font-bold text-primary">Moderate AI-Generated Facts</h1>
-        <p className="text-muted-foreground">Ensure the magical facts are accurate and enchanting.</p>
+        <h1 className="text-3xl font-headline font-bold text-primary">AI生成の魔法情報を管理</h1>
+        <p className="text-muted-foreground">魔法情報が正確で魅力的であることを確認しましょう。</p>
       </header>
 
       <div className="space-y-6">
@@ -28,19 +28,21 @@ export default function AdminFactsPage() {
             <CardHeader>
               <CardTitle className="font-headline text-lg text-foreground flex items-center">
                 <BookOpenText className="mr-2 h-5 w-5 text-primary"/>
-                Fact for {fact.house}
+                {fact.house}の情報
               </CardTitle>
-              <CardDescription className="text-muted-foreground">Status: <span className={`font-semibold ${fact.status === 'approved' ? 'text-green-400' : fact.status === 'rejected' ? 'text-red-400' : 'text-yellow-400'}`}>{fact.status}</span></CardDescription>
+              <CardDescription className="text-muted-foreground">
+                ステータス: <span className={`font-semibold ${fact.status === 'approved' ? 'text-green-400' : fact.status === 'rejected' ? 'text-red-400' : 'text-yellow-400'}`}>{fact.status === 'approved' ? '承認済み' : fact.status === 'rejected' ? '却下' : '保留中'}</span>
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-foreground mb-4">{fact.text}</p>
               {fact.status === "pending" && (
                 <div className="flex space-x-2 justify-end">
                   <Button size="sm" variant="outline" className="border-green-500 text-green-500 hover:bg-green-500/10">
-                    <CheckCircle className="mr-2 h-4 w-4" /> Approve
+                    <CheckCircle className="mr-2 h-4 w-4" /> 承認
                   </Button>
                   <Button size="sm" variant="outline" className="border-red-500 text-red-500 hover:bg-red-500/10">
-                    <XCircle className="mr-2 h-4 w-4" /> Reject
+                    <XCircle className="mr-2 h-4 w-4" /> 却下
                   </Button>
                 </div>
               )}
