@@ -59,10 +59,10 @@ export default function HomePage() {
       <section className="w-full max-w-3xl">
          <Card className="enchanted-parchment-dark">
           <CardHeader>
-            <CardTitle className="font-headline text-2xl text-primary">What Awaits You?</CardTitle>
+            <CardTitle className="font-headline text-2xl text-primary">あなたを待っているもの</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3 text-left text-foreground/90">
-            <p>Embark on a journey of self-discovery. Our carefully crafted questions delve into your personality, choices, and deepest values to determine your rightful place.</p>
+            <p>自分を見つける旅に出よう。 私たちが作った質問は、あなたがいるべき場所を見極めるためにあなたの性格や選択、そして本質的な価値観を明らかにします。</p>
             <ul className="list-disc list-inside space-y-1">
               <li>Interactive and engaging quiz experience.</li>
               <li>Beautifully designed results with house lore.</li>
