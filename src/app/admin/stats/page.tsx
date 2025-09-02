@@ -28,10 +28,10 @@ export default function AdminStatsPage() {
       {/* Header */}
       <header className="mb-8">
         <Button variant="outline" asChild className="mb-4">
-          <Link href="/admin">&larr; Back to Admin Dashboard</Link>
+          <Link href="/admin">&larr; 管理ダッシュボードに戻る</Link>
         </Button>
-        <h1 className="text-3xl font-headline font-bold text-primary">Sorting Statistics</h1>
-        <p className="text-muted-foreground">Observe the ebb and flow of house populations.</p>
+        <h1 className="text-3xl font-headline font-bold text-primary">組分け統計</h1>
+        <p className="text-muted-foreground">寮ごとの生徒の動向を観察しましょう。</p>
       </header>
 
       {/* House Distribution Chart */}
@@ -39,10 +39,10 @@ export default function AdminStatsPage() {
         <CardHeader>
           <CardTitle className="font-headline text-xl text-primary flex items-center">
             <BarChartHorizontalBig className="mr-2 h-5 w-5" />
-            House Distribution
+            寮ごとの分布
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Total students sorted into each house.
+            各寮に組分けされた生徒の総数です。
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -77,21 +77,21 @@ export default function AdminStatsPage() {
         <CardHeader>
           <CardTitle className="font-headline text-xl text-primary flex items-center">
             <Users className="mr-2 h-5 w-5" />
-            Overall Statistics
+            総合統計
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-foreground">
           <p>
-            Total Quizzes Taken:{" "}
+            クイズ受験総数:{" "}
             <span className="font-bold text-primary">
               {(MOCK_STATS_DATA.reduce((sum, item) => sum + item.count, 0) * 1.2).toFixed(0)}
             </span>
           </p>
           <p>
-            Average Questions Answered: <span className="font-bold text-primary">20</span>
+            平均回答数: <span className="font-bold text-primary">20</span>
           </p>
           <p>
-            Most Common Sorting Period: <span className="font-bold text-primary">Evening</span>
+            最も多い組分け時間帯: <span className="font-bold text-primary">夕方</span>
           </p>
         </CardContent>
       </Card>
