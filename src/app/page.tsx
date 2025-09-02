@@ -22,13 +22,13 @@ export default function HomePage() {
         <Button asChild size="lg" className="button-burgundy text-lg px-8 py-6 shadow-lg hover:shadow-accent/50 transition-all duration-300 transform hover:scale-105">
           <Link href="/quiz">
             <Wand2 className="mr-2 h-6 w-6" />
-            Begin the Sorting Ceremony
+            組分けの儀式を始めよう！
           </Link>
         </Button>
       </header>
 
       <section className="w-full max-w-5xl space-y-8">
-        <h2 className="text-3xl font-headline text-primary/90">The Four Noble Houses</h2>
+        <h2 className="text-3xl font-headline text-primary/90">四つの寮</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {houses.map((house) => (
             <Card key={house.name} className={cn("enchanted-parchment-dark overflow-hidden group", `theme-${house.name.toLowerCase()}`)}>
