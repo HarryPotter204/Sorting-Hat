@@ -6,7 +6,7 @@ import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 
 export const metadata: Metadata = {
-  title: '先生がハリーなら、俺らはロンとハーマイオニー！',
+  title: 'ハリー・ポッタ～９と3/4番線～',
   description: '質問に答えて、あなたの寮を診断します！',
 };
 
