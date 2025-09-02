@@ -13,7 +13,7 @@ export const QuizProgressBar: React.FC<QuizProgressBarProps> = ({ currentStep, t
   return (
     <div className="w-full max-w-md mx-auto my-8 p-2 rounded-lg shadow-md enchanted-parchment">
       <div className="flex justify-between text-xs font-medium text-gray-700 mb-1 px-1">
-        <span>The Sorting Hat Ponders...</span>
+        <span>組み分け帽子が考えています…</span>
         <span>{currentStep} / {totalSteps}</span>
       </div>
       <Progress value={progressPercentage} className="h-3 bg-gray-300 [&>div]:bg-primary" />
