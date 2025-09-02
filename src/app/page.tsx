@@ -16,9 +16,6 @@ export default function HomePage() {
   {/* 「ホグワーツ」部分 */}
   <span className="block md:inline">ホグワーツ</span>
 
-  {/* スマホだけ改行 */}
-  <br className="block md:hidden" />
-
   {/* 「組分け診断！」部分 */}
   <span className="block md:inline">
     組分け診断
