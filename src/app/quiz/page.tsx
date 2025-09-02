@@ -24,7 +24,7 @@ export default function QuizPage() {
      // Could be initial state before questions load or an error
     return (
       <div className="text-center py-10">
-        <p className="text-xl text-foreground">Loading the Sorting Hat's questions...</p>
+        <p className="text-xl text-foreground">組み分け帽子があなたに尋ねる準備をしています…</p>
         {/* Optionally, add a button to manually start/restart if stuck */}
          <Button onClick={() => dispatch({ type: 'START_QUIZ' })} className="mt-4 button-gold">
           Begin Sorting
@@ -38,7 +38,7 @@ export default function QuizPage() {
     // If still here, maybe show a loading or completion message.
     return (
       <div className="text-center py-10">
-        <p className="text-xl text-foreground">The Sorting Hat has made its decision...</p>
+        <p className="text-xl text-foreground">組み分け帽子があなたの行き先を告げます…</p>
       </div>
     );
   }
