@@ -17,5 +17,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // experimental.appDir は削除
+};
 
 export default nextConfig;
