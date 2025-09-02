@@ -7,8 +7,8 @@ import { Megaphone, PlusCircle, Trash2 } from "lucide-react";
 import Link from "next/link";
 
 const MOCK_ANNOUNCEMENTS = [
-    {id: "anno1", title: "House Cup Ceremony Soon!", message: "The Headmaster announces the House Cup Ceremony will be held next Friday evening in the Great Hall. Prefects, please prepare your houses!", date: new Date().toLocaleDateString()},
-    {id: "anno2", title: "Quidditch Tryouts Postponed", message: "Due to inclement weather (rogue Bludgers reported), Quidditch tryouts are postponed until further notice.", date: new Date(Date.now() - 1000*60*60*24).toLocaleDateString()},
+    {id: "anno1", title: "まもなく寮対抗カップのセレモニーが始まります！", message: "校長先生より、寮杯セレモニーが次の金曜日の夜、グレートホールにて執り行われると告げられました。先輩諸君、寮の準備を整えて臨んでください！", date: new Date().toLocaleDateString()},
+    {id: "anno2", title: "クィディッチ選抜、開催延期のお知らせ", message: "「暴走ブラッジャーが出現したとの報告により、悪天候の中でのトライアウトは延期となります。再開は追ってお知らせします。", date: new Date(Date.now() - 1000*60*60*24).toLocaleDateString()},
 ];
 
 export default function AdminAnnouncementsPage() {
@@ -18,13 +18,13 @@ export default function AdminAnnouncementsPage() {
          <Button variant="outline" asChild className="mb-4">
           <Link href="/admin">&larr; Back to Admin Dashboard</Link>
         </Button>
-        <h1 className="text-3xl font-headline font-bold text-primary">Magical Announcements</h1>
-        <p className="text-muted-foreground">Broadcast important news across the Hogwarts digital realm.</p>
+        <h1 className="text-3xl font-headline font-bold text-primary">魔法界ニュース</h1>
+        <p className="text-muted-foreground">ホグワーツの魔法ネットワークで、重要ニュースを発信しよう！</p>
       </header>
 
       <Card className="mb-8 enchanted-parchment-dark">
         <CardHeader>
-          <CardTitle className="font-headline text-xl text-primary flex items-center"><Megaphone className="mr-2 h-5 w-5"/>Create New Announcement</CardTitle>
+          <CardTitle className="font-headline text-xl text-primary flex items-center"><Megaphone className="mr-2 h-5 w-5"/>新しい魔法掲示を作成</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
@@ -36,7 +36,7 @@ export default function AdminAnnouncementsPage() {
             <Textarea id="announcement-message" placeholder="Enter announcement message..." className="bg-background/50 border-border"/>
           </div>
           <Button className="button-burgundy">
-            <PlusCircle className="mr-2 h-4 w-4" /> Publish Announcement
+            <PlusCircle className="mr-2 h-4 w-4" /> 魔法のお知らせを発信！
           </Button>
         </CardContent>
       </Card>
@@ -47,13 +47,13 @@ export default function AdminAnnouncementsPage() {
           <Card key={anno.id} className="enchanted-parchment-dark">
             <CardHeader>
               <CardTitle className="font-headline text-lg text-foreground">{anno.title}</CardTitle>
-              <CardDescription className="text-muted-foreground">Published on: {anno.date}</CardDescription>
+              <CardDescription className="text-muted-foreground">公開日: {anno.date}</CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-foreground mb-4">{anno.message}</p>
                <div className="flex justify-end space-x-2">
-                <Button variant="outline" size="sm" className="text-xs">Edit</Button>
-                <Button variant="destructive" size="sm" className="text-xs"><Trash2 className="mr-1 h-3 w-3"/>Delete</Button>
+                <Button variant="outline" size="sm" className="text-xs">編集</Button>
+                <Button variant="destructive" size="sm" className="text-xs"><Trash2 className="mr-1 h-3 w-3"/>削除</Button>
             </div>
             </CardContent>
           </Card>
