@@ -14,9 +14,7 @@ export default function HomePage() {
     <div className="flex flex-col items-center text-center space-y-12 py-8 animate-fade-in-up">
       <header className="space-y-4">
         <h1 className="text-5xl md:text-7xl font-headline font-bold tracking-tight text-primary leading-tight text-center">
-  {/* 「ホグワーツ」部分 */}
   <span className="block md:inline">ホグワーツ</span>
-　{/* 「組分け診断！」部分 */}
   <span className="block md:inline">組分け診断!!</span>
 </h1>
 
