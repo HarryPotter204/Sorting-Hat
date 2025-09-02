@@ -4,24 +4,24 @@ import Link from "next/link";
 import { BookOpen, Users, MessageSquare, Edit3 } from "lucide-react";
 
 const adminSections = [
-  { title: "Manage Quiz Questions", description: "Add, edit, or remove questions from the sorting quiz.", href: "/admin/questions", icon: Edit3 },
-  { title: "Monitor Sorting Stats", description: "View statistics on house sorting results.", href: "/admin/stats", icon: Users },
-  { title: "Moderate AI Facts", description: "Review and approve/reject AI-generated house facts.", href: "/admin/facts", icon: BookOpen },
-  { title: "Magical Announcements", description: "Push announcements to all users (e.g., House Cup updates).", href: "/admin/announcements", icon: MessageSquare },
+  { title: "組分けクイズの管理", description: "組分けクイズの質問を追加・編集・削除できます。", href: "/admin/questions", icon: Edit3 },
+  { title: "組分け統計の監視", description: "寮別の組分け結果の統計を確認できます。", href: "/admin/stats", icon: Users },
+  { title: "AI生成の寮情報の管理", description: "AIが生成した寮の情報を確認し、承認・却下できます。", href: "/admin/facts", icon: BookOpen },
+  { title: "魔法の告知", description: "全ユーザーに告知を送信できます（例：寮対抗カップの更新など）。", href: "/admin/announcements", icon: MessageSquare },
 ];
 
 export default function AdminDashboardPage() {
-  // In a real app, add authentication and authorization checks here.
-  // For now, it's an open page.
+  // 本来は認証や権限チェックをここに追加する必要があります。
+  // 現在はオープンページです。
 
   return (
     <div className="container mx-auto py-10 px-4 animate-fade-in-up">
       <header className="text-center mb-10">
         <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-3">
-          Admin Spellbook Panel
+          魔法管理パネル
         </h1>
         <p className="text-lg text-foreground/80 max-w-xl mx-auto">
-          Manage the magical workings of the Hogwarts Sorting application.
+          ホグワーツ組分けアプリの魔法的な機能を管理できます。
         </p>
       </header>
 
@@ -37,14 +37,14 @@ export default function AdminDashboardPage() {
             <CardContent>
               <CardDescription className="text-foreground/80 mb-4">{section.description}</CardDescription>
               <Button asChild variant="outline" className="text-primary border-primary hover:bg-primary/10">
-                <Link href={section.href}>Go to Section</Link>
+                <Link href={section.href}>このセクションへ</Link>
               </Button>
             </CardContent>
           </Card>
         ))}
       </div>
       <p className="text-center text-sm text-muted-foreground mt-12">
-        Access to this panel is restricted. Improper use may result in being turned into a Flobberworm.
+        このパネルへのアクセスは制限されています。不適切な使用は、フロバーウォームに変えられる可能性があります。
       </p>
     </div>
   );
