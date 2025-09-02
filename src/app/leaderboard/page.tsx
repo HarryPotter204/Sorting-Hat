@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -15,10 +14,10 @@ interface HouseStat {
   count: number;
 }
 
-// Mock data - in a real app, this would come from a real-time database
+// モックデータ - 実際のアプリではリアルタイムデータベースから取得
 const MOCK_LEADERBOARD_DATA: HouseStat[] = HOUSE_NAMES_ARRAY.map(name => ({
   name,
-  count: Math.floor(Math.random() * 500) + 50, // Random counts
+  count: Math.floor(Math.random() * 500) + 50, // ランダム値
 }));
 
 const LeaderboardBar: React.FC<{ houseStat: HouseStat, maxCount: number }> = ({ houseStat, maxCount }) => {
@@ -33,7 +32,7 @@ const LeaderboardBar: React.FC<{ houseStat: HouseStat, maxCount: number }> = ({ 
       <div className="flex items-center space-x-4 mb-2">
         <Image
           src={house.crest}
-          alt={`${house.name} Crest`}
+          alt={`${house.name} 紋章`}
           width={48}
           height={48}
           data-ai-hint={house.dataAiHint}
@@ -41,7 +40,7 @@ const LeaderboardBar: React.FC<{ houseStat: HouseStat, maxCount: number }> = ({ 
         />
         <div>
           <h3 className="text-xl font-semibold font-headline text-[hsl(var(--house-primary))]">{house.name}</h3>
-          <p className="text-sm text-[hsl(var(--house-secondary))] font-bold">{houseStat.count.toLocaleString()} students sorted</p>
+          <p className="text-sm text-[hsl(var(--house-secondary))] font-bold">{houseStat.count.toLocaleString()} 人の生徒が組分け済み</p>
         </div>
       </div>
       <Progress value={percentage} className={cn("h-3 bg-[hsl(var(--house-secondary)_/_0.3)] [&>div]:bg-[hsl(var(--house-primary))] transition-all duration-1000 ease-out")} />
@@ -54,22 +53,22 @@ export default function LeaderboardPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate fetching and updating data
+    // データ取得と更新のシミュレーション
     setIsLoading(true);
     const sortedData = [...MOCK_LEADERBOARD_DATA].sort((a, b) => b.count - a.count);
     setLeaderboardData(sortedData);
     setIsLoading(false);
 
-    // Simulate live updates - for demonstration
+    // ライブ更新のシミュレーション（デモ用）
     const interval = setInterval(() => {
       setLeaderboardData(prevData => {
         const newData = prevData.map(stat => ({
           ...stat,
-          count: stat.count + Math.floor(Math.random() * 5) + 1, // Increment count
+          count: stat.count + Math.floor(Math.random() * 5) + 1,
         }));
         return [...newData].sort((a, b) => b.count - a.count);
       });
-    }, 5000); // Update every 5 seconds
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -80,15 +79,15 @@ export default function LeaderboardPage() {
     <div className="container mx-auto py-10 px-4 animate-fade-in-up">
       <header className="text-center mb-10">
         <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-3">
-          Global House Leaderboard
+          世界の寮リーダーボード
         </h1>
         <p className="text-lg text-foreground/80 max-w-xl mx-auto">
-          See which Hogwarts houses are currently leading in the number of new students! The House Cup awaits!
+          現在、どの寮が新入生の数でリードしているか確認できます！寮対抗カップの栄光はどの寮に？
         </p>
       </header>
 
       {isLoading ? (
-        <div className="text-center text-primary">Summoning the leaderboard spirits... <BarChart3 className="inline-block animate-spin h-5 w-5 ml-2" /></div>
+        <div className="text-center text-primary">リーダーボードの精霊を召喚中... <BarChart3 className="inline-block animate-spin h-5 w-5 ml-2" /></div>
       ) : leaderboardData.length > 0 ? (
         <div className="space-y-6 max-w-3xl mx-auto">
           {leaderboardData.map((stat, index) => (
@@ -103,17 +102,17 @@ export default function LeaderboardPage() {
       ) : (
         <Card className="enchanted-parchment-dark text-center py-10 max-w-md mx-auto">
           <CardHeader>
-            <CardTitle className="font-headline text-2xl text-primary">The Leaderboard is Empty</CardTitle>
+            <CardTitle className="font-headline text-2xl text-primary">リーダーボードは空です</CardTitle>
           </CardHeader>
           <CardContent>
             <CardDescription className="text-lg text-foreground/80">
-              No students have been sorted yet. Be the first!
+              まだ生徒は組分けされていません。あなたが最初になりましょう！
             </CardDescription>
           </CardContent>
         </Card>
       )}
        <p className="text-center text-sm text-muted-foreground mt-8">
-        Leaderboard updates in real-time (simulated). House points are fluctuating!
+        リーダーボードはリアルタイムで更新されます（シミュレーション）。寮ポイントは日々変動中！
       </p>
     </div>
   );
