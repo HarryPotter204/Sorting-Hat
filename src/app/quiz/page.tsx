@@ -21,28 +21,23 @@ export default function QuizPage() {
   }, [state.isCompleted, state.sortedHouse, router]);
 
   if (!currentQuestion && !state.isCompleted) {
-     // Could be initial state before questions load or an error
     return (
       <div className="text-center py-10">
-        <p className="text-xl text-foreground">組み分け帽子があなたに尋ねる準備をしています…</p>
-        {/* Optionally, add a button to manually start/restart if stuck */}
-         <Button onClick={() => dispatch({ type: 'START_QUIZ' })} className="mt-4 button-gold">
-          Begin Sorting
+        <p className="text-xl text-foreground">組分け帽子があなたに質問する準備をしています…</p>
+        <Button onClick={() => dispatch({ type: 'START_QUIZ' })} className="mt-4 button-gold">
+          クイズを始める
         </Button>
       </div>
     );
   }
   
   if (state.isCompleted || !currentQuestion) {
-    // This case should ideally be handled by the useEffect redirect.
-    // If still here, maybe show a loading or completion message.
     return (
       <div className="text-center py-10">
-        <p className="text-xl text-foreground">組み分け帽子があなたの行き先を告げます…</p>
+        <p className="text-xl text-foreground">組分け帽子があなたの行き先を告げようとしています…</p>
       </div>
     );
   }
-
 
   const handleAnswer = (questionId: string, optionId: string) => {
     setSelectedOption(optionId);
@@ -52,10 +47,9 @@ export default function QuizPage() {
   const handleNextQuestion = () => {
     if (selectedOption) {
       dispatch({ type: 'NEXT_QUESTION' });
-      setSelectedOption(undefined); // Reset for next question
+      setSelectedOption(undefined);
     } else {
-      // Optionally show a message to select an option
-      alert("Please select an answer before proceeding.");
+      alert("進む前に答えを選んでください。");
     }
   };
   
@@ -79,14 +73,14 @@ export default function QuizPage() {
       <div className="flex space-x-4 mt-6">
         <Button onClick={handleRetakeQuiz} variant="outline" className="text-foreground hover:text-accent-foreground hover:border-accent">
           <RotateCcw className="mr-2 h-4 w-4" />
-          Start Over
+          最初からやり直す
         </Button>
         <Button 
           onClick={handleNextQuestion} 
           disabled={!selectedOption}
           className="button-burgundy"
         >
-          {state.currentQuestionIndex === totalQuestions - 1 ? 'Reveal My House' : 'Next Question'}
+          {state.currentQuestionIndex === totalQuestions - 1 ? '私の寮を知る' : '次の質問へ'}
           <ArrowRight className="ml-2 h-4 w-4" />
         </Button>
       </div>
