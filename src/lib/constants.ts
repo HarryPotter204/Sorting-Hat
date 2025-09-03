@@ -79,10 +79,10 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: 'q2',
     text: "魔法の授業で一番やらかしそうなのは？",
     options: [
+      { id: 'q2o4', text: "授業中に寝て先生を透明マントと勘違いする", houseAffinity: { Slytherin: 2 } },
       { id: 'q2o1', text: "薬を爆発させる", houseAffinity: { Gryffindor: 2 } },
       { id: 'q2o2', text: "杖を逆に持って呪文を放つ", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q2o3', text: "変身術で自分をカエルにする", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q2o4', text: "授業中に寝て先生を透明マントと勘違いする", houseAffinity: { Slytherin: 2 } }
+      { id: 'q2o3', text: "変身術で自分をカエルにする", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
@@ -99,10 +99,10 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: 'q4',
     text: "あなたの守護霊が出現！どんな姿？",
     options: [
+      { id: 'q4o4', text: "フライドチキン", houseAffinity: { Slytherin: 2 } },
       { id: 'q4o1', text: "ライオン", houseAffinity: { Gryffindor: 2 } },
       { id: 'q4o2', text: "ハムスター", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q4o3', text: "Wi-Fiルーター", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q4o4', text: "フライドチキン", houseAffinity: { Slytherin: 2 } }
+      { id: 'q4o3', text: "Wi-Fiルーター", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
@@ -140,9 +140,9 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "謎の魔法道具を見つけました。どうする？",
     options: [
       { id: 'q8o1', text: "とりあえず触る", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q8o2', text: "先生に報告する", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q8o3', text: "売る", houseAffinity: { Slytherin: 2 } },
-      { id: 'q8o4', text: "枕にする", houseAffinity: { Ravenclaw: 2 } }
+      { id: 'q8o4', text: "枕にする", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q8o2', text: "先生に報告する", houseAffinity: { Hufflepuff: 2 } },
     ]
   },
   {
@@ -161,33 +161,33 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     options: [
       { id: 'q10o1', text: "全力で突撃する", houseAffinity: { Gryffindor: 2 } },
       { id: 'q10o2', text: "動物をなでに行く", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q10o3', text: "植物の観察メモを取る", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q10o4', text: "魔法生物を密輸する", houseAffinity: { Slytherin: 2 } }
+      { id: 'q10o4', text: "魔法生物を密輸する", houseAffinity: { Slytherin: 2 } },
+            { id: 'q10o3', text: "植物の観察メモを取る", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
     id: 'q11',
     text: "ホグワーツのトイレで幽霊に遭遇！反応は？",
     options: [
-      { id: 'q11o1', text: "「うわっ！」って叫んで逃げる", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q11o2', text: "話し相手になってあげる", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q11o3', text: "研究対象として観察する", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q11o4', text: "利用して噂を流させる", houseAffinity: { Slytherin: 2 } }
+      { id: 'q11o1', text: "「うわっ！」って叫んで逃げる", houseAffinity: { Gryffindor: 2 } },
+      { id: 'q11o4', text: "利用して噂を流させる", houseAffinity: { Slytherin: 2 } },
+      { id: 'q11o2', text: "話し相手になってあげる", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q12',
     text: "魔法の試験でカンニングできそうな呪文を発見！",
     options: [
-      { id: 'q12o1', text: "使わない（正々堂々）", houseAffinity: { Gryffindor: 2 } },
       { id: 'q12o2', text: "友達と分け合う", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q12o3', text: "完璧に使いこなす", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q12o4', text: "即ビジネス化する", houseAffinity: { Slytherin: 2 } }
+      { id: 'q12o4', text: "即ビジネス化する", houseAffinity: { Slytherin: 2 } },
+            { id: 'q12o1', text: "使わない（正々堂々）", houseAffinity: { Gryffindor: 2 } }
     ]
   },
   {
     id: 'q13',
-    text: "ハニーデュークスで好きな魔法のお菓子は？",
+    text: "ハニーデュークス（魔法のお菓子のお店）で好きな魔法のお菓子は？",
     options: [
       { id: 'q13o1', text: "爆発ボンボン（危険）", houseAffinity: { Gryffindor: 2 } },
       { id: 'q13o2', text: "ショック・チョコ（ユーモア）", houseAffinity: { Hufflepuff: 2 } },
@@ -199,10 +199,10 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: 'q14',
     text: "あなたの部屋に忍び込む忍びの地図を入手！どう使う？",
     options: [
-      { id: 'q14o1', text: "毎晩探検する", houseAffinity: { Gryffindor: 2 } },
       { id: 'q14o2', text: "友達に貸す", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q14o3', text: "校内の歴史を調査する", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q14o4', text: "先生の秘密を暴く", houseAffinity: { Slytherin: 2 } }
+      { id: 'q14o4', text: "先生の秘密を暴く", houseAffinity: { Slytherin: 2 } },
+      { id: 'q14o1', text: "毎晩探検する", houseAffinity: { Gryffindor: 2 } }
+      { id: 'q14o3', text: "校内の歴史を調査する", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
@@ -211,8 +211,8 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     options: [
       { id: 'q15o1', text: "「まあいっか」で冒険開始", houseAffinity: { Gryffindor: 2 } },
       { id: 'q15o2', text: "誰かに助けを求める", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q15o3', text: "地図を広げて分析", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q15o4', text: "わざと迷ってショートカット探し", houseAffinity: { Slytherin: 2 } }
+      { id: 'q15o4', text: "わざと迷ってショートカット探し", houseAffinity: { Slytherin: 2 } },
+      { id: 'q15o3', text: "地図を広げて分析", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
@@ -220,8 +220,8 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "魔法生物を飼えるなら？",
     options: [
       { id: 'q16o1', text: "ヒッポグリフ（かっこいい）", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q16o2', text: "二フラー（かわいい）", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q16o3', text: "フクロウ（便利で賢い）", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q16o2', text: "二フラー（かわいい）", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q16o4', text: "バジリスク（野望全開）", houseAffinity: { Slytherin: 2 } }
     ]
   },
@@ -229,9 +229,9 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: 'q17',
     text: "授業のノートを取るときのスタイルは？",
     options: [
-      { id: 'q17o1', text: "殴り書き（自分しか読めない）", houseAffinity: { Gryffindor: 2 } },
       { id: 'q17o2', text: "色分けして丁寧にまとめる", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q17o3', text: "図表・参考文献つきで完璧", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q17o1', text: "殴り書き（自分しか読めない）", houseAffinity: { Gryffindor: 2 } },
       { id: 'q17o4', text: "他人のノートをコピー", houseAffinity: { Slytherin: 2 } }
     ]
   },
@@ -239,10 +239,10 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     id: 'q18',
     text: "バタービールを飲んだらほろ酔い気分。どうする？",
     options: [
+      { id: 'q18o4', text: "こっそりおかわりを奪う", houseAffinity: { Slytherin: 2 } },
       { id: 'q18o1', text: "歌い出す", houseAffinity: { Gryffindor: 2 } },
       { id: 'q18o2', text: "友達と乾杯する", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q18o3', text: "成分を分析する", houseAffinity: { Ravenclaw: 2 } },
-      { id: 'q18o4', text: "こっそりおかわりを奪う", houseAffinity: { Slytherin: 2 } }
+      { id: 'q18o3', text: "成分を分析する", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
   {
@@ -250,18 +250,18 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     text: "魔法薬で失敗！体が小さくなったらどうする？",
     options: [
       { id: 'q19o1', text: "元に戻すために全力で実験", houseAffinity: { Ravenclaw: 2 } },
+      { id: 'q19o4', text: "小さい姿を利用して悪さ", houseAffinity: { Slytherin: 2 } },
       { id: 'q19o2', text: "小さいまま楽しむ", houseAffinity: { Gryffindor: 2 } },
-      { id: 'q19o3', text: "友達に手伝ってもらう", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q19o4', text: "小さい姿を利用して悪さ", houseAffinity: { Slytherin: 2 } }
+      { id: 'q19o3', text: "友達に手伝ってもらう", houseAffinity: { Hufflepuff: 2 } }
     ]
   },
   {
     id: 'q20',
     text: "秘密の部屋を発見！中で一番やりたいことは？",
     options: [
+      { id: 'q20o3', text: "古文書や魔法道具を調べる", houseAffinity: { Ravenclaw: 2 } },
       { id: 'q20o1', text: "危険を承知で冒険", houseAffinity: { Gryffindor: 2 } },
       { id: 'q20o2', text: "中の生き物と仲良くなる", houseAffinity: { Hufflepuff: 2 } },
-      { id: 'q20o3', text: "古文書や魔法道具を調べる", houseAffinity: { Ravenclaw: 2 } },
       { id: 'q20o4', text: "財宝や秘密を独占", houseAffinity: { Slytherin: 2 } }
     ]
   }
