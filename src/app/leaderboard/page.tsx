@@ -17,13 +17,13 @@ interface HouseStat {
 // モックデータ - 実際のアプリではリアルタイムデータベースから取得
 const MOCK_LEADERBOARD_DATA: HouseStat[] = HOUSE_NAMES_ARRAY.map(name => ({
   name,
-  count: Math.floor(Math.random() * 500) + 50, // ランダム値
+  count: Math.floor(Math.random() * 100) + 50, // ランダム値
 }));
 
 const LeaderboardBar: React.FC<{ houseStat: HouseStat, maxCount: number }> = ({ houseStat, maxCount }) => {
   const house = HOGWARTS_HOUSES[houseStat.name];
   if (!house) return null;
-  const percentage = maxCount > 0 ? (houseStat.count / maxCount) * 100 : 0;
+  const percentage = maxCount > 0 ? (houseStat.count / maxCount) * 50 : 0;
 
   return (
     <div className={cn("p-4 rounded-lg shadow-md transition-all duration-500 ease-out hover:shadow-lg", `theme-${house.name.toLowerCase()}`)}
