@@ -201,7 +201,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
     options: [
       { id: 'q14o2', text: "友達に貸す", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q14o4', text: "先生の秘密を暴く", houseAffinity: { Slytherin: 2 } },
-      { id: 'q14o1', text: "毎晩探検する", houseAffinity: { Gryffindor: 2 } }
+      { id: 'q14o1', text: "毎晩探検する", houseAffinity: { Gryffindor: 2 } },
       { id: 'q14o3', text: "校内の歴史を調査する", houseAffinity: { Ravenclaw: 2 } }
     ]
   },
