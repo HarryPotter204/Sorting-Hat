@@ -97,7 +97,7 @@ export default function HouseResultPage() {
           <CardTitle className="font-headline text-xl text-[hsl(var(--house-primary))]">Your Sorting Result</CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
-          <p className="text-lg text-foreground">祝福を！あなたはまさに、 <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。</p>
+          <p className="text-lg text-foreground">祝福を！あなたはまさに <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。</p>
           <div className="flex justify-center space-x-3">
             <Button onClick={handleShare} variant="outline" className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)]">
               <Share2 className="mr-2 h-4 w-4" /> 共有
