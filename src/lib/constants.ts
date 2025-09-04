@@ -117,7 +117,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'q6',
-    text: "箒レースに参加しました。あなたの作戦は？",
+    text: "箒（ほうき）レースに参加しました。あなたの作戦は？",
     options: [
       { id: 'q6o1', text: "全力で飛ばす（そして墜落）", houseAffinity: { Gryffindor: 2 } },
       { id: 'q6o2', text: "相手に呪文をかける（反則スレスレ）", houseAffinity: { Slytherin: 2 } },
@@ -182,7 +182,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { id: 'q12o2', text: "友達と分け合う", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q12o3', text: "完璧に使いこなす", houseAffinity: { Ravenclaw: 2 } },
       { id: 'q12o4', text: "即ビジネス化する", houseAffinity: { Slytherin: 2 } },
-            { id: 'q12o1', text: "使わない（正々堂々）", houseAffinity: { Gryffindor: 2 } }
+      { id: 'q12o1', text: "使わない（正々堂々）", houseAffinity: { Gryffindor: 2 } }
     ]
   },
   {
