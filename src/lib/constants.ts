@@ -197,7 +197,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   },
   {
     id: 'q14',
-    text: "あなたの部屋に忍び込む忍びの地図を入手！どう使う？",
+    text: "あ　あなたの部屋から忍び込む、秘密の地図を入手！どう使う？",
     options: [
       { id: 'q14o2', text: "友達に貸す", houseAffinity: { Hufflepuff: 2 } },
       { id: 'q14o4', text: "先生の秘密を暴く", houseAffinity: { Slytherin: 2 } },
