@@ -1,10 +1,10 @@
 "use client";
 
-import type { QuizQuestion, HouseName } from '@/lib/types';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import type { QuizQuestion } from '@/lib/types';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { SortingHatImage } from '@/components/icons/HouseIcons';
 
 interface QuestionCardProps {
   question: QuizQuestion;
@@ -12,6 +12,7 @@ interface QuestionCardProps {
   questionNumber: number;
   totalQuestions: number;
   selectedOptionId?: string;
+  isTransitioning?: boolean;
 }
 
 export const QuestionCard: React.FC<QuestionCardProps> = ({
@@ -20,50 +21,82 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
   questionNumber,
   totalQuestions,
   selectedOptionId,
+  isTransitioning = false,
 }) => {
   return (
-    <Card className="w-full max-w-2xl mx-auto enchanted-parchment-dark animate-fade-in-up shadow-2xl">
-      <CardHeader>
-  <CardDescription className="text-primary font-semibold">
-    質問 {questionNumber} / {totalQuestions}
-  </CardDescription>
-  <CardTitle className="font-headline text-2xl md:text-3xl text-foreground">
-    {question.text}  {/* ここは質問文自体なので翻訳済みの文を使う */}
-  </CardTitle>
-</CardHeader>
-{question.imageUrl && (
-  <div className="px-6 py-4">
-    <Image
-      src={question.imageUrl}
-      alt={question.dataAiHint || `質問 ${questionNumber} のイラスト`}
-      width={600}
-      height={400}
-      className="rounded-md object-cover w-full aspect-video border border-border"
-      data-ai-hint={question.dataAiHint}
-    />
-  </div>
-)}
-      <CardContent>
-        <div className="space-y-4">
-          {question.options.map((option) => (
-            <Button
-              key={option.id}
-              variant={selectedOptionId === option.id ? "default" : "outline"}
-              size="lg"
-              className={cn(
-                "w-full justify-start text-left h-auto py-3 px-4 transition-all duration-200 transform hover:scale-[1.02]",
-                 selectedOptionId === option.id ? 
-                 'bg-primary text-primary-foreground border-primary ring-2 ring-primary ring-offset-2 ring-offset-background' :
-                 'bg-background/30 hover:bg-accent/20 text-foreground hover:text-accent-foreground border-border'
-              )}
-              onClick={() => onAnswer(question.id, option.id)}
-              aria-pressed={selectedOptionId === option.id}
-            >
-              {option.text}
-            </Button>
-          ))}
+    <Card className="w-full max-w-lg mx-auto enchanted-parchment-dark shadow-2xl border border-primary/40 rounded-2xl overflow-hidden">
+      {/* Mobile-first compact header with the user's hat image */}
+      <CardHeader className="p-4 sm:p-6 pb-2 text-center relative">
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/15 text-primary border border-primary/30">
+            第 {questionNumber} 問 / 全 {totalQuestions} 問
+          </span>
+          <div className="w-9 h-9 flex items-center justify-center p-0.5 rounded-full bg-background/50 border border-primary/40 shadow-inner">
+            <SortingHatImage className="w-7 h-7 object-contain animate-pulse" width={28} height={28} />
+          </div>
+        </div>
+
+        <CardTitle className="font-headline text-xl sm:text-2xl text-foreground text-left leading-snug">
+          {question.text}
+        </CardTitle>
+      </CardHeader>
+
+      {question.imageUrl && (
+        <div className="px-4 sm:px-6 py-2">
+          <div className="relative w-full aspect-[16/9] rounded-xl overflow-hidden border border-border/80 shadow-md">
+            <Image
+              src={question.imageUrl}
+              alt={question.dataAiHint || `質問 ${questionNumber} のイラスト`}
+              fill
+              className="object-cover"
+              data-ai-hint={question.dataAiHint}
+              priority
+            />
+          </div>
+        </div>
+      )}
+
+      <CardContent className="p-4 sm:p-6 pt-3">
+        <p className="text-xs text-muted-foreground mb-3 text-left">
+          直感で当てはまる選択肢をタップしてください：
+        </p>
+        <div className="space-y-2.5">
+          {question.options.map((option, idx) => {
+            const isSelected = selectedOptionId === option.id;
+            return (
+              <button
+                key={option.id}
+                type="button"
+                disabled={isTransitioning}
+                onClick={() => onAnswer(question.id, option.id)}
+                className={cn(
+                  "w-full text-left p-4 rounded-xl border-2 transition-all duration-200 flex items-center justify-between gap-3 text-sm sm:text-base font-medium shadow-sm select-none active:scale-[0.98] min-h-[56px]",
+                  isSelected
+                    ? "bg-primary text-primary-foreground border-primary ring-2 ring-primary/40 shadow-lg scale-[1.01]"
+                    : "bg-background/60 hover:bg-primary/10 text-foreground border-border/80 hover:border-primary/50"
+                )}
+                aria-pressed={isSelected}
+              >
+                <div className="flex items-center gap-3">
+                  <span className={cn(
+                    "w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 border",
+                    isSelected 
+                      ? "bg-primary-foreground text-primary border-primary-foreground" 
+                      : "bg-background/80 text-muted-foreground border-border"
+                  )}>
+                    {String.fromCharCode(65 + idx)}
+                  </span>
+                  <span className="leading-snug">{option.text}</span>
+                </div>
+                {isSelected && (
+                  <span className="text-xs shrink-0 font-bold animate-pulse">✓ 選択中</span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </CardContent>
     </Card>
   );
 };
+

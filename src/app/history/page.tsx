@@ -15,33 +15,41 @@ const HistoryItem: React.FC<{ result: UserQuizResult; onDelete: (id: string) => 
   if (!house) return null;
 
   return (
-    <Card className="enchanted-parchment-dark flex items-center p-4 space-x-4 hover:shadow-primary/20 transition-shadow duration-300">
-      <div className="relative w-16 h-16 flex-shrink-0">
+    <Card className="enchanted-parchment-dark p-3.5 sm:p-4 rounded-xl border border-primary/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 hover:shadow-primary/20 transition-shadow">
+      <div className="flex items-center space-x-3 min-w-0">
         <Image
           src={house.crest}
           alt={`${house.name} 紋章`}
-          width={64}
-          height={64}
+          width={52}
+          height={52}
           data-ai-hint={house.dataAiHint}
-          className="rounded-full border-2 border-[hsl(var(--border))] object-cover w-16 h-16"
+          className="rounded-full border border-primary/40 shrink-0 object-contain w-12 h-12"
         />
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <h3 className="text-base sm:text-lg font-semibold font-headline text-primary whitespace-nowrap">{house.name}</h3>
+            {result.nickname && (
+              <span className="text-xs px-2 py-0.5 rounded-full bg-primary/20 text-primary font-medium truncate max-w-[120px]">
+                {result.nickname}
+              </span>
+            )}
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {new Date(result.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+          </p>
+        </div>
+
       </div>
-      <div className="flex-grow">
-        <h3 className="text-lg font-semibold font-headline text-primary">{house.name}</h3>
-        <p className="text-sm text-muted-foreground">
-          組分け日: {new Date(result.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
-        </p>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Button asChild variant="outline" size="sm" className="text-xs">
-          <Link href={`/quiz/result/${result.houseName.toLowerCase()}?id=${result.id}`}>
+      <div className="flex items-center justify-end w-full sm:w-auto space-x-2 pt-2 sm:pt-0 border-t sm:border-t-0 border-border/50">
+        <Button asChild variant="outline" size="sm" className="text-xs h-8 px-3 border-primary/40 text-primary">
+          <Link href={`/quiz/result/${result.houseName.toLowerCase()}`}>
             詳細を見る
           </Link>
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-muted-foreground hover:text-destructive"
+          className="h-8 w-8 text-muted-foreground hover:text-destructive shrink-0"
           onClick={() => onDelete(result.id)}
           title="記録を削除"
         >
@@ -51,6 +59,7 @@ const HistoryItem: React.FC<{ result: UserQuizResult; onDelete: (id: string) => 
     </Card>
   );
 };
+
 
 export default function HistoryPage() {
   const [history, setHistory] = useState<UserQuizResult[]>([]);

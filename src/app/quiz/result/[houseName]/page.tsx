@@ -32,6 +32,13 @@ export default function HouseResultPage() {
   const [isDownloading, setIsDownloading] = useState(false);
   const savedRef = useRef(false);
 
+  const [nickname, setNickname] = useState<string>(() => {
+    if (quizState.nickname) return quizState.nickname;
+    const latest = getLatestQuizResult();
+    if (latest?.nickname) return latest.nickname;
+    return '';
+  });
+
   const [displayScores, setDisplayScores] = useState<Record<HouseName, number>>(() => {
     const hasContextScores = Object.values(quizState.scores || {}).some(s => (s || 0) > 0);
     if (hasContextScores) return quizState.scores;
@@ -54,7 +61,7 @@ export default function HouseResultPage() {
     }
   }, [houseName, quizState.sortedHouse, router]);
 
-  // Restore scores on reload or when navigating from history
+  // Restore scores and nickname on reload or when navigating from history
   useEffect(() => {
     if (!houseName) return;
     const searchId = searchParams.get('id');
@@ -62,25 +69,31 @@ export default function HouseResultPage() {
       const matched = getQuizResultById(searchId);
       if (matched?.scores) {
         setDisplayScores(matched.scores);
-        return;
       }
+      if (matched?.nickname) {
+        setNickname(matched.nickname);
+      }
+      return;
     }
     const hasContextScores = Object.values(quizState.scores || {}).some(s => (s || 0) > 0);
     if (hasContextScores) {
       setDisplayScores(quizState.scores);
+      if (quizState.nickname) setNickname(quizState.nickname);
       return;
     }
     const latest = getLatestQuizResult();
-    if (latest && latest.houseName.toLowerCase() === houseName.toLowerCase() && latest.scores) {
-      setDisplayScores(latest.scores);
+    if (latest && latest.houseName.toLowerCase() === houseName.toLowerCase()) {
+      if (latest.scores) setDisplayScores(latest.scores);
+      if (latest.nickname) setNickname(latest.nickname);
       return;
     }
     const history = getStoredQuizResults();
     const found = history.find(h => h.houseName.toLowerCase() === houseName.toLowerCase());
-    if (found && found.scores) {
-      setDisplayScores(found.scores);
+    if (found) {
+      if (found.scores) setDisplayScores(found.scores);
+      if (found.nickname) setNickname(found.nickname);
     }
-  }, [houseName, searchParams, quizState.scores]);
+  }, [houseName, searchParams, quizState.scores, quizState.nickname]);
 
   // Automatically save to history on mount if completed in this session
   useEffect(() => {
@@ -88,11 +101,13 @@ export default function HouseResultPage() {
       savedRef.current = true;
       saveQuizResult({
         userId: 'student_' + Math.random().toString(36).substring(2, 6),
+        nickname: nickname || quizState.nickname || '新入生',
         houseName: houseName,
         scores: displayScores,
       });
     }
-  }, [quizState.isCompleted, houseName, displayScores]);
+  }, [quizState.isCompleted, houseName, displayScores, nickname, quizState.nickname]);
+
 
   if (!houseName || !HOGWARTS_HOUSES[houseName]) {
     return (
@@ -116,8 +131,9 @@ export default function HouseResultPage() {
   };
 
   const handleShare = () => {
-    const shareTitle = `ホグワーツ組分け結果：${house.name}！`;
-    const shareText = `ホグワーツ組分け診断の結果、私は【${house.name}】に選ばれました！✨\n「${house.values.join('・')}」の精神を胸に、ホグワーツでの生活が始まります。\n#ホグワーツ組分け診断 #HarryPotter`;
+    const studentPrefix = nickname ? `【${nickname}】` : '';
+    const shareTitle = `${studentPrefix}ホグワーツ組分け結果：${house.name}！`;
+    const shareText = `${studentPrefix}ホグワーツ組分け診断の結果、私は【${house.name}】に選ばれました！✨\n「${house.values.join('・')}」の精神を胸に、ホグワーツでの生活が始まります。\n#ホグワーツ組分け診断 #HarryPotter`;
     
     if (navigator.share) {
       navigator.share({
@@ -133,6 +149,7 @@ export default function HouseResultPage() {
       setShowShareModal(true);
     }
   };
+
 
   const copyShareLink = async () => {
     try {
@@ -212,9 +229,15 @@ export default function HouseResultPage() {
       ctx.strokeStyle = '#FFD700';
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.moveTo(250, 190);
-      ctx.lineTo(750, 190);
+      ctx.moveTo(250, 185);
+      ctx.lineTo(750, 185);
       ctx.stroke();
+
+      // Student Name on certificate
+      const studentName = nickname || '新入生';
+      ctx.font = 'bold 24px serif';
+      ctx.fillStyle = '#f5d77f';
+      ctx.fillText(`生徒氏名: ${studentName} 殿`, 500, 218);
 
       // Load and draw crest image
       const img = new window.Image();
@@ -226,13 +249,14 @@ export default function HouseResultPage() {
       });
 
       if (img.complete && img.naturalHeight !== 0) {
-        ctx.drawImage(img, 360, 230, 280, 280);
+        ctx.drawImage(img, 360, 240, 280, 280);
       }
 
       // House Name
       ctx.font = 'bold 64px serif';
       ctx.fillStyle = '#FFD700';
       ctx.fillText(house.name, 500, 580);
+
 
       ctx.font = '24px serif';
       ctx.fillStyle = '#dcdcdc';
@@ -299,10 +323,16 @@ export default function HouseResultPage() {
 
   return (
     <div className={cn("flex flex-col items-center space-y-8 py-10 min-h-[calc(100vh-200px)] animate-fade-in-up", `theme-${house.name.toLowerCase()}`)}>
-      <header className="text-center space-y-2">
-        <p className="text-lg font-medium text-foreground/80">組み分け帽子の声が響き渡る！</p>
-        <h1 className="text-5xl md:text-6xl font-headline font-bold text-[hsl(var(--house-primary))]">
-          ようこそ {house.name}!
+      <header className="text-center space-y-2 px-3">
+        {nickname ? (
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary/20 border border-primary/40 text-primary text-xs sm:text-sm font-semibold mb-1 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
+            <span>【{nickname}】殿の組分け結果</span>
+          </div>
+        ) : null}
+        <p className="text-base sm:text-lg font-medium text-foreground/80">組み分け帽子の声が響き渡る！</p>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-headline font-bold text-[hsl(var(--house-primary))]">
+          ようこそ {house.name} へ!
         </h1>
       </header>
 
@@ -322,9 +352,10 @@ export default function HouseResultPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
-          <p className="text-lg text-foreground">
-            祝福を！あなたはまさに <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。
+          <p className="text-base sm:text-lg text-foreground">
+            {nickname ? `祝福を、${nickname} 殿！` : '祝福を！'} あなたはまさに <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。
           </p>
+
           <div className="flex justify-center space-x-3">
             <Button onClick={handleShare} variant="outline" className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)]">
               <Share2 className="mr-2 h-4 w-4" /> 共有

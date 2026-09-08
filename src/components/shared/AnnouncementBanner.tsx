@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Megaphone, Lock, ShieldCheck, X } from "lucide-react";
+import { Megaphone, Lock, ShieldCheck, X, Bell } from "lucide-react";
 import Link from "next/link";
 import { getStoredAnnouncements, Announcement, isAdminAuthenticated } from "@/lib/storage";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -24,51 +24,61 @@ export function AnnouncementBanner() {
 
   return (
     <>
-      <div className="w-full max-w-4xl mx-auto mb-2 px-4">
-        <div 
+      {/* Non-intrusive in-flow notification pill for mobile and desktop.
+          Placed in-flow so it NEVER overlaps or blocks any buttons or text. */}
+      <div className="w-full max-w-lg mx-auto mb-3 px-2 sm:px-0">
+        <button
+          type="button"
           onClick={() => setIsOpen(true)}
-          className="p-3 px-4 rounded-xl border border-primary/40 bg-primary/10 hover:bg-primary/15 backdrop-blur-sm flex items-center justify-between text-left gap-3 cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md"
+          className="w-full p-2.5 px-3.5 rounded-full border border-primary/35 bg-primary/10 hover:bg-primary/20 backdrop-blur-md flex items-center justify-between text-left gap-2 shadow-sm transition-all duration-200 active:scale-[0.98] group"
+          aria-label="ホグワーツ掲示板を開く"
         >
-          <div className="flex items-center gap-2.5 overflow-hidden">
-            <Megaphone className="h-4 w-4 text-primary shrink-0 animate-bounce" />
+          <div className="flex items-center gap-2 overflow-hidden min-w-0">
+            <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary shrink-0">
+              <Megaphone className="h-3.5 w-3.5" />
+            </span>
             <div className="truncate text-xs sm:text-sm">
-              <span className="font-semibold text-primary mr-2">【ホグワーツ掲示板】</span>
-              <span className="text-foreground/90">{latestAnnouncement.title}</span>
+              <span className="font-bold text-primary mr-1.5 shrink-0">【掲示板】</span>
+              <span className="text-foreground/90 font-medium truncate">{latestAnnouncement.title}</span>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0">
-            <span className="text-xs text-primary font-medium hover:underline flex items-center gap-1">
-              掲示板を読む &rarr;
-            </span>
-          </div>
-        </div>
+
+          <span className="text-[11px] sm:text-xs font-semibold text-primary/90 group-hover:text-primary shrink-0 whitespace-nowrap pl-1">
+            読む &rarr;
+          </span>
+        </button>
       </div>
 
+      {/* Hogwarts Notice Board Popup Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="enchanted-parchment-dark max-w-lg border border-primary/40 text-foreground">
-          <DialogHeader>
+        <DialogContent className="enchanted-parchment-dark w-[94vw] max-w-md mx-auto p-4 sm:p-6 rounded-2xl border border-primary/40 text-foreground shadow-2xl z-50">
+          <DialogHeader className="text-left pb-2">
             <div className="flex items-center gap-2 text-primary">
-              <Megaphone className="h-5 w-5" />
-              <DialogTitle className="font-headline text-xl text-primary">
-                ホグワーツ大広間 魔法掲示板
-              </DialogTitle>
+              <div className="w-8 h-8 rounded-full bg-primary/15 border border-primary/40 flex items-center justify-center text-primary">
+                <Megaphone className="h-4 w-4 text-yellow-400" />
+              </div>
+              <div>
+                <DialogTitle className="font-headline text-lg sm:text-xl text-primary font-bold">
+                  ホグワーツ大広間 魔法掲示板
+                </DialogTitle>
+                <DialogDescription className="text-[11px] text-muted-foreground">
+                  全寮生および教職員に向けた最新の公式通知
+                </DialogDescription>
+              </div>
             </div>
-            <DialogDescription className="text-muted-foreground text-xs">
-              全寮生および教職員に向けた最新の公式通知です。
-            </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+          <div className="space-y-3 max-h-[55vh] overflow-y-auto pr-1 py-1">
             {announcements.map((item, idx) => (
               <div 
                 key={item.id || idx}
-                className="p-3.5 rounded-lg bg-background/50 border border-primary/20 space-y-1.5"
+                className="p-3.5 rounded-xl bg-background/60 border border-primary/20 space-y-1.5 shadow-sm"
               >
-                <div className="flex items-center justify-between">
-                  <h4 className="font-headline font-semibold text-primary text-base">
+                <div className="flex items-center justify-between gap-2">
+                  <h4 className="font-headline font-semibold text-primary text-sm sm:text-base leading-snug">
                     {item.title}
                   </h4>
-                  <span className="text-[10px] text-muted-foreground">
+                  <span className="text-[10px] text-muted-foreground shrink-0">
                     {item.date}
                   </span>
                 </div>
@@ -79,14 +89,23 @@ export function AnnouncementBanner() {
             ))}
           </div>
 
-          <div className="pt-3 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+          <div className="pt-3 border-t border-border/60 flex flex-col gap-2.5 text-xs">
             <div className="flex items-center gap-1.5 text-muted-foreground text-[11px]">
               <Lock className="h-3.5 w-3.5 text-yellow-500/80 shrink-0" />
               <span>掲示板への新規投稿は管理者（教職員）のみ行えます</span>
             </div>
 
-            <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-              <Button asChild size="sm" variant="outline" className="text-xs border-primary/40 text-primary">
+            <div className="flex items-center justify-between gap-2 pt-1">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setIsOpen(false)}
+                className="text-xs text-muted-foreground hover:text-foreground h-9"
+              >
+                閉じる
+              </Button>
+
+              <Button asChild size="sm" variant="outline" className="text-xs border-primary/40 text-primary h-9">
                 <Link href="/admin/announcements" onClick={() => setIsOpen(false)}>
                   {isAdmin ? (
                     <span className="flex items-center gap-1">

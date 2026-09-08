@@ -17,13 +17,10 @@ export interface FactItem {
 
 const STORAGE_KEYS = {
   QUIZ_HISTORY: 'hogwarts_quiz_history',
-  LATEST_RESULT: 'hogwarts_latest_quiz_result',
   ANNOUNCEMENTS: 'hogwarts_announcements',
   QUESTIONS: 'hogwarts_quiz_questions',
   FACTS: 'hogwarts_ai_facts',
-  ADMIN_AUTH: 'hogwarts_admin_authenticated',
 };
-
 
 const DEFAULT_ANNOUNCEMENTS: Announcement[] = [
   {
@@ -79,73 +76,12 @@ export function saveQuizResult(
     const existing = getStoredQuizResults();
     const updated = [newResult, ...existing];
     localStorage.setItem(STORAGE_KEYS.QUIZ_HISTORY, JSON.stringify(updated));
-    localStorage.setItem(STORAGE_KEYS.LATEST_RESULT, JSON.stringify(newResult));
   } catch (e) {
     console.error('Failed to save quiz result', e);
   }
 
   return newResult;
 }
-
-export function saveLatestQuizResult(result: UserQuizResult): void {
-  if (!isBrowser()) return;
-  try {
-    localStorage.setItem(STORAGE_KEYS.LATEST_RESULT, JSON.stringify(result));
-  } catch (e) {
-    console.error('Failed to save latest quiz result', e);
-  }
-}
-
-export function getLatestQuizResult(): UserQuizResult | null {
-  if (!isBrowser()) return null;
-  try {
-    const raw = localStorage.getItem(STORAGE_KEYS.LATEST_RESULT);
-    if (!raw) return null;
-    return JSON.parse(raw);
-  } catch (e) {
-    console.error('Failed to load latest quiz result', e);
-    return null;
-  }
-}
-
-export function getQuizResultById(id: string): UserQuizResult | null {
-  if (!isBrowser()) return null;
-  try {
-    const list = getStoredQuizResults();
-    return list.find((item) => item.id === id) || null;
-  } catch (e) {
-    console.error('Failed to find quiz result by id', e);
-    return null;
-  }
-}
-
-// ---------------- Admin Authentication ----------------
-export function isAdminAuthenticated(): boolean {
-  if (!isBrowser()) return false;
-  try {
-    const local = localStorage.getItem(STORAGE_KEYS.ADMIN_AUTH);
-    const session = sessionStorage.getItem(STORAGE_KEYS.ADMIN_AUTH);
-    return local === 'true' || session === 'true';
-  } catch {
-    return false;
-  }
-}
-
-export function setAdminAuthenticated(authenticated: boolean): void {
-  if (!isBrowser()) return;
-  try {
-    if (authenticated) {
-      localStorage.setItem(STORAGE_KEYS.ADMIN_AUTH, 'true');
-      sessionStorage.setItem(STORAGE_KEYS.ADMIN_AUTH, 'true');
-    } else {
-      localStorage.removeItem(STORAGE_KEYS.ADMIN_AUTH);
-      sessionStorage.removeItem(STORAGE_KEYS.ADMIN_AUTH);
-    }
-  } catch (e) {
-    console.error('Failed to update admin authentication state', e);
-  }
-}
-
 
 export function deleteQuizResult(id: string): void {
   if (!isBrowser()) return;
@@ -336,4 +272,48 @@ export function getAggregatedHouseCounts(): Record<HouseName, number> {
   });
 
   return baseCounts;
+}
+
+// ---------------- Admin Authentication ----------------
+const ADMIN_AUTH_KEY = 'hogwarts_admin_authenticated';
+
+export function isAdminAuthenticated(): boolean {
+  if (!isBrowser()) return false;
+  try {
+    return localStorage.getItem(ADMIN_AUTH_KEY) === 'true';
+  } catch (e) {
+    console.error('Failed to check admin auth', e);
+    return false;
+  }
+}
+
+export function setAdminAuthenticated(authenticated: boolean): void {
+  if (!isBrowser()) return;
+  try {
+    if (authenticated) {
+      localStorage.setItem(ADMIN_AUTH_KEY, 'true');
+    } else {
+      localStorage.removeItem(ADMIN_AUTH_KEY);
+    }
+  } catch (e) {
+    console.error('Failed to set admin auth', e);
+  }
+}
+
+export function verifyAdminLogin(id: string, pass: string): boolean {
+  const cleanId = id.trim().toLowerCase();
+  const cleanPass = pass.trim().toLowerCase();
+
+  const validIds = ['admin', 'dumbledore', 'hogwarts'];
+  const validPasswords = ['alohomora', 'hogwarts', 'magic123', 'magic', 'password', 'lemon'];
+
+  if (validIds.includes(cleanId) && validPasswords.includes(cleanPass)) {
+    setAdminAuthenticated(true);
+    return true;
+  }
+  return false;
+}
+
+export function logoutAdmin(): void {
+  setAdminAuthenticated(false);
 }

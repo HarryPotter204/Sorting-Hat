@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Literata, Quicksand } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
@@ -19,8 +19,15 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: 'ハリー・ポッタ～９と3/4番線～',
-  description: '質問に答えて、あなたの寮を診断します！',
+  title: 'ホグワーツ組分け帽子 寮診断',
+  description: '伝説の組分け帽子の質問に答えて、あなたのホグワーツの寮を診断しよう！',
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: '#120d08',
 };
 
 export default function RootLayout({
@@ -30,10 +37,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={`dark ${literata.variable} ${quicksand.variable}`}>
-      <body className={`${quicksand.className} antialiased min-h-screen flex flex-col font-body`}>
+      <body className={`${quicksand.className} antialiased min-h-screen flex flex-col font-body bg-background text-foreground`}>
         <AppProviders>
           <Navbar />
-          <main className="flex-grow container mx-auto px-4 py-8">
+          <main className="flex-grow container mx-auto px-2.5 sm:px-4 py-3 sm:py-6 max-w-3xl">
             {children}
           </main>
           <Footer />
@@ -43,3 +50,4 @@ export default function RootLayout({
     </html>
   );
 }
+

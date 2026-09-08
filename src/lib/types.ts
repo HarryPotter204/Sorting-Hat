@@ -37,6 +37,7 @@ export interface QuizQuestion {
 export interface UserQuizResult {
   id: string;
   userId: string; // Assuming user authentication in a full app
+  nickname?: string;
   houseName: HouseName;
   date: string; // ISO date string
   scores: Partial<Record<HouseName, number>>;
@@ -44,9 +45,11 @@ export interface UserQuizResult {
 
 // Represents the state of the quiz
 export interface QuizState {
+  nickname?: string;
   currentQuestionIndex: number;
   answers: Record<string, string>; // questionId: optionId
   scores: Partial<Record<HouseName, number>>;
   isCompleted: boolean;
   sortedHouse: HouseName | null;
 }
+

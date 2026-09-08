@@ -27,41 +27,39 @@ const LeaderboardBar: React.FC<{ houseStat: HouseStat; maxCount: number; rank: n
   return (
     <div
       className={cn(
-        "p-4 rounded-xl border border-border/60 bg-background/50 backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-lg hover:border-primary/50",
+        "p-3 sm:p-4 rounded-xl border border-border/60 bg-background/50 backdrop-blur-sm shadow-md transition-all duration-300 hover:shadow-lg hover:border-primary/50",
         `theme-${house.name.toLowerCase()}`
       )}
     >
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 text-center font-bold text-lg text-primary font-headline">
+      <div className="flex items-center justify-between mb-2.5 gap-2">
+        <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
+          <div className="w-6 sm:w-8 text-center font-bold text-base sm:text-lg text-primary font-headline shrink-0">
             #{rank}
           </div>
-          <div className="relative w-12 h-12 flex-shrink-0">
-            <Image
-              src={house.crest}
-              alt={`${house.name} 紋章`}
-              width={48}
-              height={48}
-              data-ai-hint={house.dataAiHint}
-              className="rounded-full border-2 border-[hsl(var(--house-secondary))] object-cover w-12 h-12"
-            />
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold font-headline text-[hsl(var(--house-primary))]">
+          <Image
+            src={house.crest}
+            alt={`${house.name} 紋章`}
+            width={44}
+            height={44}
+            data-ai-hint={house.dataAiHint}
+            className="rounded-full border border-primary/40 shrink-0 w-9 h-9 sm:w-11 sm:h-11 object-contain"
+          />
+          <div className="min-w-0">
+            <h3 className="text-base sm:text-lg font-semibold font-headline text-[hsl(var(--house-primary))] truncate">
               {house.name}
             </h3>
-            <p className="text-xs text-muted-foreground">{house.values.join(' ・ ')}</p>
+            <p className="text-[11px] text-muted-foreground truncate">{house.values.slice(0, 2).join(' ・ ')}</p>
           </div>
         </div>
-        <div className="text-right">
-          <p className="text-lg font-bold font-headline text-foreground">
-            {houseStat.count.toLocaleString()} <span className="text-xs font-normal text-muted-foreground">名</span>
+        <div className="text-right shrink-0">
+          <p className="text-base sm:text-lg font-bold font-headline text-foreground">
+            {houseStat.count.toLocaleString()} <span className="text-[11px] font-normal text-muted-foreground">名</span>
           </p>
         </div>
       </div>
       <Progress
         value={percentage}
-        className="h-2.5 bg-muted/40 [&>div]:bg-[hsl(var(--house-primary))]"
+        className="h-2 sm:h-2.5 bg-muted/40 [&>div]:bg-[hsl(var(--house-primary))]"
       />
     </div>
   );
@@ -85,18 +83,19 @@ export default function LeaderboardPage() {
   const maxCount = Math.max(...leaderboardData.map((stat) => stat.count), 0);
 
   return (
-    <div className="container mx-auto py-10 px-4 animate-fade-in-up">
-      <header className="text-center mb-10">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/40 bg-primary/10 text-primary text-xs font-medium mb-3">
-          <Sparkles className="h-3.5 w-3.5" /> ホグワーツ寮別勢力図
+    <div className="py-4 sm:py-8 px-2 sm:px-4 max-w-xl sm:max-w-3xl mx-auto animate-fade-in-up">
+      <header className="text-center mb-6 sm:mb-8">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/40 bg-primary/10 text-primary text-xs font-medium mb-2.5">
+          <Sparkles className="h-3.5 w-3.5" /> ホグワーツ勢力図
         </div>
-        <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-3">
-          世界の寮リーダーボード
+        <h1 className="text-2xl sm:text-4xl font-headline font-bold text-primary mb-2">
+          寮別リーダーボード
         </h1>
-        <p className="text-lg text-foreground/80 max-w-xl mx-auto">
-          現在、どの寮が新入生の数でリードしているか確認できます。寮杯（ハウス・カップ）の栄冠を勝ち取るのはどの寮でしょうか？
+        <p className="text-xs sm:text-sm text-foreground/80 max-w-md mx-auto">
+          現在、どの寮が多くの生徒を迎えているか確認できます。
         </p>
       </header>
+
 
       {isLoading ? (
         <div className="text-center text-primary py-12">

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 // Placeholder Lion Icon for Gryffindor
 export const GryffindorIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
@@ -34,28 +35,28 @@ export const SlytherinIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) =>
   </svg>
 );
 
-// Sorting Hat (組分け帽子) Icon
-export const SortingHatIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    {...props}
-  >
-    <title>組分け帽子 (Sorting Hat)</title>
-    {/* Hat cone with wrinkles and bent peak */}
-    <path d="M12 2c1 2 4 4 3 6-1 2-4 2-5 4-1 2-2 3-3 7h14c-1-4-2-5-3-7-1-2-4-2-5-4-1-2 2-4 3-6" fill="currentColor" opacity="0.85" />
-    {/* Undulating brim */}
-    <path d="M2 19c3-1 6-2 10-2s7 1 10 2c1 .5 1 1.5 0 2-3 1-6 1-10 1s-7 0-10-1c-1-.5-1-1.5 0-2z" fill="currentColor" />
-    {/* Facial folds: eyes and speaking mouth */}
-    <path d="M9.5 11.5c.8-.8 1.8-.8 2.5 0" stroke="hsl(var(--background))" strokeWidth="1.5" fill="none" />
-    <path d="M14 11.5c.8-.8 1.8-.8 2.5 0" stroke="hsl(var(--background))" strokeWidth="1.5" fill="none" />
-    <path d="M9 15.5c2 1.5 4 1.5 6 0" stroke="hsl(var(--background))" strokeWidth="1.8" fill="none" />
-    <path d="M8.5 13.5q3.5 1 7 0" stroke="hsl(var(--background))" strokeWidth="1.2" fill="none" opacity="0.6" />
-  </svg>
+// Sorting Hat using user's uploaded hat picture
+export const SortingHatIcon: React.FC<{ className?: string; size?: number }> = ({ className = "w-6 h-6", size = 24 }) => (
+  <Image
+    src="/images/hat.png"
+    alt="組分け帽子"
+    width={size}
+    height={size}
+    className={`${className} inline-block object-contain drop-shadow-sm select-none pointer-events-none`}
+  />
+);
+
+export const SortingHatImage: React.FC<{ className?: string; width?: number; height?: number }> = ({
+  className = "w-36 h-36 object-contain",
+  width = 200,
+  height = 200,
+}) => (
+  <Image
+    src="/images/hat.png"
+    alt="ホグワーツ組分け帽子"
+    width={width}
+    height={height}
+    className={`${className} select-none drop-shadow-xl`}
+  />
 );
 

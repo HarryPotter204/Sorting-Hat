@@ -1,212 +1,167 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { isAdminAuthenticated, verifyAdminLogin, logoutAdmin } from "@/lib/storage";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Lock, KeyRound, ShieldAlert, LogOut, ArrowLeft, CheckCircle2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Lock, KeyRound, ShieldAlert, LogOut, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { isAdminAuthenticated, setAdminAuthenticated } from "@/lib/storage";
 import { useToast } from "@/hooks/use-toast";
-import { SortingHatIcon } from "@/components/icons/HouseIcons";
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+export default function AdminLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
   const [adminId, setAdminId] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
-    setAuthenticated(isAdminAuthenticated());
-    setIsLoading(false);
+    setIsAuthenticated(isAdminAuthenticated());
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage("");
+    setErrorMsg("");
 
-    const trimmedId = adminId.trim().toLowerCase();
-    const trimmedPw = password.trim().toLowerCase();
+    if (!adminId.trim() || !password.trim()) {
+      setErrorMsg("IDと合言葉（パスワード）を両方入力してください。");
+      return;
+    }
 
-    // Valid admin credentials:
-    // ID: admin, dumbledore, hogwarts
-    // Password: alohomora, hogwarts, magic123
-    const isValidId = trimmedId === "admin" || trimmedId === "dumbledore" || trimmedId === "hogwarts";
-    const isValidPw = trimmedPw === "alohomora" || trimmedPw === "hogwarts" || trimmedPw === "magic123";
-
-    if (isValidId && isValidPw) {
-      setAdminAuthenticated(true);
-      setAuthenticated(true);
+    const success = verifyAdminLogin(adminId, password);
+    if (success) {
+      setIsAuthenticated(true);
       toast({
-        title: "アロホモラ！解錠成功",
-        description: "ホグワーツ管理府へようこそ。教職員・校長権限を付与しました。",
+        title: "アロホモラ！認証に成功しました",
+        description: "ホグワーツ管理エリアへようこそ。",
       });
     } else {
-      setErrorMessage("管理者IDまたは合言葉（パスワード）が正しくありません。「アロホモラ」が弾かれました。");
-      toast({
-        title: "認証失敗",
-        description: "合言葉または管理者IDが違います。",
-        variant: "destructive",
-      });
+      setErrorMsg("IDまたは合言葉が違います（例: ID=admin, パスワード=alohomora）。");
     }
   };
 
   const handleLogout = () => {
-    setAdminAuthenticated(false);
-    setAuthenticated(false);
-    setAdminId("");
-    setPassword("");
+    logoutAdmin();
+    setIsAuthenticated(false);
     toast({
       title: "ログアウトしました",
-      description: "管理区画から退出しました。",
+      description: "管理セッションを終了しました。",
     });
   };
 
-  if (isLoading) {
+  // While loading initial client state
+  if (isAuthenticated === null) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4 text-center">
-        <Lock className="h-8 w-8 text-primary animate-pulse" />
-        <p className="text-muted-foreground text-sm">ホグワーツ管理府の防護呪文を確認中...</p>
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="text-primary animate-pulse text-sm">認証状態を確認中...</div>
       </div>
     );
   }
 
-  // If not authenticated, display login gate
-  if (!authenticated) {
+  // Not authenticated: Show Hogwarts Staff Login Gate
+  if (!isAuthenticated) {
     return (
-      <div className="container mx-auto px-4 py-12 flex flex-col items-center justify-center min-h-[calc(100vh-200px)] animate-fade-in-up">
-        <Card className="w-full max-w-md enchanted-parchment-dark border border-primary/40 shadow-2xl">
-          <CardHeader className="text-center pb-2">
-            <div className="mx-auto w-16 h-16 rounded-full bg-primary/15 border border-primary/40 flex items-center justify-center mb-3 text-primary">
-              <Lock className="w-8 h-8 text-yellow-400 drop-shadow-[0_0_8px_rgba(234,179,8,0.5)]" />
+      <div className="max-w-md mx-auto py-6 sm:py-12 px-3 animate-fade-in-up">
+        <Card className="enchanted-parchment-dark rounded-2xl border border-primary/40 shadow-2xl p-2 sm:p-4">
+          <CardHeader className="text-center space-y-2 pb-4">
+            <div className="w-12 h-12 rounded-full bg-primary/15 border border-primary/40 flex items-center justify-center mx-auto text-primary">
+              <Lock className="w-6 h-6 text-yellow-400" />
             </div>
-            <CardTitle className="font-headline text-2xl text-primary flex items-center justify-center gap-2">
-              ホグワーツ管理府 厳重封鎖
+            <CardTitle className="font-headline text-2xl font-bold text-primary">
+              教職員・管理者認証
             </CardTitle>
-            <CardDescription className="text-foreground/80 text-sm mt-1">
-              校長室および教職員専用の管理領域です。立ち入るには管理者IDと合言葉を入力してください。
+            <CardDescription className="text-xs sm:text-sm text-foreground/80 leading-relaxed">
+              管理者のページへ入るには、管理者IDと合言葉を入力してください。
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-6 pt-4">
-            {errorMessage && (
-              <div className="p-3 rounded-lg border border-destructive/50 bg-destructive/15 text-destructive text-sm flex items-start gap-2">
-                <ShieldAlert className="h-4 w-4 mt-0.5 shrink-0" />
-                <span>{errorMessage}</span>
-              </div>
-            )}
-
+          <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-xs font-semibold text-foreground/90 uppercase tracking-wider mb-1.5">
+              <div className="space-y-1.5 text-left">
+                <label htmlFor="admin-id" className="text-xs font-semibold text-primary block">
                   管理者ID
                 </label>
                 <div className="relative">
                   <Input
+                    id="admin-id"
                     type="text"
-                    placeholder="例: admin"
+                    autoCapitalize="none"
+                    autoCorrect="off"
+                    placeholder="例: admin / dumbledore / hogwarts"
                     value={adminId}
                     onChange={(e) => setAdminId(e.target.value)}
-                    required
-                    className="bg-background/60 border-border text-foreground pr-10"
+                    className="bg-background/70 border-primary/40 text-sm h-11"
                   />
-                  <KeyRound className="absolute right-3 top-2.5 h-5 w-5 text-muted-foreground pointer-events-none" />
                 </div>
               </div>
 
-              <div>
-                <label className="block text-xs font-semibold text-foreground/90 uppercase tracking-wider mb-1.5">
+              <div className="space-y-1.5 text-left">
+                <label htmlFor="admin-pass" className="text-xs font-semibold text-primary block">
                   合言葉（パスワード）
                 </label>
                 <div className="relative">
                   <Input
+                    id="admin-pass"
                     type="password"
-                    placeholder="合言葉を入力 (例: alohomora)"
+                    placeholder="例: alohomora / hogwarts / magic123"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
-                    className="bg-background/60 border-border text-foreground pr-10"
+                    className="bg-background/70 border-primary/40 text-sm h-11"
                   />
-                  <Lock className="absolute right-3 top-2.5 h-5 w-5 text-muted-foreground pointer-events-none" />
                 </div>
               </div>
 
-              <Button type="submit" className="w-full button-gold py-5 text-base font-semibold shadow-lg">
-                アロホモラ（解錠して入室）
+              {errorMsg && (
+                <div className="p-3 rounded-lg bg-destructive/15 border border-destructive/40 text-destructive text-xs flex items-start gap-2">
+                  <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5" />
+                  <span>{errorMsg}</span>
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full button-burgundy py-5 text-sm sm:text-base font-bold rounded-xl shadow-lg hover:scale-[1.01] active:scale-[0.98] transition-all"
+              >
+                <KeyRound className="w-4 h-4 mr-2" />
+                扉を開く（ログイン）
               </Button>
+
+              <div className="pt-2 text-center">
+                <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-foreground">
+                  <Link href="/">&larr; 大広間（ホーム）に戻る</Link>
+                </Button>
+              </div>
             </form>
-
-            <div className="p-3.5 rounded-lg border border-primary/20 bg-primary/10 text-xs text-foreground/85 space-y-1">
-              <p className="font-semibold text-primary flex items-center gap-1.5">
-                <CheckCircle2 className="h-4 w-4" /> 認可された認証情報
-              </p>
-              <p className="text-muted-foreground">
-                管理者ID: <span className="text-primary font-mono font-medium">admin</span>
-              </p>
-              <p className="text-muted-foreground">
-                パスワード: <span className="text-primary font-mono font-medium">alohomora</span> または <span className="text-primary font-mono font-medium">hogwarts</span>
-              </p>
-            </div>
-
-            <div className="text-center pt-2">
-              <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-primary">
-                <Link href="/" className="flex items-center gap-1.5">
-                  <ArrowLeft className="h-3.5 w-3.5" />
-                  大広間（ホーム）に戻る
-                </Link>
-              </Button>
-            </div>
           </CardContent>
         </Card>
       </div>
     );
   }
 
-  // When authenticated, render admin header and children
+  // Authenticated: Show children with a clean top bar and logout option
   return (
-    <div className="min-h-[calc(100vh-200px)]">
-      {/* Admin Top Status Bar */}
-      <div className="w-full bg-primary/10 border-b border-primary/20 backdrop-blur-sm px-4 py-2.5 mb-6">
-        <div className="container mx-auto flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-500/20 text-green-400 border border-green-500/30">
-              ● 管理者認証中
-            </span>
-            <span className="text-foreground/80 hidden sm:inline">
-              ホグワーツ管理府（校長・教職員モード）
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <Link
-              href="/admin"
-              className="text-primary hover:underline font-medium"
-            >
-              ダッシュボード
-            </Link>
-            <span className="text-border">|</span>
-            <Link
-              href="/admin/announcements"
-              className="text-primary hover:underline font-medium"
-            >
-              掲示板投稿
-            </Link>
-            <span className="text-border">|</span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleLogout}
-              className="h-7 text-xs border-destructive/40 text-destructive hover:bg-destructive/10"
-            >
-              <LogOut className="h-3.5 w-3.5 mr-1" />
-              ログアウト
-            </Button>
-          </div>
+    <div className="w-full">
+      <div className="mb-4 p-2.5 px-3.5 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-between text-xs sm:text-sm">
+        <div className="flex items-center gap-1.5 text-primary font-medium">
+          <Sparkles className="w-4 h-4 text-yellow-400" />
+          <span>教職員認証済み（管理者権限）</span>
         </div>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleLogout}
+          className="h-8 px-2.5 text-xs border-primary/40 text-primary hover:bg-destructive hover:text-destructive-foreground hover:border-destructive transition-colors"
+        >
+          <LogOut className="w-3.5 h-3.5 mr-1" />
+          ログアウト
+        </Button>
       </div>
-
       {children}
     </div>
   );

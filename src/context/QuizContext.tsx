@@ -7,9 +7,11 @@ import { getStoredQuestions } from '@/lib/storage';
 
 type QuizAction =
   | { type: 'SET_QUESTIONS'; questions: QuizQuestion[] }
-  | { type: 'START_QUIZ' }
+  | { type: 'SET_NICKNAME'; nickname: string }
+  | { type: 'START_QUIZ'; nickname?: string }
   | { type: 'ANSWER_QUESTION'; questionId: string; optionId: string }
   | { type: 'NEXT_QUESTION' }
+  | { type: 'PREV_QUESTION' }
   | { type: 'COMPLETE_QUIZ'; sortedHouse: HouseName }
   | { type: 'RETAKE_QUIZ' };
 
@@ -17,7 +19,24 @@ interface ExtendedQuizState extends QuizState {
   questionsList: QuizQuestion[];
 }
 
+const calculateScores = (questions: QuizQuestion[], answers: Record<string, string>): Record<HouseName, number> => {
+  const scores = HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {} as Record<HouseName, number>);
+  questions.forEach(q => {
+    const chosenOptionId = answers[q.id];
+    if (chosenOptionId) {
+      const option = q.options.find(opt => opt.id === chosenOptionId);
+      if (option) {
+        for (const house in option.houseAffinity) {
+          scores[house as HouseName] = (scores[house as HouseName] || 0) + (option.houseAffinity[house as HouseName] || 0);
+        }
+      }
+    }
+  });
+  return scores;
+};
+
 const initialQuizState: ExtendedQuizState = {
+  nickname: '',
   currentQuestionIndex: 0,
   answers: {},
   scores: HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {}),
@@ -25,6 +44,7 @@ const initialQuizState: ExtendedQuizState = {
   sortedHouse: null,
   questionsList: QUIZ_QUESTIONS,
 };
+
 
 const QuizContext = createContext<{
   state: ExtendedQuizState;
@@ -42,31 +62,41 @@ const quizReducer = (state: ExtendedQuizState, action: QuizAction): ExtendedQuiz
         ...state,
         questionsList: action.questions,
       };
+    case 'SET_NICKNAME':
+      return {
+        ...state,
+        nickname: action.nickname,
+      };
     case 'START_QUIZ':
       return {
         ...initialQuizState,
+        nickname: action.nickname ?? state.nickname,
         questionsList: state.questionsList,
         scores: HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {}),
       };
     case 'ANSWER_QUESTION': {
-      const currentQuestion = state.questionsList[state.currentQuestionIndex];
-      const selectedOption = currentQuestion?.options.find(opt => opt.id === action.optionId);
-      
-      let newScores = { ...state.scores };
-      if (selectedOption) {
-        for (const house in selectedOption.houseAffinity) {
-          newScores[house as HouseName] = (newScores[house as HouseName] || 0) + (selectedOption.houseAffinity[house as HouseName] || 0);
-        }
-      }
-      
+
+      const newAnswers = {
+        ...state.answers,
+        [action.questionId]: action.optionId,
+      };
+      const newScores = calculateScores(state.questionsList, newAnswers);
       return {
         ...state,
-        answers: {
-          ...state.answers,
-          [action.questionId]: action.optionId,
-        },
+        answers: newAnswers,
         scores: newScores,
       };
+    }
+    case 'PREV_QUESTION': {
+      if (state.currentQuestionIndex > 0) {
+        return {
+          ...state,
+          currentQuestionIndex: state.currentQuestionIndex - 1,
+          isCompleted: false,
+          sortedHouse: null,
+        };
+      }
+      return state;
     }
     case 'NEXT_QUESTION': {
       const qList = state.questionsList;
@@ -99,13 +129,16 @@ const quizReducer = (state: ExtendedQuizState, action: QuizAction): ExtendedQuiz
     case 'RETAKE_QUIZ':
       return {
         ...initialQuizState,
+        nickname: state.nickname,
         questionsList: state.questionsList,
         scores: HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {}),
       };
+
     default:
       return state;
   }
 };
+
 
 export const QuizProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(quizReducer, initialQuizState);

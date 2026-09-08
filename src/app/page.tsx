@@ -4,137 +4,145 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { HOGWARTS_HOUSES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { History, Trophy, Sparkles } from "lucide-react";
-import { SortingHatIcon } from "@/components/icons/HouseIcons";
 import Image from "next/image";
 import Link from "next/link";
 import { AnnouncementBanner } from "@/components/shared/AnnouncementBanner";
+import { SortingHatIcon } from "@/components/icons/HouseIcons";
 
 export default function HomePage() {
   const houses = Object.values(HOGWARTS_HOUSES);
 
   return (
-    <div className="flex flex-col items-center text-center space-y-12 py-8 animate-fade-in-up">
+    <div className="flex flex-col items-center text-center space-y-6 sm:space-y-10 py-1 sm:py-6 max-w-lg sm:max-w-3xl mx-auto animate-fade-in-up">
+      {/* Hogwarts Notice Board Popup Trigger Banner (In-flow, never covers buttons or text) */}
       <AnnouncementBanner />
 
-      {/* Hero Section centered on the Sorting Hat */}
-      <header className="space-y-6 max-w-3xl mx-auto">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/40 bg-primary/10 text-primary text-sm font-medium shadow-sm">
-          <Sparkles className="h-4 w-4 text-primary animate-pulse" />
-          <span>ホグワーツ魔法魔術学校 ・ 伝統の選別の儀</span>
+      {/* Hero Section centered around the user's Sorting Hat image */}
+      <header className="w-full space-y-4 px-2">
+        <div className="relative mx-auto w-40 h-40 sm:w-52 sm:h-52 my-1 flex items-center justify-center">
+          <Image
+            src="/images/hat.png"
+            alt="ホグワーツ組分け帽子"
+            width={220}
+            height={220}
+            priority
+            className="w-full h-full object-contain rounded-2xl drop-shadow-xl select-none relative z-10"
+          />
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-headline font-bold tracking-tight text-primary leading-tight text-center">
-          <span className="block md:inline">伝説の</span>
-          <span className="block md:inline">組分け帽子</span>
-        </h1>
+        <div className="space-y-2">
+          <h1 className="text-3xl sm:text-5xl font-headline font-bold tracking-tight text-primary leading-tight">
+            ホグワーツ 組分け帽子
+          </h1>
+          {/* Hat Dialogue Speech Bubble */}
+          <div className="p-3.5 px-4 rounded-2xl bg-card/80 border border-primary/30 backdrop-blur-sm max-w-md mx-auto shadow-md">
+            <p className="text-xs sm:text-sm text-foreground/90 font-medium leading-relaxed italic">
+              「さあ、頭にかぶってみるがよい…お前の勇気、知性、誠実さ、あるいは野心…すべて見通してくれよう！」
+            </p>
+          </div>
+        </div>
 
-        <p className="text-xl md:text-2xl text-foreground/85 max-w-2xl mx-auto leading-relaxed">
-          千年の歴史を持つ組分け帽子をかぶり、あなたの心、勇気、知恵、野心にふさわしいホグワーツの寮を判定してもらおう。
-        </p>
+        {/* Primary Action Buttons - Mobile-First Touch Targets */}
+        <div className="w-full space-y-2.5 pt-1 max-w-md mx-auto">
+          <Button 
+            asChild 
+            size="lg" 
+            className="w-full button-burgundy py-6 text-base sm:text-lg font-bold rounded-xl shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+          >
+            <Link href="/quiz">
+              <Sparkles className="w-5 h-5 text-yellow-300" />
+              組分け帽子をかぶる（診断開始）
+            </Link>
+          </Button>
 
-        {/* Featured Sorting Hat Interactive Card */}
-        <div className="p-6 md:p-8 rounded-2xl enchanted-parchment-dark border border-primary/40 shadow-2xl relative overflow-hidden text-center max-w-xl mx-auto group">
-          <div className="flex flex-col items-center space-y-4">
-            <div className="relative p-5 rounded-full bg-primary/15 border-2 border-primary/50 shadow-inner group-hover:scale-105 transition-transform duration-300">
-              <SortingHatIcon className="w-16 h-16 md:w-20 md:h-20 text-yellow-400 drop-shadow-[0_0_12px_rgba(234,179,8,0.6)]" />
-              <div className="absolute inset-0 rounded-full animate-ping opacity-20 bg-yellow-400 pointer-events-none" />
-            </div>
+          <div className="grid grid-cols-2 gap-2.5">
+            <Button 
+              asChild 
+              variant="outline" 
+              className="w-full border-primary/40 text-primary hover:bg-primary/10 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
+            >
+              <Link href="/history" className="flex items-center justify-center gap-1.5">
+                <History className="h-4 w-4 shrink-0" />
+                組分けの記録
+              </Link>
+            </Button>
 
-            <div className="space-y-2">
-              <p className="font-headline italic text-lg md:text-xl text-primary/95">
-                「ふむ…頭の中を覗かせてもらおうかの…答えはすべて、そなたの心の中にある」
-              </p>
-              <p className="text-xs md:text-sm text-foreground/75">
-                質問に答えていくと、組分け帽子があなたの本質を見極め、最もふさわしい寮へと導きます。
-              </p>
-            </div>
-
-            <Button asChild size="lg" className="button-gold text-lg px-8 py-6 shadow-xl hover:shadow-yellow-500/30 transition-all duration-300 transform hover:scale-105 w-full sm:w-auto">
-              <Link href="/quiz" className="flex items-center justify-center gap-3">
-                <SortingHatIcon className="h-6 w-6 text-yellow-200" />
-                <span>組分け帽子をかぶる（診断を始める）</span>
+            <Button 
+              asChild 
+              variant="outline" 
+              className="w-full border-primary/40 text-primary hover:bg-primary/10 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
+            >
+              <Link href="/leaderboard" className="flex items-center justify-center gap-1.5">
+                <Trophy className="h-4 w-4 shrink-0" />
+                寮別統計
               </Link>
             </Button>
           </div>
         </div>
-
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-1">
-          <Button asChild size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/10 py-5">
-            <Link href="/history">
-              <History className="mr-2 h-5 w-5" />
-              組分けの記録
-            </Link>
-          </Button>
-
-          <Button asChild size="lg" variant="outline" className="border-primary/50 text-primary hover:bg-primary/10 py-5">
-            <Link href="/leaderboard">
-              <Trophy className="mr-2 h-5 w-5" />
-              寮リーダーボード
-            </Link>
-          </Button>
-        </div>
       </header>
 
-      {/* Four Houses Section with Equalized Image Dimensions */}
-      <section className="w-full max-w-5xl space-y-8">
-        <div className="space-y-2">
-          <h2 className="text-3xl font-headline text-primary/90">ホグワーツ四寮</h2>
-          <p className="text-sm text-muted-foreground">創設者たちの魂と誇りが息づく四つの誇り高き寮</p>
+      {/* Four Houses Section - 2x2 Grid on Mobile with nowrap title */}
+      <section className="w-full space-y-3 px-2">
+        <div className="flex items-center justify-between px-1">
+          <h2 className="text-xl sm:text-2xl font-headline font-bold text-primary">
+            ホグワーツ四つの寮
+          </h2>
+          <span className="text-[11px] text-muted-foreground">Four Great Houses</span>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
           {houses.map((house) => (
             <Card
               key={house.name}
-              className={cn("enchanted-parchment-dark overflow-hidden group transition-all duration-300 hover:shadow-xl hover:border-primary/60", `theme-${house.name.toLowerCase()}`)}
+              className={cn(
+                "enchanted-parchment-dark overflow-hidden rounded-xl border border-primary/30 transition-all duration-200 active:scale-[0.98]", 
+                `theme-${house.name.toLowerCase()}`
+              )}
             >
-              <CardHeader className="items-center p-4 bg-[hsl(var(--house-primary,_var(--card)))] text-[hsl(var(--house-secondary,_var(--card-foreground)))]">
-                <div className="relative w-24 h-24 mb-2 flex items-center justify-center flex-shrink-0">
+              <CardHeader className="items-center p-2.5 sm:p-4 pb-1.5 sm:pb-2 bg-[hsl(var(--house-primary,_var(--card)))] text-[hsl(var(--house-secondary,_var(--card-foreground)))]">
+                <div className="relative w-14 h-14 sm:w-20 sm:h-20 mb-1 flex items-center justify-center">
                   <Image
                     src={house.crest}
                     alt={`${house.name} Crest`}
-                    width={96}
-                    height={96}
-                    className="w-24 h-24 object-cover rounded-full border-2 border-[hsl(var(--house-secondary))] shadow-md group-hover:scale-110 transition-transform duration-300"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain rounded-full drop-shadow"
                   />
                 </div>
-                <CardTitle className="font-headline text-2xl">{house.name}</CardTitle>
+                <CardTitle className="font-headline text-[13px] sm:text-base md:text-lg font-bold whitespace-nowrap tracking-tight leading-none px-1">
+                  {house.name}
+                </CardTitle>
               </CardHeader>
-              <CardContent className="p-4 text-sm">
-                <CardDescription className="text-foreground/80">
-                  <strong className="text-[hsl(var(--house-secondary))]">徳目:</strong> {house.values.join(", ")}.
-                </CardDescription>
-                <p className="mt-2 text-xs text-muted-foreground">創設者: {house.founder}</p>
-                <p className="mt-1 text-xs text-muted-foreground">象徴: {house.animal} ({house.element})</p>
+              <CardContent className="p-2.5 sm:p-3 text-left">
+                <p className="text-[11px] sm:text-xs text-foreground/80 leading-snug line-clamp-2">
+                  <span className="text-primary font-semibold">特長:</span> {house.values.slice(0, 2).join(", ")}
+                </p>
+                <p className="mt-1 text-[10px] text-muted-foreground truncate">
+                  創設者: {house.founder}
+                </p>
               </CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      {/* Sorting Hat Lore & Ceremony Section */}
-      <section className="w-full max-w-3xl">
-        <Card className="enchanted-parchment-dark border border-primary/30 shadow-lg">
-          <CardHeader className="text-center">
-            <CardTitle className="font-headline text-2xl text-primary flex items-center justify-center gap-2">
-              <SortingHatIcon className="h-6 w-6 text-primary" />
-              組分け帽子の歴史と儀式
+
+      {/* About Section - Compact for Mobile */}
+      <section className="w-full px-2">
+        <Card className="enchanted-parchment-dark rounded-xl border border-primary/30 text-left p-4 sm:p-5">
+          <CardHeader className="p-0 pb-2.5">
+            <CardTitle className="font-headline text-lg sm:text-xl text-primary flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-yellow-400" />
+              組分けの儀式とは
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-left text-foreground/90 leading-relaxed">
+          <CardContent className="p-0 space-y-2 text-xs sm:text-sm text-foreground/85 leading-relaxed">
             <p>
-              かつてホグワーツの創設者であるゴドリック・グリフィンドール、ヘルガ・ハッフルパフ、ロウェナ・レイブンクロー、サラザール・スリザリンの四賢人は、自分たちが世を去った後も生徒たちを正しく寮に導けるよう、グリフィンドールの帽子に自らの知恵と心を吹き込みました。
+              組分け帽子は千年以上にわたり、ホグワーツの新入生一人ひとりの適性と心を読み解き、最適な寮を選び出してきました。
             </p>
             <p>
-              帽子はあなたの潜在能力、秘めたる勇気、学問への情熱、仲間への思いやり、あるいは大志を見定め、あなた自身が最も輝ける寮へと組分けを行います。
+              直感で質問に答えることで、あなたの内に眠る騎士道精神、知性、友愛、あるいは大志が導き出されます。
             </p>
-            <div className="pt-2 flex justify-center">
-              <Button asChild className="button-burgundy text-base px-6 py-5">
-                <Link href="/quiz" className="flex items-center gap-2">
-                  <SortingHatIcon className="h-5 w-5" />
-                  組分けの儀式を始める
-                </Link>
-              </Button>
-            </div>
           </CardContent>
         </Card>
       </section>
