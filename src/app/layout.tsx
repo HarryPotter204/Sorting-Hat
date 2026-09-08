@@ -1,9 +1,22 @@
 import type { Metadata } from 'next';
+import { Literata, Quicksand } from 'next/font/google';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
-import AppProviders from '@/components/AppProviders'; // For potential context providers
+import AppProviders from '@/components/AppProviders';
 import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
+
+const literata = Literata({
+  subsets: ['latin'],
+  variable: '--font-literata',
+  display: 'swap',
+});
+
+const quicksand = Quicksand({
+  subsets: ['latin'],
+  variable: '--font-quicksand',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'ハリー・ポッタ～９と3/4番線～',
@@ -16,14 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet" />
-      </head>
-      <body className="font-body antialiased min-h-screen flex flex-col">
+    <html lang="ja" className={`dark ${literata.variable} ${quicksand.variable}`}>
+      <body className={`${quicksand.className} antialiased min-h-screen flex flex-col font-body`}>
         <AppProviders>
           <Navbar />
           <main className="flex-grow container mx-auto px-4 py-8">

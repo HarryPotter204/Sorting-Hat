@@ -14,7 +14,7 @@ export const HouseInfoCard: React.FC<HouseInfoCardProps> = ({ house }) => {
     <Card className={cn("w-full max-w-md enchanted-parchment-dark shadow-xl", `theme-${house.name.toLowerCase()}`)}>
       <CardHeader className="text-center pb-4 bg-[hsl(var(--house-primary)_/_0.2)]">
         <CardTitle className="font-headline text-3xl text-[hsl(var(--house-primary))]">{house.name}</CardTitle>
-        <CardDescription className="text-[hsl(var(--house-secondary))] font-medium">"{house.quote}"</CardDescription>
+        <CardDescription className="text-[hsl(var(--house-secondary))] font-medium">&ldquo;{house.quote}&rdquo;</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4 pt-4">
         <div className="flex items-center space-x-3">

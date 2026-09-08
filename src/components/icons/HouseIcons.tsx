@@ -33,3 +33,29 @@ export const SlytherinIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) =>
     <path d="M15 5s-2-2-5-2-5 2-5 2v4s2 2 5 2 5-2 5-2V5zM8 11s-1 .5-1 2.5S8 16 8 16h8s1-.5 1-2.5S16 11 16 11H8zm0 5s-1 .5-1 2.5S8 21 8 21h8s1-.5 1-2.5S16 16 16 16H8z" />
   </svg>
 );
+
+// Sorting Hat (組分け帽子) Icon
+export const SortingHatIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    stroke="currentColor"
+    strokeWidth="1.5"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <title>組分け帽子 (Sorting Hat)</title>
+    {/* Hat cone with wrinkles and bent peak */}
+    <path d="M12 2c1 2 4 4 3 6-1 2-4 2-5 4-1 2-2 3-3 7h14c-1-4-2-5-3-7-1-2-4-2-5-4-1-2 2-4 3-6" fill="currentColor" opacity="0.85" />
+    {/* Undulating brim */}
+    <path d="M2 19c3-1 6-2 10-2s7 1 10 2c1 .5 1 1.5 0 2-3 1-6 1-10 1s-7 0-10-1c-1-.5-1-1.5 0-2z" fill="currentColor" />
+    {/* Facial folds: eyes and speaking mouth */}
+    <path d="M9.5 11.5c.8-.8 1.8-.8 2.5 0" stroke="hsl(var(--background))" strokeWidth="1.5" fill="none" />
+    <path d="M14 11.5c.8-.8 1.8-.8 2.5 0" stroke="hsl(var(--background))" strokeWidth="1.5" fill="none" />
+    <path d="M9 15.5c2 1.5 4 1.5 6 0" stroke="hsl(var(--background))" strokeWidth="1.8" fill="none" />
+    <path d="M8.5 13.5q3.5 1 7 0" stroke="hsl(var(--background))" strokeWidth="1.2" fill="none" opacity="0.6" />
+  </svg>
+);
+

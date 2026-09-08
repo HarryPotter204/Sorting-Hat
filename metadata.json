@@ -1,0 +1,6 @@
+{
+  "name": "ハリー・ポッタ～９と3/4番線～",
+  "description": "質問に答えて、あなたの寮を診断します！",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -8,6 +8,7 @@ import { QuizProgressBar } from '@/components/quiz/QuizProgressBar';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, RotateCcw } from 'lucide-react';
 import { HOGWARTS_HOUSES } from '@/lib/constants';
+import { saveQuizResult } from '@/lib/storage';
 
 export default function QuizPage() {
   const { state, dispatch, currentQuestion, totalQuestions } = useQuiz();
@@ -16,9 +17,14 @@ export default function QuizPage() {
 
   useEffect(() => {
     if (state.isCompleted && state.sortedHouse) {
+      saveQuizResult({
+        userId: 'student_' + Math.random().toString(36).substring(2, 6),
+        houseName: state.sortedHouse,
+        scores: state.scores,
+      });
       router.push(`/quiz/result/${state.sortedHouse.toLowerCase()}`);
     }
-  }, [state.isCompleted, state.sortedHouse, router]);
+  }, [state.isCompleted, state.sortedHouse, state.scores, router]);
 
   if (!currentQuestion && !state.isCompleted) {
     return (
