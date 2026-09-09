@@ -10,7 +10,7 @@ import { AnnouncementBanner } from "@/components/shared/AnnouncementBanner";
 import { SortingHatIcon } from "@/components/icons/HouseIcons";
 
 export default function HomePage() {
-  const houses = Object.values(HOGWARTS_HOUSES);
+  const houses = Object.entries(HOGWARTS_HOUSES);
 
   return (
     <div className="flex flex-col items-center text-center space-y-6 sm:space-y-10 py-1 sm:py-6 max-w-lg sm:max-w-3xl mx-auto animate-fade-in-up">
@@ -91,7 +91,7 @@ export default function HomePage() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
-          {houses.map((house) => (
+          {houses.map(([houseKey, house]) => (
             <Card
               key={house.name}
               className={cn(
@@ -99,28 +99,34 @@ export default function HomePage() {
                 `theme-${house.name.toLowerCase()}`
               )}
             >
-              <CardHeader className="items-center p-2.5 sm:p-4 pb-1.5 sm:pb-2 bg-[hsl(var(--house-primary,_var(--card)))] text-[hsl(var(--house-secondary,_var(--card-foreground)))]">
-                <div className="relative w-14 h-14 sm:w-20 sm:h-20 mb-1 flex items-center justify-center">
-                  <Image
-                    src={house.crest}
-                    alt={`${house.name} Crest`}
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-contain rounded-full drop-shadow"
-                  />
-                </div>
-                <CardTitle className="font-headline text-[13px] sm:text-base md:text-lg font-bold whitespace-nowrap tracking-tight leading-none px-1">
-                  {house.name}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-2.5 sm:p-3 text-left">
-                <p className="text-[11px] sm:text-xs text-foreground/80 leading-snug line-clamp-2">
-                  <span className="text-primary font-semibold">特長:</span> {house.values.slice(0, 2).join(", ")}
-                </p>
-                <p className="mt-1 text-[10px] text-muted-foreground truncate">
-                  創設者: {house.founder}
-                </p>
-              </CardContent>
+              <Link
+                href={`/houses/${houseKey.toLowerCase()}`}
+                className="block transition-transform duration-200 motion-safe:hover:scale-[1.03]"
+                aria-label={`${house.name}の詳細を見る`}
+              >
+                <CardHeader className="items-center p-2.5 sm:p-4 pb-1.5 sm:pb-2 bg-[hsl(var(--house-primary,_var(--card)))] text-[hsl(var(--house-secondary,_var(--card-foreground)))]">
+                  <div className="relative w-14 h-14 sm:w-20 sm:h-20 mb-1 flex items-center justify-center overflow-hidden rounded-full">
+                    <Image
+                      src={house.crest}
+                      alt={`${house.name} Crest`}
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover rounded-full drop-shadow"
+                    />
+                  </div>
+                  <CardTitle className="font-headline text-[13px] sm:text-base md:text-lg font-bold whitespace-nowrap tracking-tight leading-none px-1">
+                    {house.name}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-2.5 sm:p-3 text-left">
+                  <p className="text-[11px] sm:text-xs text-foreground/80 leading-snug line-clamp-2">
+                    <span className="text-primary font-semibold">特長:</span> {house.values.slice(0, 2).join(", ")}
+                  </p>
+                  <p className="mt-1 text-[10px] text-muted-foreground truncate">
+                    創設者: {house.founder}
+                  </p>
+                </CardContent>
+              </Link>
             </Card>
           ))}
         </div>
@@ -149,4 +155,3 @@ export default function HomePage() {
     </div>
   );
 }
-
