@@ -12,10 +12,26 @@ export function AnnouncementBanner() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
+  const loadAnnouncements = () => {
     const list = getStoredAnnouncements();
     setAnnouncements(list);
     setIsAdmin(isAdminAuthenticated());
+  };
+
+  useEffect(() => {
+    loadAnnouncements();
+
+    const handleUpdate = () => {
+      loadAnnouncements();
+    };
+
+    window.addEventListener('hogwarts_announcements_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+
+    return () => {
+      window.removeEventListener('hogwarts_announcements_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
   }, []);
 
   if (announcements.length === 0) return null;
@@ -35,7 +51,7 @@ export function AnnouncementBanner() {
         >
           <div className="flex items-center gap-2 overflow-hidden min-w-0">
             <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/20 text-primary shrink-0">
-              <Megaphone className="h-3.5 w-3.5" />
+              <Megaphone className="h-3.5 w-3.5 text-yellow-400" />
             </span>
             <div className="truncate text-xs sm:text-sm">
               <span className="font-bold text-primary mr-1.5 shrink-0">【掲示板】</span>
@@ -62,31 +78,39 @@ export function AnnouncementBanner() {
                   ホグワーツ大広間 魔法掲示板
                 </DialogTitle>
                 <DialogDescription className="text-[11px] text-muted-foreground">
-                  全寮生および教職員に向けた最新の公式通知
+                  新入生組分け速報および全寮生・教職員への最新通知
                 </DialogDescription>
               </div>
             </div>
           </DialogHeader>
 
           <div className="space-y-3 max-h-[55vh] overflow-y-auto pr-1 py-1">
-            {announcements.map((item, idx) => (
-              <div 
-                key={item.id || idx}
-                className="p-3.5 rounded-xl bg-background/60 border border-primary/20 space-y-1.5 shadow-sm"
-              >
-                <div className="flex items-center justify-between gap-2">
-                  <h4 className="font-headline font-semibold text-primary text-sm sm:text-base leading-snug">
-                    {item.title}
-                  </h4>
-                  <span className="text-[10px] text-muted-foreground shrink-0">
-                    {item.date}
-                  </span>
+            {announcements.map((item, idx) => {
+              const isSorting = item.isSortingNotice || item.id?.startsWith('anno_sorting_') || item.title?.includes('組分け速報');
+              return (
+                <div 
+                  key={item.id || idx}
+                  className={`p-3.5 rounded-xl border space-y-1.5 shadow-sm transition-all ${
+                    isSorting 
+                      ? 'bg-primary/10 border-primary/50 shadow-md ring-1 ring-primary/20' 
+                      : 'bg-background/60 border-primary/20'
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2">
+                    <h4 className="font-headline font-semibold text-primary text-sm sm:text-base leading-snug flex items-center gap-1.5">
+                      {isSorting ? <span className="text-yellow-400">✨</span> : null}
+                      <span>{item.title}</span>
+                    </h4>
+                    <span className="text-[10px] text-muted-foreground shrink-0">
+                      {item.date}
+                    </span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed">
+                    {item.message}
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm text-foreground/90 whitespace-pre-wrap leading-relaxed">
-                  {item.message}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="pt-3 border-t border-border/60 flex flex-col gap-2.5 text-xs">

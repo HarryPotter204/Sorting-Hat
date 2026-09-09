@@ -69,7 +69,7 @@ export default function LeaderboardPage() {
   const [leaderboardData, setLeaderboardData] = useState<HouseStat[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const loadData = () => {
     const counts = getAggregatedHouseCounts();
     const stats: HouseStat[] = HOUSE_NAMES_ARRAY.map((name) => ({
       name,
@@ -78,22 +78,42 @@ export default function LeaderboardPage() {
 
     setLeaderboardData(stats);
     setIsLoading(false);
+  };
+
+  useEffect(() => {
+    loadData();
+
+    const handleUpdate = () => {
+      loadData();
+    };
+
+    window.addEventListener('hogwarts_house_counts_updated', handleUpdate);
+    window.addEventListener('storage', handleUpdate);
+
+    return () => {
+      window.removeEventListener('hogwarts_house_counts_updated', handleUpdate);
+      window.removeEventListener('storage', handleUpdate);
+    };
   }, []);
 
+  const totalCount = leaderboardData.reduce((sum, stat) => sum + stat.count, 0);
   const maxCount = Math.max(...leaderboardData.map((stat) => stat.count), 0);
 
   return (
     <div className="py-4 sm:py-8 px-2 sm:px-4 max-w-xl sm:max-w-3xl mx-auto animate-fade-in-up">
       <header className="text-center mb-6 sm:mb-8">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-primary/40 bg-primary/10 text-primary text-xs font-medium mb-2.5">
-          <Sparkles className="h-3.5 w-3.5" /> ホグワーツ勢力図
+          <Sparkles className="h-3.5 w-3.5 text-yellow-400" /> 世界の寮リーダーボード
         </div>
         <h1 className="text-2xl sm:text-4xl font-headline font-bold text-primary mb-2">
-          寮別リーダーボード
+          世界の寮別リーダーボード
         </h1>
         <p className="text-xs sm:text-sm text-foreground/80 max-w-md mx-auto">
-          現在、どの寮が多くの生徒を迎えているか確認できます。
+          組分け帽子による実際の受検回数をリアルタイムに集計しています
         </p>
+        <div className="mt-3 inline-block px-3 py-1 rounded-lg bg-background/60 border border-primary/25 text-xs text-primary font-semibold">
+          実受検総数: <span className="text-yellow-400 font-bold">{totalCount.toLocaleString()}</span> 名
+        </div>
       </header>
 
 
@@ -106,7 +126,7 @@ export default function LeaderboardPage() {
           {leaderboardData.map((stat, index) => (
             <div key={stat.name} className="relative">
               <LeaderboardBar houseStat={stat} maxCount={maxCount} rank={index + 1} />
-              {index === 0 && (
+              {index === 0 && totalCount > 0 && (
                 <Award
                   className="absolute -top-3 -right-3 h-8 w-8 text-yellow-400 transform rotate-12 fill-current"
                   style={{ filter: "drop-shadow(0 0 5px gold)" }}
@@ -129,7 +149,7 @@ export default function LeaderboardPage() {
       )}
 
       <p className="text-center text-xs text-muted-foreground mt-8">
-        診断を受けるごとに、各寮の生徒数カウントにあなたの結果が反映されます。
+        診断を受けるごとに、各寮の生徒数カウントにあなたの結果が即座に反映されます。
       </p>
     </div>
   );

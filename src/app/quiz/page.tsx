@@ -8,20 +8,42 @@ import { QuestionCard } from '@/components/quiz/QuestionCard';
 import { QuizProgressBar } from '@/components/quiz/QuizProgressBar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowLeft, Sparkles, Home, UserCheck } from 'lucide-react';
-import { saveQuizResult } from '@/lib/storage';
+import { ArrowLeft, Sparkles, Home, UserCheck, Edit3 } from 'lucide-react';
+import { saveQuizResult, getSavedNickname, saveNickname, completeSortingProcess } from '@/lib/storage';
 import Link from 'next/link';
 
 export default function QuizPage() {
   const { state, dispatch, currentQuestion, totalQuestions } = useQuiz();
   const router = useRouter();
+
+  const [savedNick, setSavedNick] = useState('');
   const [hasStarted, setHasStarted] = useState(() => {
-    return state.currentQuestionIndex > 0 || Object.keys(state.answers).length > 0;
+    if (typeof window !== 'undefined') {
+      const stored = getSavedNickname();
+      if (stored) return true;
+    }
+    return Boolean(state.nickname) || state.currentQuestionIndex > 0 || Object.keys(state.answers).length > 0;
   });
+
   const [nicknameInput, setNicknameInput] = useState(state.nickname || '');
+  const [isEditingNick, setIsEditingNick] = useState(false);
+  const [editNickInput, setEditNickInput] = useState('');
   const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const isCompletingRef = useRef(false);
+
+  // Initialize saved nickname on client mount
+  useEffect(() => {
+    const stored = getSavedNickname();
+    if (stored) {
+      setSavedNick(stored);
+      if (!state.nickname) {
+        dispatch({ type: 'SET_NICKNAME', nickname: stored });
+      }
+      setHasStarted(true);
+    }
+  }, [state.nickname, dispatch]);
 
   // Sync selectedOption with current question's existing answer (e.g. after going back)
   useEffect(() => {
@@ -39,26 +61,44 @@ export default function QuizPage() {
     };
   }, []);
 
-  // When quiz is completed, save and redirect
+  // When quiz is completed, save, update leaderboard stats, post to bulletin board, and redirect
   useEffect(() => {
-    if (state.isCompleted && state.sortedHouse) {
-      const finalNick = state.nickname || nicknameInput.trim() || '新入生';
-      saveQuizResult({
-        userId: 'student_' + Math.random().toString(36).substring(2, 6),
+    if (state.isCompleted && state.sortedHouse && !isCompletingRef.current) {
+      isCompletingRef.current = true;
+      const finalNick = state.nickname || getSavedNickname() || nicknameInput.trim() || '新入生';
+      
+      // Execute complete sorting workflow:
+      // 1. Saves nickname to persistent storage
+      // 2. Saves quiz result into history
+      // 3. Immediately updates leaderboard counts (getAggregatedHouseCounts)
+      // 4. Publishes sorting notice to the bulletin board (掲示板)
+      const { result } = completeSortingProcess({
         nickname: finalNick,
         houseName: state.sortedHouse,
         scores: state.scores,
       });
-      router.push(`/quiz/result/${state.sortedHouse.toLowerCase()}`);
+
+      router.push(`/quiz/result/${state.sortedHouse.toLowerCase()}?id=${result.id}`);
     }
   }, [state.isCompleted, state.sortedHouse, state.scores, state.nickname, nicknameInput, router]);
 
   const handleStartQuiz = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     const finalNick = nicknameInput.trim() || '新入生';
+    saveNickname(finalNick);
+    setSavedNick(finalNick);
     dispatch({ type: 'SET_NICKNAME', nickname: finalNick });
     dispatch({ type: 'START_QUIZ', nickname: finalNick });
     setHasStarted(true);
+  };
+
+  const handleSaveEditedNick = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const updated = editNickInput.trim() || '新入生';
+    saveNickname(updated);
+    setSavedNick(updated);
+    dispatch({ type: 'SET_NICKNAME', nickname: updated });
+    setIsEditingNick(false);
   };
 
   // Nickname entry screen before starting
@@ -171,15 +211,45 @@ export default function QuizPage() {
       <div className="w-full space-y-2">
         {state.nickname ? (
           <div className="flex items-center justify-between px-1 text-xs text-primary/90">
-            <span className="flex items-center gap-1 font-medium">
+            <div className="flex items-center gap-1 font-medium">
               <UserCheck className="w-3.5 h-3.5 text-yellow-400" />
-              生徒: <strong className="text-primary">{state.nickname}</strong>
-            </span>
+              <span>生徒: <strong className="text-primary">{state.nickname}</strong></span>
+              {!isEditingNick ? (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditNickInput(state.nickname || '');
+                    setIsEditingNick(true);
+                  }}
+                  className="text-[10px] text-muted-foreground hover:text-primary underline ml-1"
+                  title="ニックネームを変更"
+                >
+                  (変更)
+                </button>
+              ) : null}
+            </div>
             <span className="text-[11px] text-muted-foreground">
               問 {state.currentQuestionIndex + 1} / {totalQuestions}
             </span>
           </div>
         ) : null}
+
+        {isEditingNick ? (
+          <form onSubmit={handleSaveEditedNick} className="flex items-center gap-2 p-2 rounded-lg bg-card/90 border border-primary/30 text-xs">
+            <span className="text-primary font-semibold shrink-0">名前変更:</span>
+            <Input
+              type="text"
+              value={editNickInput}
+              onChange={(e) => setEditNickInput(e.target.value)}
+              className="h-7 text-xs bg-background"
+              maxLength={20}
+              autoFocus
+            />
+            <Button type="submit" size="sm" className="h-7 px-2 text-xs button-gold shrink-0">保存</Button>
+            <Button type="button" variant="ghost" size="sm" onClick={() => setIsEditingNick(false)} className="h-7 px-2 text-xs shrink-0">取消</Button>
+          </form>
+        ) : null}
+
         <QuizProgressBar currentStep={state.currentQuestionIndex + 1} totalSteps={totalQuestions} />
       </div>
       

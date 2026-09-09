@@ -10,7 +10,7 @@ import { SortingHatIcon } from '@/components/icons/HouseIcons';
 
 const navItems = [
   { href: '/', label: '大広間', icon: Home },
-  { href: '/quiz', label: '組分け' },
+  { href: '/quiz', label: '組分け', icon: SortingHatIcon },
   { href: '/history', label: '記録', icon: ListChecks },
   { href: '/leaderboard', label: '寮統計', icon: BarChart3 },
   { href: '/admin', label: '教職員', icon: Settings },

@@ -7,14 +7,14 @@ import { HouseCrestDisplay } from '@/components/results/HouseCrestDisplay';
 import { HouseInfoCard } from '@/components/results/HouseInfoCard';
 import { AIFactGenerator } from '@/components/results/AIFactGenerator';
 import { Button } from '@/components/ui/button';
-import { RotateCcw, Share2, Download, Copy, Check, ExternalLink, Sparkles } from 'lucide-react';
+import { RotateCcw, Share2, Download, Copy, Check, ExternalLink, Sparkles, FileDown, Megaphone } from 'lucide-react';
 import Link from 'next/link';
 import { useEffect, useState, useRef } from 'react';
 import { useQuiz } from '@/context/QuizContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
-import { saveQuizResult, getLatestQuizResult, getQuizResultById, getStoredQuizResults } from '@/lib/storage';
+import { saveQuizResult, getLatestQuizResult, getQuizResultById, getStoredQuizResults, getSavedNickname, completeSortingProcess } from '@/lib/storage';
 import { useToast } from '@/hooks/use-toast';
 
 export default function HouseResultPage() {
@@ -30,10 +30,13 @@ export default function HouseResultPage() {
   const [showShareModal, setShowShareModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
   const savedRef = useRef(false);
 
   const [nickname, setNickname] = useState<string>(() => {
     if (quizState.nickname) return quizState.nickname;
+    const saved = getSavedNickname();
+    if (saved) return saved;
     const latest = getLatestQuizResult();
     if (latest?.nickname) return latest.nickname;
     return '';
@@ -95,18 +98,20 @@ export default function HouseResultPage() {
     }
   }, [houseName, searchParams, quizState.scores, quizState.nickname]);
 
-  // Automatically save to history on mount if completed in this session
+  // Automatically ensure sorting stats and bulletin board notice are updated if completed in this session
   useEffect(() => {
     if (quizState.isCompleted && houseName && HOGWARTS_HOUSES[houseName] && !savedRef.current) {
       savedRef.current = true;
-      saveQuizResult({
-        userId: 'student_' + Math.random().toString(36).substring(2, 6),
-        nickname: nickname || quizState.nickname || '新入生',
-        houseName: houseName,
-        scores: displayScores,
-      });
+      const searchId = searchParams.get('id');
+      if (!searchId) {
+        completeSortingProcess({
+          nickname: nickname || quizState.nickname || getSavedNickname() || '新入生',
+          houseName: houseName,
+          scores: displayScores,
+        });
+      }
     }
-  }, [quizState.isCompleted, houseName, displayScores, nickname, quizState.nickname]);
+  }, [quizState.isCompleted, houseName, displayScores, nickname, quizState.nickname, searchParams]);
 
 
   if (!houseName || !HOGWARTS_HOUSES[houseName]) {
@@ -169,143 +174,247 @@ export default function HouseResultPage() {
     }
   };
   
+  const generateCertificateCanvas = async (): Promise<HTMLCanvasElement | null> => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 1000;
+    canvas.height = 1414; // Standard A4 aspect ratio
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return null;
+
+    // Background Gradient: Deep magical twilight & nocturnal navy
+    const grad = ctx.createLinearGradient(0, 0, 1000, 1414);
+    grad.addColorStop(0, '#090e23');
+    grad.addColorStop(0.3, '#131b3e');
+    grad.addColorStop(0.7, '#1b2349');
+    grad.addColorStop(1, '#070b1c');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 1000, 1414);
+
+    // Subtle star glimmers
+    ctx.fillStyle = 'rgba(255, 215, 0, 0.28)';
+    for (let i = 0; i < 60; i++) {
+      const sx = (i * 137.5) % 940 + 30;
+      const sy = (i * 241.9) % 1350 + 30;
+      const radius = (i % 3) + 1;
+      ctx.beginPath();
+      ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Outer double gold border
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 6;
+    ctx.strokeRect(36, 36, 928, 1342);
+
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.45)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(48, 48, 904, 1318);
+
+    // Corner flourishes
+    const drawCorner = (x: number, y: number, angle: number) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.strokeStyle = '#FFD700';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(50, 0);
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, 50);
+      ctx.moveTo(14, 14);
+      ctx.lineTo(34, 14);
+      ctx.moveTo(14, 14);
+      ctx.lineTo(14, 34);
+      ctx.stroke();
+      ctx.restore();
+    };
+    drawCorner(64, 64, 0);
+    drawCorner(936, 64, Math.PI / 2);
+    drawCorner(936, 1350, Math.PI);
+    drawCorner(64, 1350, -Math.PI / 2);
+
+    // Header text
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#E5C158';
+    ctx.font = 'bold 22px serif';
+    ctx.fillText('HOGWARTS SCHOOL of WITCHCRAFT and WIZARDRY', 500, 110);
+
+    ctx.font = 'bold 34px serif';
+    ctx.fillStyle = '#FFD700';
+    ctx.fillText('ホグワーツ魔法魔術学校 ・ 組分け公式認定証', 500, 158);
+
+    // Golden Divider line
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(220, 185);
+    ctx.lineTo(780, 185);
+    ctx.stroke();
+
+    // Student Name Box
+    const studentName = nickname || '新入生';
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.12)';
+    ctx.fillRect(180, 205, 640, 52);
+    ctx.strokeStyle = 'rgba(212, 175, 55, 0.5)';
+    ctx.strokeRect(180, 205, 640, 52);
+
+    ctx.font = 'bold 24px serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(`生徒氏名： ${studentName}  殿`, 500, 240);
+
+    // Load and draw crest image
+    const img = new window.Image();
+    img.crossOrigin = 'anonymous';
+    await new Promise<void>((resolve) => {
+      img.onload = () => resolve();
+      img.onerror = () => resolve();
+      img.src = house.crest;
+    });
+
+    if (img.complete && img.naturalHeight !== 0) {
+      ctx.drawImage(img, 365, 275, 270, 270);
+    }
+
+    // House Name in Japanese & English
+    ctx.font = 'bold 56px serif';
+    ctx.fillStyle = '#FFD700';
+    ctx.fillText(house.name, 500, 595);
+
+    ctx.font = 'bold 22px serif';
+    ctx.fillStyle = '#F0E6D2';
+    ctx.fillText(`【創設者：${house.founder}】`, 500, 638);
+
+    // House attributes
+    ctx.font = '18px serif';
+    ctx.fillStyle = '#CBD5E1';
+    ctx.fillText(`象徴動物: ${house.animal}  |  四大元素: ${house.element}  |  談話室: ${house.commonRoom}`, 500, 672);
+
+    // Values box
+    ctx.fillStyle = 'rgba(255, 215, 0, 0.1)';
+    ctx.fillRect(120, 700, 760, 95);
+    ctx.strokeStyle = 'rgba(255, 215, 0, 0.35)';
+    ctx.strokeRect(120, 700, 760, 95);
+
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillStyle = '#FFD700';
+    ctx.fillText('尊ばれる徳目', 500, 736);
+    ctx.font = '20px sans-serif';
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillText(house.values.join('   ・   '), 500, 770);
+
+    // House Quote
+    ctx.font = 'italic 19px serif';
+    ctx.fillStyle = '#E2E8F0';
+    const quoteLines = house.quote.split('\n');
+    quoteLines.forEach((line, index) => {
+      ctx.fillText(line, 500, 835 + index * 32);
+    });
+
+    // Affinity Score Summary
+    if (totalScoreSum > 0) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+      ctx.fillRect(120, 990, 760, 75);
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.25)';
+      ctx.strokeRect(120, 990, 760, 75);
+
+      ctx.font = '15px sans-serif';
+      ctx.fillStyle = '#CBD5E1';
+      ctx.fillText('【寮親和度スコア分布】', 500, 1018);
+
+      const affinityText = HOUSE_NAMES_ARRAY.map((hn) => {
+        const sc = displayScores[hn] || 0;
+        const pct = ((Math.max(0, sc) / totalScoreSum) * 100).toFixed(0);
+        return `${HOGWARTS_HOUSES[hn].name}: ${pct}%`;
+      }).join('   |   ');
+
+      ctx.font = 'bold 16px sans-serif';
+      ctx.fillStyle = '#FFD700';
+      ctx.fillText(affinityText, 500, 1048);
+    }
+
+    // Bottom Certification
+    const today = new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
+    ctx.font = '17px serif';
+    ctx.fillStyle = '#CBD5E1';
+    ctx.fillText(`授与日: ${today}`, 500, 1140);
+
+    // Official Hat Seal Stamp
+    ctx.save();
+    ctx.strokeStyle = '#D4AF37';
+    ctx.fillStyle = 'rgba(180, 20, 20, 0.3)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(500, 1220, 52, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.font = 'bold 16px serif';
+    ctx.fillStyle = '#FFD700';
+    ctx.fillText('★ 組分け帽子 ★', 500, 1215);
+    ctx.font = 'bold 15px serif';
+    ctx.fillText('公式認可証', 500, 1235);
+    ctx.restore();
+
+    ctx.font = '13px sans-serif';
+    ctx.fillStyle = '#94A3B8';
+    ctx.fillText('The Sorting Hat has spoken. Your magical journey at Hogwarts begins.', 500, 1315);
+
+    return canvas;
+  };
+
+  // PDF format download
+  const handleDownloadPdf = async () => {
+    setIsDownloadingPdf(true);
+    try {
+      const canvas = await generateCertificateCanvas();
+      if (!canvas) throw new Error('Canvas could not be rendered');
+
+      const studentName = nickname || '新入生';
+      const jsPdfModule = await import('jspdf');
+      const JsPdfConstructor = jsPdfModule.jsPDF || (jsPdfModule as unknown as { default: typeof jsPdfModule.jsPDF }).default;
+      const pdf = new JsPdfConstructor({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const imgData = canvas.toDataURL('image/png', 1.0);
+      pdf.addImage(imgData, 'PNG', 0, 0, 210, 297, undefined, 'FAST');
+      pdf.save(`hogwarts_certificate_${houseName.toLowerCase()}_${studentName}.pdf`);
+
+      toast({
+        title: "装飾PDF認定証をダウンロードしました！",
+        description: `【${house.name}】の公式組分け認定証（PDF）が保存されました。`,
+      });
+    } catch (e) {
+      console.error('PDF download error', e);
+      toast({
+        title: "PDF生成中にエラーが発生しました",
+        description: "もう一度お試しください。",
+        variant: "destructive",
+      });
+    } finally {
+      setIsDownloadingPdf(false);
+    }
+  };
+  
+  // PNG image format download
   const handleDownloadCard = async () => {
     setIsDownloading(true);
     try {
-      const canvas = document.createElement('canvas');
-      canvas.width = 1000;
-      canvas.height = 1250;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
+      const canvas = await generateCertificateCanvas();
+      if (!canvas) throw new Error('Canvas could not be rendered');
 
-      // Draw background
-      const grad = ctx.createLinearGradient(0, 0, 1000, 1250);
-      grad.addColorStop(0, '#121838');
-      grad.addColorStop(0.5, '#1A237E');
-      grad.addColorStop(1, '#0c102a');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 1000, 1250);
-
-      // Gold ornate border
-      ctx.strokeStyle = '#FFD700';
-      ctx.lineWidth = 10;
-      ctx.strokeRect(30, 30, 940, 1190);
-
-      ctx.strokeStyle = 'rgba(255, 215, 0, 0.4)';
-      ctx.lineWidth = 3;
-      ctx.strokeRect(45, 45, 910, 1160);
-
-      // Corner ornaments
-      const drawCorner = (x: number, y: number, angle: number) => {
-        ctx.save();
-        ctx.translate(x, y);
-        ctx.rotate(angle);
-        ctx.strokeStyle = '#FFD700';
-        ctx.lineWidth = 4;
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(40, 0);
-        ctx.moveTo(0, 0);
-        ctx.lineTo(0, 40);
-        ctx.stroke();
-        ctx.restore();
-      };
-      drawCorner(60, 60, 0);
-      drawCorner(940, 60, Math.PI / 2);
-      drawCorner(940, 1190, Math.PI);
-      drawCorner(60, 1190, -Math.PI / 2);
-
-      // Header text
-      ctx.textAlign = 'center';
-      ctx.fillStyle = '#FFD700';
-      ctx.font = 'bold 32px serif';
-      ctx.fillText('HOGWARTS SCHOOL of WITCHCRAFT and WIZARDRY', 500, 120);
-
-      ctx.font = '24px serif';
-      ctx.fillStyle = '#E6E6FA';
-      ctx.fillText('ホグワーツ魔法魔術学校 ・ 組分け認定証', 500, 165);
-
-      // Divider line
-      ctx.strokeStyle = '#FFD700';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(250, 185);
-      ctx.lineTo(750, 185);
-      ctx.stroke();
-
-      // Student Name on certificate
       const studentName = nickname || '新入生';
-      ctx.font = 'bold 24px serif';
-      ctx.fillStyle = '#f5d77f';
-      ctx.fillText(`生徒氏名: ${studentName} 殿`, 500, 218);
-
-      // Load and draw crest image
-      const img = new window.Image();
-      img.crossOrigin = 'anonymous';
-      await new Promise<void>((resolve) => {
-        img.onload = () => resolve();
-        img.onerror = () => resolve(); // continue even if image fails
-        img.src = house.crest;
-      });
-
-      if (img.complete && img.naturalHeight !== 0) {
-        ctx.drawImage(img, 360, 240, 280, 280);
-      }
-
-      // House Name
-      ctx.font = 'bold 64px serif';
-      ctx.fillStyle = '#FFD700';
-      ctx.fillText(house.name, 500, 580);
-
-
-      ctx.font = '24px serif';
-      ctx.fillStyle = '#dcdcdc';
-      ctx.fillText(`【創設者：${house.founder}】`, 500, 630);
-
-      // Values box
-      ctx.fillStyle = 'rgba(255, 215, 0, 0.08)';
-      ctx.fillRect(150, 670, 700, 110);
-      ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
-      ctx.strokeRect(150, 670, 700, 110);
-
-      ctx.font = 'bold 28px sans-serif';
-      ctx.fillStyle = '#FFD700';
-      ctx.fillText('尊ばれる徳目', 500, 715);
-      ctx.font = '22px sans-serif';
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillText(house.values.join('  ・  '), 500, 755);
-
-      // House Quote
-      ctx.font = 'italic 20px serif';
-      ctx.fillStyle = '#e0e0e0';
-      const quoteLines = house.quote.split('\n');
-      quoteLines.forEach((line, index) => {
-        ctx.fillText(line, 500, 830 + index * 32);
-      });
-
-      // Bottom Certification
-      const today = new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
-      ctx.font = '18px serif';
-      ctx.fillStyle = '#b0b8d0';
-      ctx.fillText(`授与日: ${today}`, 500, 1020);
-
-      ctx.font = 'bold 24px serif';
-      ctx.fillStyle = '#FFD700';
-      ctx.fillText('組分け帽子 認可済', 500, 1065);
-
-      ctx.font = '14px sans-serif';
-      ctx.fillStyle = '#8a94b8';
-      ctx.fillText('The Sorting Hat has spoken. Your journey at Hogwarts begins.', 500, 1110);
-
-      // Download
       const link = document.createElement('a');
-      link.download = `hogwarts-sorting-${houseName.toLowerCase()}.png`;
+      link.download = `hogwarts-sorting-${houseName.toLowerCase()}-${studentName}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
 
       toast({
-        title: "認定証をダウンロードしました！",
-        description: `【${house.name}】の組分け証が画像として保存されました。`,
+        title: "認定証画像を保存しました！",
+        description: `【${house.name}】の組分け認定証（画像）が保存されました。`,
       });
     } catch (e) {
       console.error(e);
@@ -343,12 +452,12 @@ export default function HouseResultPage() {
         <AIFactGenerator houseName={house.name} />
       </div>
 
-      {/* Shareable Card & Actions */}
-      <Card className={cn("w-full max-w-md enchanted-parchment-dark", `theme-${house.name.toLowerCase()}`)}>
+      {/* Shareable Certificate Card & Actions */}
+      <Card className={cn("w-full max-w-lg enchanted-parchment-dark", `theme-${house.name.toLowerCase()}`)}>
         <CardHeader>
           <CardTitle className="font-headline text-xl text-[hsl(var(--house-primary))] flex items-center justify-center gap-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            組分けの証明
+            組分けの公式認定証
           </CardTitle>
         </CardHeader>
         <CardContent className="text-center space-y-4">
@@ -356,17 +465,37 @@ export default function HouseResultPage() {
             {nickname ? `祝福を、${nickname} 殿！` : '祝福を！'} あなたはまさに <strong className="text-[hsl(var(--house-secondary))]">{house.name}</strong> の精神を受け継ぐ者です。
           </p>
 
-          <div className="flex justify-center space-x-3">
-            <Button onClick={handleShare} variant="outline" className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)]">
-              <Share2 className="mr-2 h-4 w-4" /> 共有
+          <div className="p-3 rounded-lg bg-primary/10 border border-primary/30 text-xs text-foreground/90 flex items-center justify-center gap-2">
+            <Megaphone className="h-4 w-4 text-yellow-400 shrink-0" />
+            <span>あなたの組分け結果は、大広間の【魔法掲示板】にも速報として掲示されました！</span>
+          </div>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-2.5 pt-2">
+            <Button 
+              onClick={handleDownloadPdf} 
+              disabled={isDownloadingPdf} 
+              className="button-gold shadow-md font-semibold text-xs sm:text-sm h-10 px-4"
+            >
+              <FileDown className="mr-2 h-4 w-4 text-yellow-400" />
+              {isDownloadingPdf ? 'PDF生成中...' : '装飾PDF認定証をダウンロード'}
             </Button>
+            
             <Button 
               onClick={handleDownloadCard} 
               disabled={isDownloading} 
               variant="outline" 
-              className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)]"
+              className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)] text-xs sm:text-sm h-10"
             >
-              <Download className="mr-2 h-4 w-4" /> {isDownloading ? '生成中...' : '認定証を保存'}
+              <Download className="mr-2 h-4 w-4" />
+              {isDownloading ? '生成中...' : '画像(PNG)保存'}
+            </Button>
+
+            <Button 
+              onClick={handleShare} 
+              variant="outline" 
+              className="border-[hsl(var(--house-primary))] text-[hsl(var(--house-primary))] hover:bg-[hsl(var(--house-primary)_/_0.1)] text-xs sm:text-sm h-10"
+            >
+              <Share2 className="mr-2 h-4 w-4" /> 共有
             </Button>
           </div>
         </CardContent>

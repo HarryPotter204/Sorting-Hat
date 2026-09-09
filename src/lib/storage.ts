@@ -6,6 +6,8 @@ export interface Announcement {
   title: string;
   message: string;
   date: string;
+  houseName?: HouseName;
+  isSortingNotice?: boolean;
 }
 
 export interface FactItem {
@@ -20,6 +22,8 @@ const STORAGE_KEYS = {
   ANNOUNCEMENTS: 'hogwarts_announcements',
   QUESTIONS: 'hogwarts_quiz_questions',
   FACTS: 'hogwarts_ai_facts',
+  SAVED_NICKNAME: 'hogwarts_saved_nickname',
+  HOUSE_COUNTS: 'hogwarts_house_counts',
 };
 
 const DEFAULT_ANNOUNCEMENTS: Announcement[] = [
@@ -92,6 +96,18 @@ export function deleteQuizResult(id: string): void {
   } catch (e) {
     console.error('Failed to delete quiz result', e);
   }
+}
+
+export function getQuizResultById(id: string | null): UserQuizResult | undefined {
+  if (!id || !isBrowser()) return undefined;
+  const results = getStoredQuizResults();
+  return results.find((r) => r.id === id);
+}
+
+export function getLatestQuizResult(): UserQuizResult | undefined {
+  if (!isBrowser()) return undefined;
+  const results = getStoredQuizResults();
+  return results[0];
 }
 
 export function clearQuizResults(): void {
@@ -255,23 +271,157 @@ export function addStoredFact(house: string, text: string): FactItem[] {
   }
 }
 
-// ---------------- Aggregate Sorting Counts ----------------
-export function getAggregatedHouseCounts(): Record<HouseName, number> {
-  const baseCounts: Record<HouseName, number> = {
-    Gryffindor: 1420,
-    Ravenclaw: 1280,
-    Hufflepuff: 1190,
-    Slytherin: 1350,
+// ---------------- Nickname Persistence ----------------
+export function getSavedNickname(): string {
+  if (!isBrowser()) return '';
+  try {
+    return localStorage.getItem(STORAGE_KEYS.SAVED_NICKNAME) || '';
+  } catch {
+    return '';
+  }
+}
+
+export function saveNickname(nickname: string): void {
+  if (!isBrowser()) return;
+  try {
+    const trimmed = nickname.trim();
+    if (trimmed) {
+      localStorage.setItem(STORAGE_KEYS.SAVED_NICKNAME, trimmed);
+    }
+  } catch (e) {
+    console.error('Failed to save nickname', e);
+  }
+}
+
+export function clearSavedNickname(): void {
+  if (!isBrowser()) return;
+  try {
+    localStorage.removeItem(STORAGE_KEYS.SAVED_NICKNAME);
+  } catch (e) {
+    console.error('Failed to clear nickname', e);
+  }
+}
+
+// ---------------- Sorting Bulletin Notice ----------------
+export function addSortingAnnouncement(nickname: string, houseName: HouseName): Announcement {
+  const houseJp: Record<HouseName, string> = {
+    Gryffindor: 'グリフィンドール',
+    Ravenclaw: 'レイブンクロー',
+    Hufflepuff: 'ハッフルパフ',
+    Slytherin: 'スリザリン',
+  };
+  const jName = houseJp[houseName] || houseName;
+  const newAnnouncement: Announcement = {
+    id: 'anno_sorting_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+    title: `✨ 【組分け速報】${nickname}さんが${jName}に決定！`,
+    message: `本日、新入生「${nickname}」殿の組分けの儀式が完了しました。\n組分け帽子によって選ばれた寮は【${jName}（${houseName}）】です！\n寮生の皆様、盛大な拍手で新しい仲間を歓迎してください！🎉`,
+    date: new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }),
+    houseName,
+    isSortingNotice: true,
   };
 
+  if (!isBrowser()) return newAnnouncement;
+
+  try {
+    const existing = getStoredAnnouncements();
+    const updated = [newAnnouncement, ...existing];
+    localStorage.setItem(STORAGE_KEYS.ANNOUNCEMENTS, JSON.stringify(updated));
+    window.dispatchEvent(new CustomEvent('hogwarts_announcements_updated'));
+  } catch (e) {
+    console.error('Failed to add sorting announcement', e);
+  }
+
+  return newAnnouncement;
+}
+
+// ---------------- Aggregate Sorting Counts ----------------
+// Reflects the actual count of sorting hat diagnostics
+export function getAggregatedHouseCounts(): Record<HouseName, number> {
+  const counts: Record<HouseName, number> = {
+    Gryffindor: 0,
+    Ravenclaw: 0,
+    Hufflepuff: 0,
+    Slytherin: 0,
+  };
+
+  if (!isBrowser()) return counts;
+
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.HOUSE_COUNTS);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      let isValid = false;
+      (['Gryffindor', 'Ravenclaw', 'Hufflepuff', 'Slytherin'] as HouseName[]).forEach((name) => {
+        if (typeof parsed[name] === 'number') {
+          counts[name] = parsed[name];
+          isValid = true;
+        }
+      });
+      if (isValid) return counts;
+    }
+  } catch (e) {
+    console.error('Failed to parse stored house counts', e);
+  }
+
+  // If not explicitly stored, derive accurately from stored sorting history
   const results = getStoredQuizResults();
   results.forEach((res) => {
-    if (res.houseName && baseCounts[res.houseName] !== undefined) {
-      baseCounts[res.houseName] += 1;
+    if (res.houseName && counts[res.houseName] !== undefined) {
+      counts[res.houseName] += 1;
     }
   });
 
-  return baseCounts;
+  try {
+    localStorage.setItem(STORAGE_KEYS.HOUSE_COUNTS, JSON.stringify(counts));
+  } catch (e) {
+    console.error('Failed to initialize house counts', e);
+  }
+
+  return counts;
+}
+
+export function updateHouseCount(houseName: HouseName): Record<HouseName, number> {
+  const current = getAggregatedHouseCounts();
+  if (current[houseName] !== undefined) {
+    current[houseName] += 1;
+  }
+  if (isBrowser()) {
+    try {
+      localStorage.setItem(STORAGE_KEYS.HOUSE_COUNTS, JSON.stringify(current));
+      window.dispatchEvent(new CustomEvent('hogwarts_house_counts_updated'));
+    } catch (e) {
+      console.error('Failed to save updated house count', e);
+    }
+  }
+  return current;
+}
+
+// ---------------- Complete Sorting Workflow Helper ----------------
+export function completeSortingProcess(data: {
+  nickname: string;
+  houseName: HouseName;
+  scores: Partial<Record<HouseName, number>>;
+}): { result: UserQuizResult; announcement: Announcement; counts: Record<HouseName, number> } {
+  // 1. Persist nickname so subsequent sortings do not prompt again
+  if (data.nickname) {
+    saveNickname(data.nickname);
+  }
+
+  // 2. Save individual user quiz result to history
+  const result = saveQuizResult({
+    userId: 'student_' + Math.random().toString(36).substring(2, 6),
+    nickname: data.nickname,
+    houseName: data.houseName,
+    scores: data.scores,
+  });
+
+  // 3. Immediately update house leaderboard statistics
+  const counts = updateHouseCount(data.houseName);
+
+  // 4. Publish sorting notice to the Hogwarts notice board
+  const announcement = addSortingAnnouncement(data.nickname, data.houseName);
+
+  return { result, announcement, counts };
 }
 
 // ---------------- Admin Authentication ----------------

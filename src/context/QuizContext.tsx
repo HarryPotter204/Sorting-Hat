@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useReducer, ReactNode, Dispatch, useEffect } from 'react';
 import { QUIZ_QUESTIONS, HOUSE_NAMES_ARRAY } from '@/lib/constants';
 import type { QuizState, HouseName, QuizQuestion } from '@/lib/types';
-import { getStoredQuestions } from '@/lib/storage';
+import { getStoredQuestions, getSavedNickname } from '@/lib/storage';
 
 type QuizAction =
   | { type: 'SET_QUESTIONS'; questions: QuizQuestion[] }
@@ -129,7 +129,7 @@ const quizReducer = (state: ExtendedQuizState, action: QuizAction): ExtendedQuiz
     case 'RETAKE_QUIZ':
       return {
         ...initialQuizState,
-        nickname: state.nickname,
+        nickname: state.nickname || getSavedNickname(),
         questionsList: state.questionsList,
         scores: HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {}),
       };
@@ -150,6 +150,10 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     reloadQuestions();
+    const saved = getSavedNickname();
+    if (saved) {
+      dispatch({ type: 'SET_NICKNAME', nickname: saved });
+    }
   }, []);
 
   const questions = state.questionsList;
