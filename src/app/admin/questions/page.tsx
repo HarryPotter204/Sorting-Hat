@@ -2,26 +2,54 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { PlusCircle, Trash2, RotateCcw, HelpCircle } from "lucide-react";
 import Link from "next/link";
 import { QuizQuestion, HouseName } from "@/lib/types";
-import {
-  getStoredQuestions,
-  saveNewQuestion,
-  deleteQuestion,
-  resetQuestionsToDefault,
-} from "@/lib/storage";
 import { useToast } from "@/hooks/use-toast";
 import { useQuiz } from "@/context/QuizContext";
 
+async function fetchQuizQuestions(): Promise<QuizQuestion[]> {
+  const response = await fetch("/api/quiz-questions", { cache: "no-store" });
+  if (!response.ok) {
+    throw new Error(`Quiz questions request failed: ${response.status}`);
+  }
+  const data: { questions?: QuizQuestion[] } = await response.json();
+  if (!Array.isArray(data.questions)) {
+    throw new Error("Invalid quiz questions response");
+  }
+  return data.questions;
+}
+
 const HOUSE_OPTIONS: { house: HouseName; label: string; color: string }[] = [
-  { house: "Gryffindor", label: "グリフィンドール向け選択肢", color: "text-red-400" },
-  { house: "Ravenclaw", label: "レイブンクロー向け選択肢", color: "text-blue-400" },
-  { house: "Hufflepuff", label: "ハッフルパフ向け選択肢", color: "text-yellow-400" },
-  { house: "Slytherin", label: "スリザリン向け選択肢", color: "text-emerald-400" },
+  {
+    house: "Gryffindor",
+    label: "グリフィンドール向け選択肢",
+    color: "text-red-400",
+  },
+  {
+    house: "Ravenclaw",
+    label: "レイブンクロー向け選択肢",
+    color: "text-blue-400",
+  },
+  {
+    house: "Hufflepuff",
+    label: "ハッフルパフ向け選択肢",
+    color: "text-yellow-400",
+  },
+  {
+    house: "Slytherin",
+    label: "スリザリン向け選択肢",
+    color: "text-emerald-400",
+  },
 ];
 
 export default function AdminQuestionsPage() {
@@ -37,10 +65,12 @@ export default function AdminQuestionsPage() {
   const { reloadQuestions } = useQuiz();
 
   useEffect(() => {
-    setQuestions(getStoredQuestions());
+    void fetchQuizQuestions()
+      .then(setQuestions)
+      .catch((error) => console.error("Failed to load quiz questions", error));
   }, []);
 
-  const handleAddQuestion = (e: React.FormEvent) => {
+  const handleAddQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newQuestionText.trim()) {
       toast({
@@ -50,7 +80,9 @@ export default function AdminQuestionsPage() {
       return;
     }
 
-    const missingOption = HOUSE_OPTIONS.find((h) => !optionTexts[h.house].trim());
+    const missingOption = HOUSE_OPTIONS.find(
+      (h) => !optionTexts[h.house].trim(),
+    );
     if (missingOption) {
       toast({
         title: "すべての選択肢を入力してください",
@@ -73,9 +105,22 @@ export default function AdminQuestionsPage() {
       })),
     };
 
-    const updated = saveNewQuestion(newQuestion);
-    setQuestions(updated);
-    reloadQuestions();
+    try {
+      const response = await fetch("/api/quiz-questions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newQuestion),
+      });
+      if (!response.ok) {
+        throw new Error(`Quiz question save failed: ${response.status}`);
+      }
+      const updated = await fetchQuizQuestions();
+      setQuestions(updated);
+      reloadQuestions();
+    } catch (error) {
+      console.error("Failed to save quiz question", error);
+      return;
+    }
 
     setNewQuestionText("");
     setOptionTexts({
@@ -91,7 +136,7 @@ export default function AdminQuestionsPage() {
     });
   };
 
-  const handleDelete = (id: string, text: string) => {
+  const handleDelete = async (id: string, text: string) => {
     if (questions.length <= 3) {
       toast({
         title: "削除できません",
@@ -101,24 +146,64 @@ export default function AdminQuestionsPage() {
       return;
     }
 
-    const updated = deleteQuestion(id);
-    setQuestions(updated);
-    reloadQuestions();
+    try {
+      const response = await fetch(
+        `/api/quiz-questions?id=${encodeURIComponent(id)}`,
+        { method: "DELETE" },
+      );
+      if (!response.ok) {
+        throw new Error(`Quiz question delete failed: ${response.status}`);
+      }
+      const updated = await fetchQuizQuestions();
+      setQuestions(updated);
+      reloadQuestions();
+    } catch (error) {
+      console.error("Failed to delete quiz question", error);
+      return;
+    }
     toast({
       title: "質問を削除しました",
       description: `「${text.substring(0, 20)}...」を削除しました。`,
     });
   };
 
-  const handleReset = () => {
-    if (window.confirm("質問リストをホグワーツ公式のデフォルト質問（7問）にリセットしますか？")) {
-      const reset = resetQuestionsToDefault();
-      setQuestions(reset);
-      reloadQuestions();
-      toast({
-        title: "デフォルトに戻しました",
-        description: "初期設定のホグワーツ公式質問リストを復元しました。",
-      });
+  const handleReset = async () => {
+    if (
+      window.confirm(
+        "質問リストをホグワーツ公式のデフォルト質問（7問）にリセットしますか？",
+      )
+    ) {
+      try {
+        const resetResponse = await fetch("/api/quiz-questions/reset", {
+          method: "POST",
+        });
+        if (!resetResponse.ok) {
+          throw new Error(`Question reset failed: ${resetResponse.status}`);
+        }
+
+        const questionsResponse = await fetch("/api/quiz-questions", {
+          cache: "no-store",
+        });
+        if (!questionsResponse.ok) {
+          throw new Error(
+            `Question reload failed: ${questionsResponse.status}`,
+          );
+        }
+
+        const data: { questions?: QuizQuestion[] } =
+          await questionsResponse.json();
+        if (!Array.isArray(data.questions)) {
+          throw new Error("Invalid questions response");
+        }
+
+        setQuestions(data.questions);
+        toast({
+          title: "デフォルトに戻しました",
+          description: "初期設定のホグワーツ公式質問リストを復元しました。",
+        });
+      } catch (error) {
+        console.error("Failed to reset quiz questions", error);
+      }
     }
   };
 
@@ -129,10 +214,18 @@ export default function AdminQuestionsPage() {
           <Button variant="outline" asChild className="mb-4">
             <Link href="/admin">&larr; 管理ダッシュボードに戻る</Link>
           </Button>
-          <h1 className="text-3xl font-headline font-bold text-primary">組分け帽子クイズの管理</h1>
-          <p className="text-muted-foreground">組分け帽子の診断質問を追加・編集・削除できます。</p>
+          <h1 className="text-3xl font-headline font-bold text-primary">
+            組分け帽子クイズの管理
+          </h1>
+          <p className="text-muted-foreground">
+            組分け帽子の診断質問を追加・編集・削除できます。
+          </p>
         </div>
-        <Button onClick={handleReset} variant="outline" className="text-xs self-start sm:self-auto border-border">
+        <Button
+          onClick={handleReset}
+          variant="outline"
+          className="text-xs self-start sm:self-auto border-border"
+        >
           <RotateCcw className="mr-1.5 h-3.5 w-3.5" /> 公式質問にリセット
         </Button>
       </header>
@@ -150,7 +243,10 @@ export default function AdminQuestionsPage() {
         <CardContent>
           <form onSubmit={handleAddQuestion} className="space-y-4">
             <div>
-              <label htmlFor="new-question-text" className="block text-sm font-medium text-foreground mb-1">
+              <label
+                htmlFor="new-question-text"
+                className="block text-sm font-medium text-foreground mb-1"
+              >
                 質問文
               </label>
               <Textarea
@@ -165,15 +261,23 @@ export default function AdminQuestionsPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
               {HOUSE_OPTIONS.map((h) => (
-                <div key={h.house} className="p-3 rounded-lg border border-border/60 bg-background/30">
-                  <label className={`block text-xs font-semibold mb-1 ${h.color}`}>
+                <div
+                  key={h.house}
+                  className="p-3 rounded-lg border border-border/60 bg-background/30"
+                >
+                  <label
+                    className={`block text-xs font-semibold mb-1 ${h.color}`}
+                  >
                     {h.label}
                   </label>
                   <Input
-                    placeholder={`例：${h.house === 'Gryffindor' ? '杖を抜いて迷わず調査に向かう' : h.house === 'Ravenclaw' ? '図書館の禁書棚で関連文献を調べる' : h.house === 'Hufflepuff' ? '信頼できる仲間を呼んで共に確認する' : '有利な魔法遺物がないか警戒しつつ探る'}`}
+                    placeholder={`例：${h.house === "Gryffindor" ? "杖を抜いて迷わず調査に向かう" : h.house === "Ravenclaw" ? "図書館の禁書棚で関連文献を調べる" : h.house === "Hufflepuff" ? "信頼できる仲間を呼んで共に確認する" : "有利な魔法遺物がないか警戒しつつ探る"}`}
                     value={optionTexts[h.house]}
                     onChange={(e) =>
-                      setOptionTexts((prev) => ({ ...prev, [h.house]: e.target.value }))
+                      setOptionTexts((prev) => ({
+                        ...prev,
+                        [h.house]: e.target.value,
+                      }))
                     }
                     className="bg-background/60 text-sm"
                   />
@@ -228,7 +332,9 @@ export default function AdminQuestionsPage() {
                       key={opt.id}
                       className="text-xs p-2.5 rounded bg-background/40 border border-border/40 flex flex-col justify-between"
                     >
-                      <span className="text-foreground/90 mb-1">{opt.text}</span>
+                      <span className="text-foreground/90 mb-1">
+                        {opt.text}
+                      </span>
                       <span className="text-[10px] text-muted-foreground font-mono">
                         {affinities || "汎用"}
                       </span>

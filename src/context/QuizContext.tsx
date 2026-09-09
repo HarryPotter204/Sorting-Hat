@@ -1,33 +1,48 @@
 "use client";
 
-import React, { createContext, useContext, useReducer, ReactNode, Dispatch, useEffect } from 'react';
-import { QUIZ_QUESTIONS, HOUSE_NAMES_ARRAY } from '@/lib/constants';
-import type { QuizState, HouseName, QuizQuestion } from '@/lib/types';
-import { getStoredQuestions, getSavedNickname } from '@/lib/storage';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  ReactNode,
+  Dispatch,
+  useEffect,
+} from "react";
+import { QUIZ_QUESTIONS, HOUSE_NAMES_ARRAY } from "@/lib/constants";
+import type { QuizState, HouseName, QuizQuestion } from "@/lib/types";
+import { getSavedNickname } from "@/lib/storage";
 
 type QuizAction =
-  | { type: 'SET_QUESTIONS'; questions: QuizQuestion[] }
-  | { type: 'SET_NICKNAME'; nickname: string }
-  | { type: 'START_QUIZ'; nickname?: string }
-  | { type: 'ANSWER_QUESTION'; questionId: string; optionId: string }
-  | { type: 'NEXT_QUESTION' }
-  | { type: 'PREV_QUESTION' }
-  | { type: 'COMPLETE_QUIZ'; sortedHouse: HouseName }
-  | { type: 'RETAKE_QUIZ' };
+  | { type: "SET_QUESTIONS"; questions: QuizQuestion[] }
+  | { type: "SET_NICKNAME"; nickname: string }
+  | { type: "START_QUIZ"; nickname?: string }
+  | { type: "ANSWER_QUESTION"; questionId: string; optionId: string }
+  | { type: "NEXT_QUESTION" }
+  | { type: "PREV_QUESTION" }
+  | { type: "COMPLETE_QUIZ"; sortedHouse: HouseName }
+  | { type: "RETAKE_QUIZ" };
 
 interface ExtendedQuizState extends QuizState {
   questionsList: QuizQuestion[];
 }
 
-const calculateScores = (questions: QuizQuestion[], answers: Record<string, string>): Record<HouseName, number> => {
-  const scores = HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {} as Record<HouseName, number>);
-  questions.forEach(q => {
+const calculateScores = (
+  questions: QuizQuestion[],
+  answers: Record<string, string>,
+): Record<HouseName, number> => {
+  const scores = HOUSE_NAMES_ARRAY.reduce(
+    (acc, houseName) => ({ ...acc, [houseName]: 0 }),
+    {} as Record<HouseName, number>,
+  );
+  questions.forEach((q) => {
     const chosenOptionId = answers[q.id];
     if (chosenOptionId) {
-      const option = q.options.find(opt => opt.id === chosenOptionId);
+      const option = q.options.find((opt) => opt.id === chosenOptionId);
       if (option) {
         for (const house in option.houseAffinity) {
-          scores[house as HouseName] = (scores[house as HouseName] || 0) + (option.houseAffinity[house as HouseName] || 0);
+          scores[house as HouseName] =
+            (scores[house as HouseName] || 0) +
+            (option.houseAffinity[house as HouseName] || 0);
         }
       }
     }
@@ -36,46 +51,56 @@ const calculateScores = (questions: QuizQuestion[], answers: Record<string, stri
 };
 
 const initialQuizState: ExtendedQuizState = {
-  nickname: '',
+  nickname: "",
   currentQuestionIndex: 0,
   answers: {},
-  scores: HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {}),
+  scores: HOUSE_NAMES_ARRAY.reduce(
+    (acc, houseName) => ({ ...acc, [houseName]: 0 }),
+    {},
+  ),
   isCompleted: false,
   sortedHouse: null,
   questionsList: QUIZ_QUESTIONS,
 };
 
+const QuizContext = createContext<
+  | {
+      state: ExtendedQuizState;
+      dispatch: Dispatch<QuizAction>;
+      questions: QuizQuestion[];
+      currentQuestion: QuizQuestion | undefined;
+      totalQuestions: number;
+      reloadQuestions: () => void;
+    }
+  | undefined
+>(undefined);
 
-const QuizContext = createContext<{
-  state: ExtendedQuizState;
-  dispatch: Dispatch<QuizAction>;
-  questions: QuizQuestion[];
-  currentQuestion: QuizQuestion | undefined;
-  totalQuestions: number;
-  reloadQuestions: () => void;
-} | undefined>(undefined);
-
-const quizReducer = (state: ExtendedQuizState, action: QuizAction): ExtendedQuizState => {
+const quizReducer = (
+  state: ExtendedQuizState,
+  action: QuizAction,
+): ExtendedQuizState => {
   switch (action.type) {
-    case 'SET_QUESTIONS':
+    case "SET_QUESTIONS":
       return {
         ...state,
         questionsList: action.questions,
       };
-    case 'SET_NICKNAME':
+    case "SET_NICKNAME":
       return {
         ...state,
         nickname: action.nickname,
       };
-    case 'START_QUIZ':
+    case "START_QUIZ":
       return {
         ...initialQuizState,
         nickname: action.nickname ?? state.nickname,
         questionsList: state.questionsList,
-        scores: HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {}),
+        scores: HOUSE_NAMES_ARRAY.reduce(
+          (acc, houseName) => ({ ...acc, [houseName]: 0 }),
+          {},
+        ),
       };
-    case 'ANSWER_QUESTION': {
-
+    case "ANSWER_QUESTION": {
       const newAnswers = {
         ...state.answers,
         [action.questionId]: action.optionId,
@@ -87,7 +112,7 @@ const quizReducer = (state: ExtendedQuizState, action: QuizAction): ExtendedQuiz
         scores: newScores,
       };
     }
-    case 'PREV_QUESTION': {
+    case "PREV_QUESTION": {
       if (state.currentQuestionIndex > 0) {
         return {
           ...state,
@@ -98,40 +123,57 @@ const quizReducer = (state: ExtendedQuizState, action: QuizAction): ExtendedQuiz
       }
       return state;
     }
-    case 'NEXT_QUESTION': {
+    case "NEXT_QUESTION": {
       const qList = state.questionsList;
       if (state.currentQuestionIndex < qList.length - 1) {
-        return { ...state, currentQuestionIndex: state.currentQuestionIndex + 1 };
+        return {
+          ...state,
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+        };
       }
       // If it's the last question, determine the house
       let maxScore = -Infinity;
       let sortedHouse: HouseName | null = null;
-      HOUSE_NAMES_ARRAY.forEach(houseName => {
+      HOUSE_NAMES_ARRAY.forEach((houseName) => {
         const score = state.scores[houseName] || 0;
         if (score > maxScore) {
           maxScore = score;
           sortedHouse = houseName;
         } else if (score === maxScore) {
-          if (sortedHouse && HOUSE_NAMES_ARRAY.indexOf(houseName) < HOUSE_NAMES_ARRAY.indexOf(sortedHouse)) {
+          if (
+            sortedHouse &&
+            HOUSE_NAMES_ARRAY.indexOf(houseName) <
+              HOUSE_NAMES_ARRAY.indexOf(sortedHouse)
+          ) {
             sortedHouse = houseName;
           } else if (!sortedHouse) {
-             sortedHouse = houseName;
+            sortedHouse = houseName;
           }
         }
       });
       if (!sortedHouse) {
-        sortedHouse = HOUSE_NAMES_ARRAY[Math.floor(Math.random() * HOUSE_NAMES_ARRAY.length)];
+        sortedHouse =
+          HOUSE_NAMES_ARRAY[
+            Math.floor(Math.random() * HOUSE_NAMES_ARRAY.length)
+          ];
       }
-      return { ...state, isCompleted: true, sortedHouse: sortedHouse as HouseName };
+      return {
+        ...state,
+        isCompleted: true,
+        sortedHouse: sortedHouse as HouseName,
+      };
     }
-    case 'COMPLETE_QUIZ':
+    case "COMPLETE_QUIZ":
       return { ...state, isCompleted: true, sortedHouse: action.sortedHouse };
-    case 'RETAKE_QUIZ':
+    case "RETAKE_QUIZ":
       return {
         ...initialQuizState,
         nickname: state.nickname || getSavedNickname(),
         questionsList: state.questionsList,
-        scores: HOUSE_NAMES_ARRAY.reduce((acc, houseName) => ({ ...acc, [houseName]: 0 }), {}),
+        scores: HOUSE_NAMES_ARRAY.reduce(
+          (acc, houseName) => ({ ...acc, [houseName]: 0 }),
+          {},
+        ),
       };
 
     default:
@@ -139,20 +181,33 @@ const quizReducer = (state: ExtendedQuizState, action: QuizAction): ExtendedQuiz
   }
 };
 
-
 export const QuizProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(quizReducer, initialQuizState);
 
   const reloadQuestions = () => {
-    const loaded = getStoredQuestions();
-    dispatch({ type: 'SET_QUESTIONS', questions: loaded });
+    void fetch("/api/quiz-questions", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok)
+          throw new Error(`Quiz questions request failed: ${response.status}`);
+        return response.json();
+      })
+      .then((data: { questions?: QuizQuestion[] }) => {
+        if (!Array.isArray(data.questions) || data.questions.length === 0) {
+          throw new Error("Invalid quiz questions response");
+        }
+        dispatch({ type: "SET_QUESTIONS", questions: data.questions });
+      })
+      .catch((error) => {
+        console.error("Failed to load quiz questions", error);
+        dispatch({ type: "SET_QUESTIONS", questions: QUIZ_QUESTIONS });
+      });
   };
 
   useEffect(() => {
     reloadQuestions();
     const saved = getSavedNickname();
     if (saved) {
-      dispatch({ type: 'SET_NICKNAME', nickname: saved });
+      dispatch({ type: "SET_NICKNAME", nickname: saved });
     }
   }, []);
 
@@ -161,7 +216,16 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
   const totalQuestions = questions.length;
 
   return (
-    <QuizContext.Provider value={{ state, dispatch, questions, currentQuestion, totalQuestions, reloadQuestions }}>
+    <QuizContext.Provider
+      value={{
+        state,
+        dispatch,
+        questions,
+        currentQuestion,
+        totalQuestions,
+        reloadQuestions,
+      }}
+    >
       {children}
     </QuizContext.Provider>
   );
@@ -170,7 +234,7 @@ export const QuizProvider = ({ children }: { children: ReactNode }) => {
 export const useQuiz = () => {
   const context = useContext(QuizContext);
   if (context === undefined) {
-    throw new Error('useQuiz must be used within a QuizProvider');
+    throw new Error("useQuiz must be used within a QuizProvider");
   }
   return context;
 };

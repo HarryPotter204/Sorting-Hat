@@ -3,8 +3,18 @@
 import { useEffect, useState } from "react";
 import { Megaphone, Lock, ShieldCheck, X, Bell } from "lucide-react";
 import Link from "next/link";
-import { getStoredAnnouncements, Announcement, isAdminAuthenticated } from "@/lib/storage";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  getStoredAnnouncements,
+  Announcement,
+  isAdminAuthenticated,
+} from "@/lib/storage";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
 export function AnnouncementBanner() {
@@ -12,25 +22,37 @@ export function AnnouncementBanner() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
-  const loadAnnouncements = () => {
-    const list = getStoredAnnouncements();
-    setAnnouncements(list);
+  const loadAnnouncements = async () => {
+    try {
+      const response = await fetch("/api/announcements", { cache: "no-store" });
+      if (!response.ok) throw new Error("Failed to load announcements");
+      const data = await response.json();
+      setAnnouncements(
+        Array.isArray(data.announcements) ? data.announcements : [],
+      );
+    } catch {
+      // Keep the existing UI usable while Firestore is unavailable.
+      setAnnouncements(getStoredAnnouncements());
+    }
     setIsAdmin(isAdminAuthenticated());
   };
 
   useEffect(() => {
-    loadAnnouncements();
+    void loadAnnouncements();
 
     const handleUpdate = () => {
-      loadAnnouncements();
+      void loadAnnouncements();
     };
 
-    window.addEventListener('hogwarts_announcements_updated', handleUpdate);
-    window.addEventListener('storage', handleUpdate);
+    window.addEventListener("hogwarts_announcements_updated", handleUpdate);
+    window.addEventListener("storage", handleUpdate);
 
     return () => {
-      window.removeEventListener('hogwarts_announcements_updated', handleUpdate);
-      window.removeEventListener('storage', handleUpdate);
+      window.removeEventListener(
+        "hogwarts_announcements_updated",
+        handleUpdate,
+      );
+      window.removeEventListener("storage", handleUpdate);
     };
   }, []);
 
@@ -54,8 +76,12 @@ export function AnnouncementBanner() {
               <Megaphone className="h-3.5 w-3.5 text-yellow-400" />
             </span>
             <div className="truncate text-xs sm:text-sm">
-              <span className="font-bold text-primary mr-1.5 shrink-0">【掲示板】</span>
-              <span className="text-foreground/90 font-medium truncate">{latestAnnouncement.title}</span>
+              <span className="font-bold text-primary mr-1.5 shrink-0">
+                【掲示板】
+              </span>
+              <span className="text-foreground/90 font-medium truncate">
+                {latestAnnouncement.title}
+              </span>
             </div>
           </div>
 
@@ -86,19 +112,24 @@ export function AnnouncementBanner() {
 
           <div className="space-y-3 max-h-[55vh] overflow-y-auto pr-1 py-1">
             {announcements.map((item, idx) => {
-              const isSorting = item.isSortingNotice || item.id?.startsWith('anno_sorting_') || item.title?.includes('組分け速報');
+              const isSorting =
+                item.isSortingNotice ||
+                item.id?.startsWith("anno_sorting_") ||
+                item.title?.includes("組分け速報");
               return (
-                <div 
+                <div
                   key={item.id || idx}
                   className={`p-3.5 rounded-xl border space-y-1.5 shadow-sm transition-all ${
-                    isSorting 
-                      ? 'bg-primary/10 border-primary/50 shadow-md ring-1 ring-primary/20' 
-                      : 'bg-background/60 border-primary/20'
+                    isSorting
+                      ? "bg-primary/10 border-primary/50 shadow-md ring-1 ring-primary/20"
+                      : "bg-background/60 border-primary/20"
                   }`}
                 >
                   <div className="flex items-center justify-between gap-2">
                     <h4 className="font-headline font-semibold text-primary text-sm sm:text-base leading-snug flex items-center gap-1.5">
-                      {isSorting ? <span className="text-yellow-400">✨</span> : null}
+                      {isSorting ? (
+                        <span className="text-yellow-400">✨</span>
+                      ) : null}
                       <span>{item.title}</span>
                     </h4>
                     <span className="text-[10px] text-muted-foreground shrink-0">
@@ -120,17 +151,25 @@ export function AnnouncementBanner() {
             </div>
 
             <div className="flex items-center justify-between gap-2 pt-1">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setIsOpen(false)}
                 className="text-xs text-muted-foreground hover:text-foreground h-9"
               >
                 閉じる
               </Button>
 
-              <Button asChild size="sm" variant="outline" className="text-xs border-primary/40 text-primary h-9">
-                <Link href="/admin/announcements" onClick={() => setIsOpen(false)}>
+              <Button
+                asChild
+                size="sm"
+                variant="outline"
+                className="text-xs border-primary/40 text-primary h-9"
+              >
+                <Link
+                  href="/admin/announcements"
+                  onClick={() => setIsOpen(false)}
+                >
                   {isAdmin ? (
                     <span className="flex items-center gap-1">
                       <ShieldCheck className="h-3.5 w-3.5 text-green-400" />
@@ -151,4 +190,3 @@ export function AnnouncementBanner() {
     </>
   );
 }
-

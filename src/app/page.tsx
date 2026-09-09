@@ -1,6 +1,12 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { HOGWARTS_HOUSES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { History, Trophy, Sparkles } from "lucide-react";
@@ -21,7 +27,7 @@ export default function HomePage() {
       <header className="w-full space-y-4 px-2">
         <div className="relative mx-auto w-40 h-40 sm:w-52 sm:h-52 my-1 flex items-center justify-center">
           <Image
-            src="/images/hat.png"
+            src="/images/hat.jpg"
             alt="ホグワーツ組分け帽子"
             width={220}
             height={220}
@@ -44,9 +50,9 @@ export default function HomePage() {
 
         {/* Primary Action Buttons - Mobile-First Touch Targets */}
         <div className="w-full space-y-2.5 pt-1 max-w-md mx-auto">
-          <Button 
-            asChild 
-            size="lg" 
+          <Button
+            asChild
+            size="lg"
             className="w-full button-burgundy py-6 text-base sm:text-lg font-bold rounded-xl shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
           >
             <Link href="/quiz">
@@ -56,23 +62,29 @@ export default function HomePage() {
           </Button>
 
           <div className="grid grid-cols-2 gap-2.5">
-            <Button 
-              asChild 
-              variant="outline" 
+            <Button
+              asChild
+              variant="outline"
               className="w-full border-primary/40 text-primary hover:bg-primary/10 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
             >
-              <Link href="/history" className="flex items-center justify-center gap-1.5">
+              <Link
+                href="/history"
+                className="flex items-center justify-center gap-1.5"
+              >
                 <History className="h-4 w-4 shrink-0" />
                 組分けの記録
               </Link>
             </Button>
 
-            <Button 
-              asChild 
-              variant="outline" 
+            <Button
+              asChild
+              variant="outline"
               className="w-full border-primary/40 text-primary hover:bg-primary/10 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
             >
-              <Link href="/leaderboard" className="flex items-center justify-center gap-1.5">
+              <Link
+                href="/leaderboard"
+                className="flex items-center justify-center gap-1.5"
+              >
                 <Trophy className="h-4 w-4 shrink-0" />
                 寮別統計
               </Link>
@@ -87,7 +99,9 @@ export default function HomePage() {
           <h2 className="text-xl sm:text-2xl font-headline font-bold text-primary">
             ホグワーツ四つの寮
           </h2>
-          <span className="text-[11px] text-muted-foreground">Four Great Houses</span>
+          <span className="text-[11px] text-muted-foreground">
+            Four Great Houses
+          </span>
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3.5">
@@ -95,8 +109,8 @@ export default function HomePage() {
             <Card
               key={house.name}
               className={cn(
-                "enchanted-parchment-dark overflow-hidden rounded-xl border border-primary/30 transition-all duration-200 active:scale-[0.98]", 
-                `theme-${house.name.toLowerCase()}`
+                "enchanted-parchment-dark overflow-hidden rounded-xl border border-primary/30 transition-all duration-200 active:scale-[0.98]",
+                `theme-${house.name.toLowerCase()}`,
               )}
             >
               <Link
@@ -120,7 +134,8 @@ export default function HomePage() {
                 </CardHeader>
                 <CardContent className="p-2.5 sm:p-3 text-left">
                   <p className="text-[11px] sm:text-xs text-foreground/80 leading-snug line-clamp-2">
-                    <span className="text-primary font-semibold">特長:</span> {house.values.slice(0, 2).join(", ")}
+                    <span className="text-primary font-semibold">特長:</span>{" "}
+                    {house.values.slice(0, 2).join(", ")}
                   </p>
                   <p className="mt-1 text-[10px] text-muted-foreground truncate">
                     創設者: {house.founder}
@@ -131,7 +146,6 @@ export default function HomePage() {
           ))}
         </div>
       </section>
-
 
       {/* About Section - Compact for Mobile */}
       <section className="w-full px-2">

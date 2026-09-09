@@ -1,8 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isAdminAuthenticated, verifyAdminLogin, logoutAdmin } from "@/lib/storage";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  isAdminAuthenticated,
+  verifyAdminLogin,
+  logoutAdmin,
+} from "@/lib/storage";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Lock, KeyRound, ShieldAlert, LogOut, Sparkles } from "lucide-react";
@@ -33,20 +43,31 @@ export default function AdminLayout({
       return;
     }
 
-    const success = verifyAdminLogin(adminId, password);
-    if (success) {
-      setIsAuthenticated(true);
-      toast({
-        title: "アロホモラ！認証に成功しました",
-        description: "ホグワーツ管理エリアへようこそ。",
-      });
-    } else {
-      setErrorMsg("IDまたは合言葉が違います（例: ID=admin, パスワード=alohomora）。");
-    }
+    void (async () => {
+      try {
+        const response = await fetch("/api/admin/session", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: adminId, password }),
+        });
+        if (!response.ok) throw new Error("Admin session failed");
+        verifyAdminLogin(adminId, password);
+        setIsAuthenticated(true);
+        toast({
+          title: "アロホモラ！認証に成功しました",
+          description: "ホグワーツ管理エリアへようこそ。",
+        });
+      } catch {
+        setErrorMsg(
+          "認証に失敗しました。Firebaseと管理者セッションの設定を確認してください。",
+        );
+      }
+    })();
   };
 
   const handleLogout = () => {
     logoutAdmin();
+    void fetch("/api/admin/session", { method: "DELETE" });
     setIsAuthenticated(false);
     toast({
       title: "ログアウトしました",
@@ -58,7 +79,9 @@ export default function AdminLayout({
   if (isAuthenticated === null) {
     return (
       <div className="flex items-center justify-center min-h-[50vh]">
-        <div className="text-primary animate-pulse text-sm">認証状態を確認中...</div>
+        <div className="text-primary animate-pulse text-sm">
+          認証状態を確認中...
+        </div>
       </div>
     );
   }
@@ -83,7 +106,10 @@ export default function AdminLayout({
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-1.5 text-left">
-                <label htmlFor="admin-id" className="text-xs font-semibold text-primary block">
+                <label
+                  htmlFor="admin-id"
+                  className="text-xs font-semibold text-primary block"
+                >
                   管理者ID
                 </label>
                 <div className="relative">
@@ -101,7 +127,10 @@ export default function AdminLayout({
               </div>
 
               <div className="space-y-1.5 text-left">
-                <label htmlFor="admin-pass" className="text-xs font-semibold text-primary block">
+                <label
+                  htmlFor="admin-pass"
+                  className="text-xs font-semibold text-primary block"
+                >
                   合言葉（パスワード）
                 </label>
                 <div className="relative">
@@ -133,7 +162,12 @@ export default function AdminLayout({
               </Button>
 
               <div className="pt-2 text-center">
-                <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-foreground">
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  className="text-xs text-muted-foreground hover:text-foreground"
+                >
                   <Link href="/">&larr; 大広間（ホーム）に戻る</Link>
                 </Button>
               </div>

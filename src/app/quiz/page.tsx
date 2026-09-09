@@ -1,34 +1,45 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { useQuiz } from '@/context/QuizContext';
-import { QuestionCard } from '@/components/quiz/QuestionCard';
-import { QuizProgressBar } from '@/components/quiz/QuizProgressBar';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ArrowLeft, Sparkles, Home, UserCheck, Edit3 } from 'lucide-react';
-import { saveQuizResult, getSavedNickname, saveNickname, completeSortingProcess } from '@/lib/storage';
-import Link from 'next/link';
+import { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useQuiz } from "@/context/QuizContext";
+import { QuestionCard } from "@/components/quiz/QuestionCard";
+import { QuizProgressBar } from "@/components/quiz/QuizProgressBar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ArrowLeft, Sparkles, Home, UserCheck, Edit3 } from "lucide-react";
+import {
+  saveQuizResult,
+  getSavedNickname,
+  saveNickname,
+  completeSortingProcess,
+} from "@/lib/storage";
+import Link from "next/link";
 
 export default function QuizPage() {
   const { state, dispatch, currentQuestion, totalQuestions } = useQuiz();
   const router = useRouter();
 
-  const [savedNick, setSavedNick] = useState('');
+  const [savedNick, setSavedNick] = useState("");
   const [hasStarted, setHasStarted] = useState(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const stored = getSavedNickname();
       if (stored) return true;
     }
-    return Boolean(state.nickname) || state.currentQuestionIndex > 0 || Object.keys(state.answers).length > 0;
+    return (
+      Boolean(state.nickname) ||
+      state.currentQuestionIndex > 0 ||
+      Object.keys(state.answers).length > 0
+    );
   });
 
-  const [nicknameInput, setNicknameInput] = useState(state.nickname || '');
+  const [nicknameInput, setNicknameInput] = useState(state.nickname || "");
   const [isEditingNick, setIsEditingNick] = useState(false);
-  const [editNickInput, setEditNickInput] = useState('');
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(undefined);
+  const [editNickInput, setEditNickInput] = useState("");
+  const [selectedOption, setSelectedOption] = useState<string | undefined>(
+    undefined,
+  );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const isCompletingRef = useRef(false);
@@ -39,7 +50,7 @@ export default function QuizPage() {
     if (stored) {
       setSavedNick(stored);
       if (!state.nickname) {
-        dispatch({ type: 'SET_NICKNAME', nickname: stored });
+        dispatch({ type: "SET_NICKNAME", nickname: stored });
       }
       setHasStarted(true);
     }
@@ -65,8 +76,12 @@ export default function QuizPage() {
   useEffect(() => {
     if (state.isCompleted && state.sortedHouse && !isCompletingRef.current) {
       isCompletingRef.current = true;
-      const finalNick = state.nickname || getSavedNickname() || nicknameInput.trim() || '新入生';
-      
+      const finalNick =
+        state.nickname ||
+        getSavedNickname() ||
+        nicknameInput.trim() ||
+        "新入生";
+
       // Execute complete sorting workflow:
       // 1. Saves nickname to persistent storage
       // 2. Saves quiz result into history
@@ -78,26 +93,48 @@ export default function QuizPage() {
         scores: state.scores,
       });
 
-      router.push(`/quiz/result/${state.sortedHouse.toLowerCase()}?id=${result.id}`);
+      void fetch("/api/house-stats", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ houseName: state.sortedHouse }),
+      })
+        .then((response) => {
+          if (!response.ok)
+            throw new Error(`House stats update failed: ${response.status}`);
+        })
+        .catch((error) => {
+          console.error("Failed to update shared house stats", error);
+        });
+
+      router.push(
+        `/quiz/result/${state.sortedHouse.toLowerCase()}?id=${result.id}`,
+      );
     }
-  }, [state.isCompleted, state.sortedHouse, state.scores, state.nickname, nicknameInput, router]);
+  }, [
+    state.isCompleted,
+    state.sortedHouse,
+    state.scores,
+    state.nickname,
+    nicknameInput,
+    router,
+  ]);
 
   const handleStartQuiz = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const finalNick = nicknameInput.trim() || '新入生';
+    const finalNick = nicknameInput.trim() || "新入生";
     saveNickname(finalNick);
     setSavedNick(finalNick);
-    dispatch({ type: 'SET_NICKNAME', nickname: finalNick });
-    dispatch({ type: 'START_QUIZ', nickname: finalNick });
+    dispatch({ type: "SET_NICKNAME", nickname: finalNick });
+    dispatch({ type: "START_QUIZ", nickname: finalNick });
     setHasStarted(true);
   };
 
   const handleSaveEditedNick = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const updated = editNickInput.trim() || '新入生';
+    const updated = editNickInput.trim() || "新入生";
     saveNickname(updated);
     setSavedNick(updated);
-    dispatch({ type: 'SET_NICKNAME', nickname: updated });
+    dispatch({ type: "SET_NICKNAME", nickname: updated });
     setIsEditingNick(false);
   };
 
@@ -107,7 +144,7 @@ export default function QuizPage() {
       <div className="flex flex-col items-center justify-center min-h-[65vh] text-center px-4 py-6 max-w-md mx-auto space-y-5 animate-fade-in-up">
         <div className="relative mx-auto w-36 h-36 sm:w-44 sm:h-44 my-1 flex items-center justify-center">
           <Image
-            src="/images/hat.png"
+            src="/images/hat.jpg"
             alt="ホグワーツ組分け帽子"
             width={180}
             height={180}
@@ -121,13 +158,18 @@ export default function QuizPage() {
             組分けの儀式
           </h1>
           <p className="text-xs sm:text-sm text-foreground/85 leading-relaxed">
-            「ホグワーツへようこそ！<br />まずはそなたの名前（ニックネーム）を教えておくれ…」
+            「ホグワーツへようこそ！
+            <br />
+            まずはそなたの名前（ニックネーム）を教えておくれ…」
           </p>
         </div>
 
         <form onSubmit={handleStartQuiz} className="space-y-4 w-full">
           <div className="space-y-1.5 text-left">
-            <label htmlFor="student-nickname" className="text-xs font-semibold text-primary block">
+            <label
+              htmlFor="student-nickname"
+              className="text-xs font-semibold text-primary block"
+            >
               あなたのニックネーム（お名前）
             </label>
             <Input
@@ -142,7 +184,7 @@ export default function QuizPage() {
             />
           </div>
 
-          <Button 
+          <Button
             type="submit"
             className="w-full button-gold py-6 text-base font-bold shadow-lg hover:scale-[1.01] active:scale-[0.98] transition-all"
           >
@@ -151,19 +193,24 @@ export default function QuizPage() {
           </Button>
         </form>
 
-        <Button asChild variant="ghost" size="sm" className="text-xs text-muted-foreground hover:text-foreground">
+        <Button
+          asChild
+          variant="ghost"
+          size="sm"
+          className="text-xs text-muted-foreground hover:text-foreground"
+        >
           <Link href="/">&larr; 大広間に戻る</Link>
         </Button>
       </div>
     );
   }
-  
+
   if (state.isCompleted || !currentQuestion) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[65vh] text-center px-4 py-10 max-w-md mx-auto space-y-6 animate-fade-in-up">
         <div className="relative mx-auto w-36 h-36 sm:w-44 sm:h-44 my-1 flex items-center justify-center">
           <Image
-            src="/images/hat.png"
+            src="/images/hat.jpg"
             alt="ホグワーツ組分け帽子"
             width={180}
             height={180}
@@ -173,7 +220,9 @@ export default function QuizPage() {
         </div>
         <div className="space-y-2">
           <p className="text-xl font-headline font-bold text-primary">
-            {state.nickname ? `「うーむ、${state.nickname}よ…決まったぞ！」` : '「うーむ…決まったぞ！そなたの行くべき寮は…」'}
+            {state.nickname
+              ? `「うーむ、${state.nickname}よ…決まったぞ！」`
+              : "「うーむ…決まったぞ！そなたの行くべき寮は…」"}
           </p>
           <p className="text-xs text-muted-foreground">
             組分け帽子が宣誓の声を高らかに響かせています…
@@ -188,11 +237,11 @@ export default function QuizPage() {
     if (isTransitioning) return;
     setIsTransitioning(true);
     setSelectedOption(optionId);
-    dispatch({ type: 'ANSWER_QUESTION', questionId, optionId });
+    dispatch({ type: "ANSWER_QUESTION", questionId, optionId });
 
     // Provide visual confirmation for 280ms before automatically advancing
     timerRef.current = setTimeout(() => {
-      dispatch({ type: 'NEXT_QUESTION' });
+      dispatch({ type: "NEXT_QUESTION" });
       setIsTransitioning(false);
     }, 280);
   };
@@ -201,7 +250,7 @@ export default function QuizPage() {
   const handlePrevQuestion = () => {
     if (isTransitioning) return;
     if (state.currentQuestionIndex > 0) {
-      dispatch({ type: 'PREV_QUESTION' });
+      dispatch({ type: "PREV_QUESTION" });
     }
   };
 
@@ -213,12 +262,14 @@ export default function QuizPage() {
           <div className="flex items-center justify-between px-1 text-xs text-primary/90">
             <div className="flex items-center gap-1 font-medium">
               <UserCheck className="w-3.5 h-3.5 text-yellow-400" />
-              <span>生徒: <strong className="text-primary">{state.nickname}</strong></span>
+              <span>
+                生徒: <strong className="text-primary">{state.nickname}</strong>
+              </span>
               {!isEditingNick ? (
                 <button
                   type="button"
                   onClick={() => {
-                    setEditNickInput(state.nickname || '');
+                    setEditNickInput(state.nickname || "");
                     setIsEditingNick(true);
                   }}
                   className="text-[10px] text-muted-foreground hover:text-primary underline ml-1"
@@ -235,8 +286,13 @@ export default function QuizPage() {
         ) : null}
 
         {isEditingNick ? (
-          <form onSubmit={handleSaveEditedNick} className="flex items-center gap-2 p-2 rounded-lg bg-card/90 border border-primary/30 text-xs">
-            <span className="text-primary font-semibold shrink-0">名前変更:</span>
+          <form
+            onSubmit={handleSaveEditedNick}
+            className="flex items-center gap-2 p-2 rounded-lg bg-card/90 border border-primary/30 text-xs"
+          >
+            <span className="text-primary font-semibold shrink-0">
+              名前変更:
+            </span>
             <Input
               type="text"
               value={editNickInput}
@@ -245,14 +301,31 @@ export default function QuizPage() {
               maxLength={20}
               autoFocus
             />
-            <Button type="submit" size="sm" className="h-7 px-2 text-xs button-gold shrink-0">保存</Button>
-            <Button type="button" variant="ghost" size="sm" onClick={() => setIsEditingNick(false)} className="h-7 px-2 text-xs shrink-0">取消</Button>
+            <Button
+              type="submit"
+              size="sm"
+              className="h-7 px-2 text-xs button-gold shrink-0"
+            >
+              保存
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsEditingNick(false)}
+              className="h-7 px-2 text-xs shrink-0"
+            >
+              取消
+            </Button>
           </form>
         ) : null}
 
-        <QuizProgressBar currentStep={state.currentQuestionIndex + 1} totalSteps={totalQuestions} />
+        <QuizProgressBar
+          currentStep={state.currentQuestionIndex + 1}
+          totalSteps={totalQuestions}
+        />
       </div>
-      
+
       {/* Question Card with instant option tap */}
       <QuestionCard
         question={currentQuestion}
@@ -266,9 +339,9 @@ export default function QuizPage() {
       {/* Navigation Controls: Only Back button, no Next button */}
       <div className="w-full flex items-center justify-between pt-1 px-1">
         {state.currentQuestionIndex > 0 ? (
-          <Button 
+          <Button
             onClick={handlePrevQuestion}
-            variant="outline" 
+            variant="outline"
             size="default"
             disabled={isTransitioning}
             className="border-primary/40 text-primary hover:bg-primary/10 h-11 px-4 text-sm font-medium shadow-sm transition-all"
@@ -277,9 +350,9 @@ export default function QuizPage() {
             一つ戻る
           </Button>
         ) : (
-          <Button 
+          <Button
             asChild
-            variant="ghost" 
+            variant="ghost"
             size="default"
             className="text-muted-foreground hover:text-foreground h-11 px-3 text-xs"
           >
@@ -292,7 +365,9 @@ export default function QuizPage() {
 
         <div className="text-[11px] text-muted-foreground font-medium text-right">
           {isTransitioning ? (
-            <span className="text-primary font-semibold animate-pulse">次の質問へ進行中…</span>
+            <span className="text-primary font-semibold animate-pulse">
+              次の質問へ進行中…
+            </span>
           ) : (
             <span>選択肢をタップして進行</span>
           )}
@@ -301,5 +376,3 @@ export default function QuizPage() {
     </div>
   );
 }
-
-
