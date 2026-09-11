@@ -11,6 +11,9 @@ import {
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
+const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII"];
+const toRoman = (n: number) => ROMAN[n - 1] ?? String(n);
+
 interface QuestionCardProps {
   question: QuizQuestion;
   onAnswer: (questionId: string, optionId: string) => void;
@@ -32,8 +35,8 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
     <Card className="w-full max-w-lg mx-auto enchanted-parchment-dark shadow-2xl border border-primary/40 rounded-2xl overflow-hidden">
       <CardHeader className="p-4 sm:p-6 pb-2 text-center relative">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/15 text-primary border border-primary/30">
-            第 {questionNumber} 問 / 全 {totalQuestions} 問
+          <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-primary/15 text-primary border border-primary/30 font-headline">
+            第 {toRoman(questionNumber)} 問 ／ 全 {totalQuestions} 問
           </span>
         </div>
 

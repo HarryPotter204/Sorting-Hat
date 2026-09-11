@@ -16,11 +16,17 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="container mx-auto py-10 px-4 animate-fade-in-up">
-      <header className="text-center mb-10">
-        <h1 className="text-4xl md:text-5xl font-headline font-bold text-primary mb-3">
-          魔法管理パネル
+      <header className="text-center mb-10 space-y-2">
+        <p className="font-display text-[10px] sm:text-xs tracking-[0.4em] text-primary/80 uppercase">
+          Staff Room
+        </p>
+        <div className="ornament-rule" aria-hidden="true">
+          <span className="text-[10px]">✦</span>
+        </div>
+        <h1 className="text-3xl md:text-4xl font-headline font-bold text-primary mb-1">
+          教職員室 ― 魔法管理パネル
         </h1>
-        <p className="text-lg text-foreground/80 max-w-xl mx-auto">
+        <p className="text-sm md:text-lg text-foreground/80 max-w-xl mx-auto">
           ホグワーツ組分けアプリの魔法的な機能を管理できます。
         </p>
       </header>

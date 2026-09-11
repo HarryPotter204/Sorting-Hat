@@ -4,4 +4,15 @@
 runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
+  # Note: maxInstances: 1 also guarantees the in-process announcement
+  # automation timer (src/instrumentation.ts) never runs on two instances
+  # at once, so auto-posts can never duplicate from instance fan-out.
   maxInstances: 1
+
+# Bulletin-board auto-posting (docs/announcement-automation.md):
+# The in-process scheduler needs no extra env vars. To additionally drive
+# ticks from Cloud Scheduler (recommended for 24/7 cadence), set:
+# - variable: ANNOUNCEMENT_AUTOMATION_TICK_SECRET
+#   value: <random long secret, e.g. `openssl rand -hex 32`>
+#   availability:
+#     - RUNTIME

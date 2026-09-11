@@ -23,6 +23,7 @@ const STORAGE_KEYS = {
   QUESTIONS: "hogwarts_quiz_questions",
   FACTS: "hogwarts_ai_facts",
   SAVED_NICKNAME: "hogwarts_saved_nickname",
+  SORTING_NOTICE_MARKERS: "hogwarts_sorting_notice_markers",
 };
 
 const DEFAULT_ANNOUNCEMENTS: Announcement[] = [
@@ -342,6 +343,7 @@ export function clearSavedNickname(): void {
 export function addSortingAnnouncement(
   nickname: string,
   houseName: HouseName,
+  resultId?: string,
 ): Announcement {
   const houseJp: Record<HouseName, string> = {
     Gryffindor: "グリフィンドール",
@@ -351,12 +353,15 @@ export function addSortingAnnouncement(
   };
   const jName = houseJp[houseName] || houseName;
   const newAnnouncement: Announcement = {
-    id:
-      "anno_sorting_" +
-      Date.now() +
-      "_" +
-      Math.random().toString(36).substring(2, 6),
-    title: `✨ 【組分け速報】${nickname}さんが${jName}に決定！`,
+    // Deterministic id derived from the quiz result id. The same quiz result
+    // therefore maps to exactly one bulletin board document on the server.
+    id: resultId
+      ? `anno_sorting_${resultId}`
+      : "anno_sorting_" +
+        Date.now() +
+        "_" +
+        Math.random().toString(36).substring(2, 6),
+    title: `✨ 【組分け速報】${nickname}さんが${jName}に組み分けされました！`,
     message: `本日、新入生「${nickname}」殿の組分けの儀式が完了しました。\n組分け帽子によって選ばれた寮は【${jName}（${houseName}）】です！\n寮生の皆様、盛大な拍手で新しい仲間を歓迎してください！🎉`,
     date: new Date().toLocaleDateString("ja-JP", {
       year: "numeric",
@@ -367,9 +372,88 @@ export function addSortingAnnouncement(
     isSortingNotice: true,
   };
 
-  // Automatic public posting is disabled until quiz completion can be
-  // verified on the server. Keep the return value for existing callers.
+  // Posting to the shared bulletin board happens asynchronously via
+  // publishSortingNoticeInBackground (server API), never inline here.
   return newAnnouncement;
+}
+
+function getSortingNoticeMarkers(): Record<string, true> {
+  if (!isBrowser()) return {};
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.SORTING_NOTICE_MARKERS);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object"
+      ? (parsed as Record<string, true>)
+      : {};
+  } catch {
+    return {};
+  }
+}
+
+function markSortingNoticeSent(id: string, sent: boolean): void {
+  if (!isBrowser()) return;
+  try {
+    const markers = getSortingNoticeMarkers();
+    if (sent) {
+      markers[id] = true;
+    } else {
+      delete markers[id];
+    }
+    localStorage.setItem(
+      STORAGE_KEYS.SORTING_NOTICE_MARKERS,
+      JSON.stringify(markers),
+    );
+  } catch (e) {
+    console.error("Failed to update sorting notice marker", e);
+  }
+}
+
+/**
+ * Fire-and-forget background posting of a sorting notice to the shared
+ * Hogwarts bulletin board ("/api/announcements/sorting" -> Firestore
+ * "announcements" collection).
+ *
+ * - Never throws and never blocks the sorting-result flow.
+ * - A localStorage marker prevents repeat attempts within the same browser.
+ * - The server derives a deterministic document id from the quiz result id,
+ *   so even retries can never create duplicate bulletin board posts.
+ */
+export function publishSortingNoticeInBackground(
+  announcement: Announcement,
+  nickname: string,
+): void {
+  if (!isBrowser()) return;
+  if (!announcement.houseName) return;
+
+  // Skip if this result's notice was already sent (or is being sent).
+  if (getSortingNoticeMarkers()[announcement.id]) return;
+  markSortingNoticeSent(announcement.id, true);
+
+  const resultId = announcement.id.startsWith("anno_sorting_")
+    ? announcement.id.slice("anno_sorting_".length)
+    : announcement.id;
+
+  void fetch("/api/announcements/sorting", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      resultId,
+      nickname: nickname.trim(),
+      houseName: announcement.houseName,
+    }),
+    keepalive: true,
+  })
+    .then((response) => {
+      if (!response.ok)
+        throw new Error(`Sorting notice request failed: ${response.status}`);
+    })
+    .catch((error) => {
+      console.error("Failed to publish sorting notice", error);
+      // Clear the marker so a later visit can retry. Server-side
+      // idempotency (deterministic doc id + create) prevents duplicates.
+      markSortingNoticeSent(announcement.id, false);
+    });
 }
 
 // ---------------- Complete Sorting Workflow Helper ----------------
@@ -394,8 +478,18 @@ export function completeSortingProcess(data: {
     scores: data.scores,
   });
 
-  // 3. Publish sorting notice to the Hogwarts notice board
-  const announcement = addSortingAnnouncement(data.nickname, data.houseName);
+  // 3. Build the sorting notice for the Hogwarts notice board. Its id is
+  //    deterministically derived from result.id so one result = one notice.
+  const announcement = addSortingAnnouncement(
+    data.nickname,
+    data.houseName,
+    result.id,
+  );
+
+  // 4. Publish the notice to the shared bulletin board in the background.
+  //    Failures are logged and retried later; they never affect the
+  //    sorting result that was just saved above.
+  publishSortingNoticeInBackground(announcement, data.nickname);
 
   return { result, announcement };
 }

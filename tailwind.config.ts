@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         body: ['var(--font-quicksand)', 'Quicksand', 'sans-serif'],
         headline: ['var(--font-literata)', 'Literata', 'serif'],
+        display: ['var(--font-cinzel)', 'var(--font-literata)', 'Cinzel', 'serif'],
         code: ['monospace'],
       },
       colors: {

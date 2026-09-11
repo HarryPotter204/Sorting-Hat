@@ -1,0 +1,835 @@
+{
+  "description": "Backup of the Firestore quizQuestions collection taken before replacing the quiz with a new question set.",
+  "collection": "quizQuestions",
+  "projectId": "sorting-hat307",
+  "backupDate": "2026-09-10T22:52:33.602Z",
+  "count": 20,
+  "questions": [
+    {
+      "id": "q1",
+      "text": "入学初日に忘れ物をしました。何を忘れた？",
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "options": [
+        {
+          "id": "q1o1",
+          "text": "杖（致命的）",
+          "houseAffinity": {
+            "Gryffindor": 0,
+            "Ravenclaw": 2,
+            "Hufflepuff": 0,
+            "Slytherin": 0
+          },
+          "reason": "杖を忘れるなんて、準備を大切にするレイブンクローらしい慎重さの裏返しですね。"
+        },
+        {
+          "id": "q1o2",
+          "text": "ローブ（ただのコスプレ感）",
+          "houseAffinity": {
+            "Gryffindor": 2,
+            "Ravenclaw": 0,
+            "Hufflepuff": 0,
+            "Slytherin": 0
+          },
+          "reason": "ローブを忘れても気にしない大胆さは、まさにグリフィンドールの勇気です。"
+        },
+        {
+          "id": "q1o3",
+          "text": "フクロウ（LINEできない…）",
+          "houseAffinity": {
+            "Gryffindor": 0,
+            "Ravenclaw": 0,
+            "Hufflepuff": 2,
+            "Slytherin": 0
+          },
+          "reason": "フクロウを忘れてLINEできないと嘆く姿は、仲間を大切にするハッフルパフの心です。"
+        },
+        {
+          "id": "q1o4",
+          "text": "宿題（まだ始まってもいないのに）",
+          "houseAffinity": {
+            "Gryffindor": 0,
+            "Ravenclaw": 0,
+            "Hufflepuff": 0,
+            "Slytherin": 2
+          },
+          "reason": "宿題を忘れるなんて、賢く立ち回るスリザリンの才覚が光ります。"
+        }
+      ],
+      "isActive": true,
+      "updatedAt": "2026-09-10T14:15:00.918Z"
+    },
+    {
+      "id": "q10",
+      "text": "禁じられた森に入ることになったら？",
+      "options": [
+        {
+          "id": "q10o1",
+          "text": "全力で突撃する",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "禁じられた森に全力で突撃する勇気は、グリフィンドールの真骨頂です。"
+        },
+        {
+          "id": "q10o2",
+          "text": "動物をなでに行く",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "動物をなでに行く優しさは、ハッフルパフの温かい心です。"
+        },
+        {
+          "id": "q10o4",
+          "text": "魔法生物を密輸する",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "魔法生物を密輸する大胆な発想は、スリザリンの野心です。"
+        },
+        {
+          "id": "q10o3",
+          "text": "植物の観察メモを取る",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "植物の観察メモを取る几帳面さは、レイブンクローの知性です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q11",
+      "text": "ホグワーツのトイレで幽霊に遭遇！反応は？",
+      "options": [
+        {
+          "id": "q11o3",
+          "text": "研究対象として観察する",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "幽霊を研究対象として観察する冷静さは、レイブンクローの知性です。"
+        },
+        {
+          "id": "q11o1",
+          "text": "「うわっ！」って叫んで逃げる",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "叫んで逃げる正直な反応は、グリフィンドールの素直さです。"
+        },
+        {
+          "id": "q11o4",
+          "text": "利用して噂を流させる",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "幽霊を利用して噂を流すとは、スリザリンのしたたかさが光ります。"
+        },
+        {
+          "id": "q11o2",
+          "text": "話し相手になってあげる",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "幽霊の話し相手になる優しさは、ハッフルパフの思いやりです。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q12",
+      "text": "魔法の試験でカンニングできそうな呪文を発見！",
+      "options": [
+        {
+          "id": "q12o2",
+          "text": "友達と分け合う",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "友達と分け合う思いやりは、ハッフルパフの忠誠心です。"
+        },
+        {
+          "id": "q12o3",
+          "text": "完璧に使いこなす",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "完璧に使いこなす探究心は、レイブンクローの知性です。"
+        },
+        {
+          "id": "q12o4",
+          "text": "即ビジネス化する",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "即ビジネス化する発想は、スリザリンの野心の表れです。"
+        },
+        {
+          "id": "q12o1",
+          "text": "使わない（正々堂々）",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "正々堂々と使わない選択は、グリフィンドールの騎士道精神です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q13",
+      "text": "ハニーデュークス（魔法のお菓子のお店）で好きな魔法のお菓子は？",
+      "options": [
+        {
+          "id": "q13o1",
+          "text": "爆発ボンボン（危険）",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "危険な爆発ボンボンを選ぶ度胸は、グリフィンドールの勇気です。"
+        },
+        {
+          "id": "q13o2",
+          "text": "ショック・チョコ（ユーモア）",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "ユーモアあふれるショック・チョコを選ぶのは、ハッフルパフの温かさです。"
+        },
+        {
+          "id": "q13o3",
+          "text": "飛ぶキャンディ（研究用）",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "研究用に飛ぶキャンディを選ぶのは、レイブンクローの知的好奇心です。"
+        },
+        {
+          "id": "q13o4",
+          "text": "愛の妙薬入りチョコ（策略）",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "愛の妙薬入りチョコを選ぶ策略家ぶりは、スリザリンの真骨頂です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q14",
+      "text": "あなたの部屋から忍び込む、秘密の地図を入手！どう使う？",
+      "options": [
+        {
+          "id": "q14o2",
+          "text": "友達に貸す",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "秘密の地図を友達に貸す優しさは、ハッフルパフの忠誠心です。"
+        },
+        {
+          "id": "q14o4",
+          "text": "先生の秘密を暴く",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "先生の秘密を暴こうとするのは、スリザリンの野心です。"
+        },
+        {
+          "id": "q14o1",
+          "text": "毎晩探検する",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "毎晩探検する冒険心は、グリフィンドールの勇気です。"
+        },
+        {
+          "id": "q14o3",
+          "text": "校内の歴史を調査する",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "校内の歴史を調査する探究心は、レイブンクローの知性です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q15",
+      "text": "ホグワーツの階段が動いて道を間違えた！",
+      "options": [
+        {
+          "id": "q15o1",
+          "text": "「まあいっか」で冒険開始",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "「まあいっか」で冒険を始める前向きさは、グリフィンドールの勇気です。"
+        },
+        {
+          "id": "q15o2",
+          "text": "誰かに助けを求める",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "素直に助けを求めるのは、ハッフルパフの誠実さです。"
+        },
+        {
+          "id": "q15o4",
+          "text": "わざと迷ってショートカット探し",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "わざと迷ってショートカットを探すしたたかさは、スリザリンの才覚です。"
+        },
+        {
+          "id": "q15o3",
+          "text": "地図を広げて分析",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "地図を広げて分析する冷静さは、レイブンクローの知性です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q16",
+      "text": "魔法生物を飼えるなら？",
+      "options": [
+        {
+          "id": "q16o1",
+          "text": "ヒッポグリフ（かっこいい）",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "かっこいいヒッポグリフを選ぶのは、グリフィンドールの勇気です。"
+        },
+        {
+          "id": "q16o3",
+          "text": "フクロウ（便利で賢い）",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "便利で賢いフクロウを選ぶのは、レイブンクローの知性です。"
+        },
+        {
+          "id": "q16o2",
+          "text": "二フラー（かわいい）",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "かわいい二フラーを選ぶ優しさは、ハッフルパフの温かい心です。"
+        },
+        {
+          "id": "q16o4",
+          "text": "バジリスク（野望全開）",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "バジリスクを選ぶ野望は、スリザリンの野心そのものです。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q17",
+      "text": "授業のノートを取るときのスタイルは？",
+      "options": [
+        {
+          "id": "q17o2",
+          "text": "色分けして丁寧にまとめる",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "色分けして丁寧にまとめる几帳面さは、ハッフルパフの勤勉さです。"
+        },
+        {
+          "id": "q17o3",
+          "text": "図表・参考文献つきで完璧",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "図表・参考文献つきの完璧なノートは、レイブンクローの知性です。"
+        },
+        {
+          "id": "q17o1",
+          "text": "殴り書き（自分しか読めない）",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "殴り書きで突き進むスピード感は、グリフィンドールの行動力です。"
+        },
+        {
+          "id": "q17o4",
+          "text": "他人のノートをコピー",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "他人のノートをコピーする効率重視は、スリザリンのしたたかさです。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q18",
+      "text": "バタービールを飲んだらほろ酔い気分。どうする？",
+      "options": [
+        {
+          "id": "q18o4",
+          "text": "こっそりおかわりを奪う",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "こっそりおかわりを奪うしたたかさは、スリザリンの才覚です。"
+        },
+        {
+          "id": "q18o1",
+          "text": "歌い出す",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "ほろ酔いで歌い出す陽気さは、グリフィンドールの大胆さです。"
+        },
+        {
+          "id": "q18o2",
+          "text": "友達と乾杯する",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "友達と乾杯する温かさは、ハッフルパフの仲間思いです。"
+        },
+        {
+          "id": "q18o3",
+          "text": "成分を分析する",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "ほろ酔いでも成分を分析するとは、レイブンクローの知性です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q19",
+      "text": "魔法薬で失敗！体が小さくなったらどうする？",
+      "options": [
+        {
+          "id": "q19o1",
+          "text": "元に戻すために全力で実験",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "元に戻すために全力で実験する探究心は、レイブンクローの知性です。"
+        },
+        {
+          "id": "q19o4",
+          "text": "小さい姿を利用して悪さ",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "小さい姿を利用する発想は、スリザリンのしたたかさです。"
+        },
+        {
+          "id": "q19o2",
+          "text": "小さいまま楽しむ",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "小さくなっても楽しむ前向きさは、グリフィンドールの勇気です。"
+        },
+        {
+          "id": "q19o3",
+          "text": "友達に手伝ってもらう",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "友達に手伝ってもらう素直さは、ハッフルパフの忠誠心です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q2",
+      "text": "魔法の授業で一番やらかしそうなのは？",
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "options": [
+        {
+          "id": "q2o4",
+          "text": "授業中に寝て先生を透明マントと勘違いする。",
+          "houseAffinity": {
+            "Gryffindor": 0,
+            "Ravenclaw": 0,
+            "Hufflepuff": 0,
+            "Slytherin": 2
+          },
+          "reason": "授業中に寝る大胆不敵さは、スリザリンの野心を感じさせます。"
+        },
+        {
+          "id": "q2o1",
+          "text": "薬を爆発させる",
+          "houseAffinity": {
+            "Gryffindor": 2,
+            "Ravenclaw": 0,
+            "Hufflepuff": 0,
+            "Slytherin": 0
+          },
+          "reason": "薬を爆発させる大胆さは、グリフィンドールの勇気そのものです。"
+        },
+        {
+          "id": "q2o2",
+          "text": "杖を逆に持って呪文を放つ",
+          "houseAffinity": {
+            "Gryffindor": 0,
+            "Ravenclaw": 0,
+            "Hufflepuff": 2,
+            "Slytherin": 0
+          },
+          "reason": "杖を逆に持つ天然さは、ハッフルパフの愛されキャラを象徴します。"
+        },
+        {
+          "id": "q2o3",
+          "text": "変身術で自分をカエルにする",
+          "houseAffinity": {
+            "Gryffindor": 0,
+            "Ravenclaw": 2,
+            "Hufflepuff": 0,
+            "Slytherin": 0
+          },
+          "reason": "自分をカエルにする探究心は、レイブンクローの知性を感じさせます。"
+        }
+      ],
+      "isActive": true,
+      "updatedAt": "2026-09-10T14:20:53.708Z"
+    },
+    {
+      "id": "q20",
+      "text": "秘密の部屋を発見！中で一番やりたいことは？",
+      "options": [
+        {
+          "id": "q20o3",
+          "text": "古文書や魔法道具を調べる",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "古文書や魔法道具を調べる探究心は、レイブンクローの知性です。"
+        },
+        {
+          "id": "q20o1",
+          "text": "危険を承知で冒険",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "危険を承知で冒険する勇気は、グリフィンドールの真骨頂です。"
+        },
+        {
+          "id": "q20o2",
+          "text": "中の生き物と仲良くなる",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "中の生き物と仲良くなる優しさは、ハッフルパフの温かい心です。"
+        },
+        {
+          "id": "q20o4",
+          "text": "財宝や秘密を独占",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "財宝や秘密を独占したい野心は、スリザリンの真骨頂です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q3",
+      "text": "ホグワーツの食堂で一番好きそうなメニューは？",
+      "options": [
+        {
+          "id": "q3o1",
+          "text": "カボチャジュース（なぜか常温）",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "常温のカボチャジュースを楽しむこだわりは、レイブンクローの知性です。"
+        },
+        {
+          "id": "q3o2",
+          "text": "百味ビーンズ（外れ率99%）",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "外れ率99%の百味ビーンズに挑む勇気は、グリフィンドールの度胸です。"
+        },
+        {
+          "id": "q3o3",
+          "text": "大皿の肉（どこのRPGだ）",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "大皿の肉を楽しむ素直さは、ハッフルパフの誠実さです。"
+        },
+        {
+          "id": "q3o4",
+          "text": "謎のプリン（夜中に動くやつ）",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "夜中に動く謎のプリンに興味を持つのは、スリザリンの好奇心です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q4",
+      "text": "あなたの守護霊が出現！どんな姿？",
+      "options": [
+        {
+          "id": "q4o4",
+          "text": "フライドチキン",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "守護霊がフライドチキンとは、スリザリンのユニークな個性が光ります。"
+        },
+        {
+          "id": "q4o1",
+          "text": "ライオン",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "守護霊がライオンとは、グリフィンドールの勇気の象徴です。"
+        },
+        {
+          "id": "q4o2",
+          "text": "ハムスター",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "守護霊がハムスターとは、ハッフルパフの温かさが表れています。"
+        },
+        {
+          "id": "q4o3",
+          "text": "Wi-Fiルーター",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "守護霊がWi-Fiルーターとは、レイブンクローの知的好奇心の表れです。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q5",
+      "text": "魔法省から突然の依頼！あなたの役割は？",
+      "options": [
+        {
+          "id": "q5o1",
+          "text": "闇祓い",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "闇祓いを選ぶ勇気は、グリフィンドールの正義感です。"
+        },
+        {
+          "id": "q5o2",
+          "text": "魔法生物の世話係",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "魔法生物の世話係を選ぶ優しさは、ハッフルパフの忠誠心です。"
+        },
+        {
+          "id": "q5o3",
+          "text": "郵便フクロウの仕分け",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "郵便フクロウの仕分けを選ぶ几帳面さは、レイブンクローの知性です。"
+        },
+        {
+          "id": "q5o4",
+          "text": "バタービールの試飲係",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "バタービールの試飲係を選ぶしたたかさは、スリザリンの野心です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q6",
+      "text": "箒（ほうき）レースに参加しました。あなたの作戦は？",
+      "options": [
+        {
+          "id": "q6o1",
+          "text": "全力で飛ばす（そして墜落）",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "全力で飛んで墜落する姿は、グリフィンドールの勇気の象徴です。"
+        },
+        {
+          "id": "q6o2",
+          "text": "相手に呪文をかける（反則スレスレ）",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "反則スレスレの作戦を思いつくのは、スリザリンのしたたかさです。"
+        },
+        {
+          "id": "q6o3",
+          "text": "コースを間違える（観光気分）",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "コースを間違えて観光気分になる自由さは、レイブンクローの個性です。"
+        },
+        {
+          "id": "q6o4",
+          "text": "徒歩で走る",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "箒レースを徒歩で走る真面目さは、ハッフルパフの勤勉さです。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q7",
+      "text": "寮で一番やりたいことは？",
+      "options": [
+        {
+          "id": "q7o1",
+          "text": "暖炉の前でおしゃべり",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "暖炉の前でおしゃべりを選ぶ温かさは、ハッフルパフの忠誠心です。"
+        },
+        {
+          "id": "q7o2",
+          "text": "秘密の通路探し",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "秘密の通路を探す好奇心は、スリザリンの野心を感じさせます。"
+        },
+        {
+          "id": "q7o3",
+          "text": "談話室でUNO大会",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "談話室でUNO大会を開く活発さは、グリフィンドールの仲間意識です。"
+        },
+        {
+          "id": "q7o4",
+          "text": "厨房に忍び込む",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "厨房に忍び込む探究心は、レイブンクローの知的好奇心です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q8",
+      "text": "謎の魔法道具を見つけました。どうする？",
+      "options": [
+        {
+          "id": "q8o1",
+          "text": "とりあえず触る",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "謎の道具にとりあえず触る大胆さは、グリフィンドールの勇気です。"
+        },
+        {
+          "id": "q8o3",
+          "text": "売る",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "謎の道具を売る発想は、スリザリンのしたたかな才覚です。"
+        },
+        {
+          "id": "q8o4",
+          "text": "枕にする",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "謎の道具を枕にする自由な発想は、レイブンクローの機知です。"
+        },
+        {
+          "id": "q8o2",
+          "text": "先生に報告する",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "先生に報告する誠実さは、ハッフルパフの公正さです。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    },
+    {
+      "id": "q9",
+      "text": "授業中にカエルチョコが飛んできた！どうする？",
+      "options": [
+        {
+          "id": "q9o1",
+          "text": "食べる（授業中でも）",
+          "houseAffinity": {
+            "Gryffindor": 2
+          },
+          "reason": "授業中でも食べる大胆さは、グリフィンドールの度胸です。"
+        },
+        {
+          "id": "q9o2",
+          "text": "先生に献上する",
+          "houseAffinity": {
+            "Hufflepuff": 2
+          },
+          "reason": "先生に献上する気配りは、ハッフルパフの忠誠心です。"
+        },
+        {
+          "id": "q9o3",
+          "text": "成分を分析する",
+          "houseAffinity": {
+            "Ravenclaw": 2
+          },
+          "reason": "成分を分析する探究心は、レイブンクローの知性です。"
+        },
+        {
+          "id": "q9o4",
+          "text": "ついでに友達からも奪う",
+          "houseAffinity": {
+            "Slytherin": 2
+          },
+          "reason": "友達からも奪うしたたかさは、スリザリンの野心です。"
+        }
+      ],
+      "createdAt": "2026-09-10T12:05:48.480Z",
+      "updatedAt": "2026-09-10T12:05:48.480Z"
+    }
+  ]
+}

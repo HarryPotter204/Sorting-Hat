@@ -1,4 +1,4 @@
-import { FieldValue } from "firebase-admin/firestore";
+import { FieldValue, Timestamp } from "firebase-admin/firestore";
 import { randomUUID } from "node:crypto";
 import { NextRequest, NextResponse } from "next/server";
 import { getAdminDb, hasFirebaseAdminConfig } from "@/lib/firebase-admin";
@@ -49,6 +49,35 @@ function unavailable() {
   );
 }
 
+// Converts a Firestore createdAt value into comparable epoch milliseconds.
+// Admin SDK documents carry a Timestamp object here; older/manual entries may
+// hold ISO strings. Returns null when the value is absent or unparseable.
+function toEpochMillis(value: unknown): number | null {
+  if (value instanceof Timestamp) return value.toMillis();
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value === "string") {
+    const parsed = Date.parse(value);
+    return Number.isNaN(parsed) ? null : parsed;
+  }
+  return null;
+}
+
+// Latest-first sort key: prefers createdAt, falls back to the display date.
+// Never compares Timestamp objects / date strings lexically, which orders
+// mixed formats incorrectly and could surface an old post first.
+function getAnnouncementTime(item: {
+  createdAt?: unknown;
+  date?: string;
+}): number {
+  const createdAt = toEpochMillis(item.createdAt);
+  if (createdAt !== null) return createdAt;
+  if (typeof item.date === "string") {
+    const parsed = Date.parse(item.date);
+    if (!Number.isNaN(parsed)) return parsed;
+  }
+  return 0;
+}
+
 export async function GET() {
   if (!hasFirebaseAdminConfig()) return unavailable();
   try {
@@ -56,11 +85,7 @@ export async function GET() {
     const announcements = snapshot.docs
       .map((doc) => ({ id: doc.id, ...doc.data() }))
       .filter((item) => isValidAnnouncement(item))
-      .sort((a, b) =>
-        String(b.createdAt ?? b.date ?? "").localeCompare(
-          String(a.createdAt ?? a.date ?? ""),
-        ),
-      );
+      .sort((a, b) => getAnnouncementTime(b) - getAnnouncementTime(a));
     return NextResponse.json({ announcements });
   } catch (error) {
     console.error("Failed to load announcements", error);

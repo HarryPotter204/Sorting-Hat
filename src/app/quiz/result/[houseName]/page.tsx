@@ -17,6 +17,7 @@ import {
   Sparkles,
   FileDown,
   Megaphone,
+  Gamepad2,
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -31,6 +32,17 @@ import {
   getSavedNickname,
 } from "@/lib/storage";
 import { useToast } from "@/hooks/use-toast";
+
+function normalizeScores(
+  scores: Partial<Record<HouseName, number>>,
+): Record<HouseName, number> {
+  return {
+    Gryffindor: scores.Gryffindor ?? 0,
+    Hufflepuff: scores.Hufflepuff ?? 0,
+    Ravenclaw: scores.Ravenclaw ?? 0,
+    Slytherin: scores.Slytherin ?? 0,
+  };
+}
 
 export default function HouseResultPage() {
   const params = useParams();
@@ -64,7 +76,7 @@ export default function HouseResultPage() {
       const hasContextScores = Object.values(quizState.scores || {}).some(
         (s) => (s || 0) > 0,
       );
-      if (hasContextScores) return quizState.scores;
+      if (hasContextScores) return normalizeScores(quizState.scores);
       return {
         Gryffindor: houseName === "Gryffindor" ? 14 : 4,
         Ravenclaw: houseName === "Ravenclaw" ? 14 : 4,
@@ -92,7 +104,7 @@ export default function HouseResultPage() {
     if (searchId) {
       const matched = getQuizResultById(searchId);
       if (matched?.scores) {
-        setDisplayScores(matched.scores);
+        setDisplayScores(normalizeScores(matched.scores));
       }
       if (matched?.nickname) {
         setNickname(matched.nickname);
@@ -103,13 +115,15 @@ export default function HouseResultPage() {
       (s) => (s || 0) > 0,
     );
     if (hasContextScores) {
-      setDisplayScores(quizState.scores);
+      setDisplayScores(normalizeScores(quizState.scores));
       if (quizState.nickname) setNickname(quizState.nickname);
       return;
     }
     const latest = getLatestQuizResult();
     if (latest && latest.houseName.toLowerCase() === houseName.toLowerCase()) {
-      if (latest.scores) setDisplayScores(latest.scores);
+      if (latest.scores) {
+        setDisplayScores(normalizeScores(latest.scores));
+      }
       if (latest.nickname) setNickname(latest.nickname);
       return;
     }
@@ -118,7 +132,9 @@ export default function HouseResultPage() {
       (h) => h.houseName.toLowerCase() === houseName.toLowerCase(),
     );
     if (found) {
-      if (found.scores) setDisplayScores(found.scores);
+      if (found.scores) {
+        setDisplayScores(normalizeScores(found.scores));
+      }
       if (found.nickname) setNickname(found.nickname);
     }
   }, [houseName, searchParams, quizState.scores, quizState.nickname]);
@@ -463,6 +479,33 @@ export default function HouseResultPage() {
     0,
   );
 
+  // 組み分け理由を計算する（最終寮への寄与が大きい回答から最大3件）
+  const getSortingReasons = (): string[] => {
+    const answers = quizState.answers;
+    const questions = quizState.questionsList;
+    if (!answers || Object.keys(answers).length === 0) return [];
+
+    const contributions: { reason: string; score: number }[] = [];
+    questions.forEach((q) => {
+      const optionId = answers[q.id];
+      if (!optionId) return;
+      const option = q.options.find((opt) => opt.id === optionId);
+      if (!option) return;
+      const contribution = option.houseAffinity[houseName] || 0;
+      if (contribution > 0) {
+        const reason =
+          option.reason ||
+          `${option.text}を選んだあなたは、${HOGWARTS_HOUSES[houseName].name}らしさが表れています。`;
+        contributions.push({ reason, score: contribution });
+      }
+    });
+
+    contributions.sort((a, b) => b.score - a.score);
+    return contributions.slice(0, 3).map((c) => c.reason);
+  };
+
+  const sortingReasons = getSortingReasons();
+
   return (
     <div
       className={cn(
@@ -470,26 +513,60 @@ export default function HouseResultPage() {
         `theme-${house.name.toLowerCase()}`,
       )}
     >
-      <header className="text-center space-y-2 px-3">
+      <header className="text-center space-y-3 px-3">
         {nickname ? (
-          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary/20 border border-primary/40 text-primary text-xs sm:text-sm font-semibold mb-1 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary/15 border border-primary/40 text-primary text-xs sm:text-sm font-semibold mb-1 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-primary" />
             <span>【{nickname}】殿の組分け結果</span>
           </div>
         ) : null}
-        <p className="text-base sm:text-lg font-medium text-foreground/80">
-          組み分け帽子の声が響き渡る！
+        <p className="font-display text-[10px] sm:text-xs tracking-[0.4em] text-primary/80 uppercase">
+          The Sorting Result
         </p>
-        <h1 className="whitespace-nowrap text-[clamp(1.25rem,7vw,3.75rem)] font-headline font-bold leading-tight text-[hsl(var(--house-primary))]">
+        <div className="ornament-rule" aria-hidden="true">
+          <span className="text-[10px]">✦</span>
+        </div>
+        <p className="text-sm sm:text-base font-medium text-foreground/80">
+          組み分け帽子が、その声を高らかに響かせた――
+        </p>
+        <h1 className="whitespace-nowrap text-[clamp(1.25rem,7vw,3.75rem)] font-headline font-bold leading-tight text-[hsl(var(--house-primary))] drop-shadow-[0_0_18px_hsl(var(--house-primary)_/_0.35)]">
           ようこそ {house.name} へ!
         </h1>
       </header>
+
+      {sortingReasons.length > 0 && (
+        <div className="w-full max-w-lg px-4 pt-3">
+          {/* The Sorting Hat's words - an old book page */}
+          <div className="parchment rounded-lg p-5 relative">
+            <span className="wax-seal absolute -top-3 -right-2" aria-hidden="true">
+              <span className="text-[10px]">帽</span>
+            </span>
+            <p className="text-sm font-bold text-[#43371f] font-headline mb-2.5 text-center tracking-wide">
+              ― 組み分け帽子からの言葉 ―
+            </p>
+            <div className="ornament-rule mb-3 opacity-70" aria-hidden="true">
+              <span className="text-[9px]">✦</span>
+            </div>
+            <ul className="space-y-2.5">
+              {sortingReasons.map((reason, index) => (
+                <li
+                  key={index}
+                  className="flex items-start gap-2 text-sm text-[#43371f] leading-relaxed"
+                >
+                  <Sparkles className="h-4 w-4 text-[#8a6d2f] shrink-0 mt-0.5" />
+                  <span>{reason}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
 
       <HouseCrestDisplay house={house} size={250} />
 
       <div className="grid w-full max-w-4xl grid-cols-1 justify-items-center gap-8 px-4 md:grid-cols-2">
         <HouseInfoCard house={house} />
-        <AIFactGenerator houseName={house.name} />
+        <AIFactGenerator houseName={houseName} />
       </div>
 
       {/* Shareable Certificate Card & Actions */}
@@ -521,7 +598,7 @@ export default function HouseResultPage() {
             </span>
           </div>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-2.5 pt-2">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-2.5 pt-2">
             <Button
               onClick={handleDownloadPdf}
               disabled={isDownloadingPdf}
@@ -616,6 +693,47 @@ export default function HouseResultPage() {
           <Link href="/history">組分け記録を見る</Link>
         </Button>
       </div>
+
+      {/* Mini Game - A quiet invitation after the sorting (external site) */}
+      <section className="w-full max-w-md px-4">
+        <a
+          href="https://harrypotter307-game.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="魔法のミニゲーム（外部サイト・新しいタブで開きます）"
+          className="group block rounded-xl border border-primary/25 bg-[hsl(var(--card)/0.75)] backdrop-blur-[4px] p-3.5 sm:p-4 text-left shadow-[0_6px_18px_hsl(230_45%_3%/0.5)] transition-all duration-300 hover:border-primary/50 hover:shadow-[0_0_20px_hsl(43_60%_60%/0.14),0_6px_18px_hsl(230_45%_3%/0.5)]"
+        >
+          <div className="flex items-center gap-3">
+            {/* Gilded game emblem with a soft glow on hover */}
+            <span className="shrink-0 flex items-center justify-center w-9 h-9 rounded-full border border-primary/35 bg-primary/10 text-primary transition-all duration-300 group-hover:border-primary group-hover:shadow-[0_0_10px_hsl(var(--primary)/0.4)]">
+              <Gamepad2 className="h-4 w-4" aria-hidden="true" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <h2 className="font-headline text-sm sm:text-base font-bold text-primary tracking-wide">
+                  魔法のミニゲーム
+                </h2>
+                <ExternalLink
+                  className="h-3 w-3 shrink-0 text-primary/50"
+                  aria-hidden="true"
+                />
+              </div>
+              <p className="mt-0.5 text-xs text-foreground/75 leading-relaxed">
+                結果を見たあとは、魔法の世界でひと休み。
+              </p>
+              <p className="mt-1.5 inline-flex items-center gap-1 text-xs font-semibold text-primary/90 transition-colors group-hover:text-primary">
+                ゲームで遊ぶ
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </p>
+            </div>
+          </div>
+        </a>
+      </section>
 
       {/* Share Modal Dialog */}
       {showShareModal && (

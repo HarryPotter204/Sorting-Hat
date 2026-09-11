@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import { HOGWARTS_HOUSES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { History, Trophy, Sparkles } from "lucide-react";
+import { History, Trophy, Sparkles, Gamepad2, ExternalLink } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnnouncementBanner } from "@/components/shared/AnnouncementBanner";
@@ -23,9 +23,11 @@ export default function HomePage() {
       {/* Hogwarts Notice Board Popup Trigger Banner (In-flow, never covers buttons or text) */}
       <AnnouncementBanner />
 
-      {/* Hero Section centered around the user's Sorting Hat image */}
-      <header className="w-full space-y-4 px-2">
+      {/* Hero - The entrance to the magical world */}
+      <header className="w-full space-y-5 px-2 animate-fade-in-up">
         <div className="relative mx-auto w-40 h-40 sm:w-52 sm:h-52 my-1 flex items-center justify-center">
+          {/* Soft candlelight halo behind the hat */}
+          <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,hsl(43_60%_60%/0.16),transparent_65%)] blur-md" aria-hidden="true" />
           <Image
             src="/images/hat.jpg"
             alt="ホグワーツ組分け帽子"
@@ -36,16 +38,28 @@ export default function HomePage() {
           />
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-3">
+          <p className="font-display text-xs sm:text-sm tracking-[0.35em] text-primary/80 uppercase">
+            The Sorting Hat
+          </p>
+          <div className="ornament-rule" aria-hidden="true">
+            <span className="text-[10px]">✦</span>
+          </div>
           <h1 className="text-3xl sm:text-5xl font-headline font-bold tracking-tight text-primary leading-tight">
             ホグワーツ 組分け帽子
           </h1>
-          {/* Hat Dialogue Speech Bubble */}
-          <div className="p-3.5 px-4 rounded-2xl bg-card/80 border border-primary/30 backdrop-blur-sm max-w-md mx-auto shadow-md">
-            <p className="text-xs sm:text-sm text-foreground/90 font-medium leading-relaxed italic">
+          <p className="text-sm sm:text-base text-foreground/85 font-medium">
+            あなたの寮を決める、魔法の診断
+          </p>
+          {/* Hat Dialogue Speech Bubble - old parchment page */}
+          <div className="parchment p-3.5 px-4 rounded-lg max-w-md mx-auto relative">
+            <p className="text-xs sm:text-sm text-[#43371f] font-medium leading-relaxed italic mt-1">
               「さあ、頭にかぶってみるがよい…お前の勇気、知性、誠実さ、あるいは野心…すべて見通してくれよう！」
             </p>
           </div>
+          <p className="text-base sm:text-lg font-headline font-semibold text-foreground/90 pt-1">
+            ―― あなたはどの寮に導かれるのか？ ――
+          </p>
         </div>
 
         {/* Primary Action Buttons - Mobile-First Touch Targets */}
@@ -53,11 +67,11 @@ export default function HomePage() {
           <Button
             asChild
             size="lg"
-            className="w-full button-burgundy py-6 text-base sm:text-lg font-bold rounded-xl shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+            className="w-full button-gold py-6 text-base sm:text-lg rounded-xl shadow-xl hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
           >
             <Link href="/quiz">
-              <Sparkles className="w-5 h-5 text-yellow-300" />
-              組分け帽子をかぶる（診断開始）
+              <Sparkles className="w-5 h-5" />
+              診断を始める
             </Link>
           </Button>
 
@@ -65,7 +79,7 @@ export default function HomePage() {
             <Button
               asChild
               variant="outline"
-              className="w-full border-primary/40 text-primary hover:bg-primary/10 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
+              className="w-full border-primary/40 text-primary hover:bg-primary/10 hover:border-primary/70 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
             >
               <Link
                 href="/history"
@@ -79,7 +93,7 @@ export default function HomePage() {
             <Button
               asChild
               variant="outline"
-              className="w-full border-primary/40 text-primary hover:bg-primary/10 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
+              className="w-full border-primary/40 text-primary hover:bg-primary/10 hover:border-primary/70 py-5 rounded-xl text-xs sm:text-sm font-semibold h-auto"
             >
               <Link
                 href="/leaderboard"
@@ -92,6 +106,47 @@ export default function HomePage() {
           </div>
         </div>
       </header>
+
+      {/* Mini Game - Invitation to play in the magical world (external site) */}
+      <section className="w-full px-2">
+        <a
+          href="https://harrypotter307-game.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="魔法のミニゲーム（外部サイト・新しいタブで開きます）"
+          className="group block rounded-xl border border-primary/30 bg-[hsl(var(--card)/0.85)] backdrop-blur-[4px] p-4 sm:p-5 text-left shadow-[0_8px_24px_hsl(230_45%_3%/0.55),inset_0_1px_0_hsl(45_60%_80%/0.06)] transition-all duration-300 hover:border-primary/60 hover:-translate-y-0.5 hover:shadow-[0_0_28px_hsl(43_60%_60%/0.18),0_8px_24px_hsl(230_45%_3%/0.55)]"
+        >
+          <div className="flex items-start gap-3.5">
+            {/* Gilded game emblem with soft glow on hover */}
+            <span className="shrink-0 flex items-center justify-center w-10 h-10 rounded-full border border-primary/40 bg-primary/10 text-primary transition-all duration-300 group-hover:border-primary group-hover:shadow-[0_0_12px_hsl(var(--primary)/0.45)]">
+              <Gamepad2 className="h-5 w-5" aria-hidden="true" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <h2 className="font-headline text-base sm:text-lg font-bold text-primary tracking-wide">
+                  魔法のミニゲーム
+                </h2>
+                <ExternalLink
+                  className="h-3.5 w-3.5 shrink-0 text-primary/50"
+                  aria-hidden="true"
+                />
+              </div>
+              <p className="mt-1 text-xs sm:text-sm text-foreground/80 leading-relaxed">
+                ちょっと息抜きに、魔法の世界で遊んでみよう。
+              </p>
+              <p className="mt-2 inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-primary/90 transition-colors group-hover:text-primary">
+                ゲームを遊ぶ
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-0.5"
+                >
+                  →
+                </span>
+              </p>
+            </div>
+          </div>
+        </a>
+      </section>
 
       {/* Four Houses Section - 2x2 Grid on Mobile with nowrap title */}
       <section className="w-full space-y-3 px-2">

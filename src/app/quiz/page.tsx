@@ -15,6 +15,7 @@ import {
   saveNickname,
   completeSortingProcess,
 } from "@/lib/storage";
+import { HOUSE_NAMES_ARRAY } from "@/lib/constants";
 import Link from "next/link";
 
 export default function QuizPage() {
@@ -55,6 +56,15 @@ export default function QuizPage() {
       setHasStarted(true);
     }
   }, [state.nickname, dispatch]);
+
+  // Prefetch all four house result routes once the quiz has started, so the
+  // transition after the final answer is instant (no route chunk loading).
+  useEffect(() => {
+    if (!hasStarted) return;
+    HOUSE_NAMES_ARRAY.forEach((houseName) => {
+      router.prefetch(`/quiz/result/${houseName.toLowerCase()}`);
+    });
+  }, [hasStarted, router]);
 
   // Sync selectedOption with current question's existing answer (e.g. after going back)
   useEffect(() => {
@@ -239,11 +249,11 @@ export default function QuizPage() {
     setSelectedOption(optionId);
     dispatch({ type: "ANSWER_QUESTION", questionId, optionId });
 
-    // Provide visual confirmation for 280ms before automatically advancing
+    // Provide visual confirmation for 120ms before automatically advancing
     timerRef.current = setTimeout(() => {
       dispatch({ type: "NEXT_QUESTION" });
       setIsTransitioning(false);
-    }, 280);
+    }, 120);
   };
 
   // Handle going back one question
